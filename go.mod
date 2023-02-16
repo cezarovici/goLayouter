@@ -1,4 +1,4 @@
-module layouter
+module github.com/cezarovici/goLayouter
 
 go 1.20
 

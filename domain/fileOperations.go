@@ -1,4 +1,4 @@
-package interfaces
+package domain
 
 type FileOperations interface {
 	WriteToDisk() error
