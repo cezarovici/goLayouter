@@ -1,10 +1,10 @@
 package file
 
 import (
-	"layouter/app/helpers"
 	"os"
 	"testing"
 
+	"github.com/cezarovici/goLayouter/app/helpers"
 	"github.com/stretchr/testify/require"
 )
 

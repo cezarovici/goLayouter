@@ -2,6 +2,8 @@ package file
 
 import (
 	"os"
+
+	"github.com/cezarovici/goLayouter/domain"
 )
 
 type File struct {
@@ -9,7 +11,7 @@ type File struct {
 	content string
 }
 
-var _ interfaces.FileOperations = &File{}
+var _ domain.FileOperations = &File{}
 
 func (f File) WriteToDisk() error {
 	file, errCreate := os.Create(f.path)
