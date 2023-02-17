@@ -95,3 +95,99 @@ func TestTypeOfFile(t *testing.T) {
 		})
 	}
 }
+
+func TestToCurentDirectory(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output bool
+	}
+
+	testCases := []testCase{
+		{
+			test:   "path to curent directory",
+			input:  "! .",
+			output: true,
+		},
+		{
+			test:   "path to another directory",
+			input:  "! /home/user/ram",
+			output: false,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, ToCurentDirectory(tc.input))
+		})
+	}
+}
+
+func TestReturnSelector(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "path splitted",
+			input:  "! document",
+			output: "document",
+		},
+		{
+			test:   "package splitted",
+			input:  "# package main",
+			output: "package main",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, ReturnSelector(tc.input))
+		})
+	}
+}
+
+func TestKindOfFile(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "test main",
+			input:  "main.go",
+			output: "main",
+		},
+		{
+			test:   "test file",
+			input:  "func_test.go",
+			output: "test",
+		},
+		{
+			test:   "object file",
+			input:  "obj_file.go",
+			output: "object",
+		},
+		{
+			test:   "normal file",
+			input:  "file.go",
+			output: "normalFile",
+		},
+		{
+			test:   "input folder",
+			input:  "folder1",
+			output: "folder",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, KindOfFile(tc.input))
+		})
+	}
+}

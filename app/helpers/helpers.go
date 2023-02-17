@@ -52,3 +52,34 @@ func TypeOfFile(fileName string) string {
 		return "folder"
 	}
 }
+
+// Return a true if the path move you to the curent directory
+func ToCurentDirectory(pathName string) bool {
+	return pathName[2:] == "."
+	//! . -> true
+	//! another directory -> false
+}
+
+func ReturnSelector(line string) string {
+	return line[2:]
+}
+
+func KindOfFile(fileName string) string {
+	if strings.Contains(fileName, "main") {
+		return "main"
+	}
+
+	if strings.Contains(fileName, "test") {
+		return "test"
+	}
+
+	if strings.Contains(fileName, "obj") {
+		return "object"
+	}
+
+	if strings.Contains(fileName, ".") {
+		return "normalFile"
+	}
+
+	return "folder"
+}

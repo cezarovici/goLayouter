@@ -45,20 +45,33 @@ func (lines Lines) ParseTo() []domain.Item {
 
 	var stackPaths stack.Stack
 	var stackIndents stack.Stack
-	//var stackPackages stack.Stack
+	var stackPackages stack.Stack
 
 	for index, line := range lines {
-		if index == 0 {
-			if helpers.TypeOfFile(line.info) == "path" {
-				stackPaths.Push(line.info)
+		switch helpers.TypeOfFile(line.info) {
+		case "path":
+			stackPackages = nil
+			stackIndents = nil
+			stackPaths = nil
+
+			if !helpers.ToCurentDirectory(line.info) {
+				stackPaths.Push(helpers.ReturnSelector(line.info))
 				stackIndents.Push(-1)
 
-				// I am pushing -1 to set the next element
-				// to be the child of this path
+				continue
 			}
 
-			stackPaths.Push(line.info)
 			stackIndents.Push(line.level)
+
+			continue
+
+		case "package":
+			stackPackages.Push(helpers.ReturnSelector(line.info))
+
+			continue
+
+		case "file":
+
 		}
 
 	}
