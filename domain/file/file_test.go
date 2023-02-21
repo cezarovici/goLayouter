@@ -21,7 +21,7 @@ func TestWriteToDisk(t *testing.T) {
 		{
 			test: "file without content",
 			input: File{
-				path: "test.go",
+				Path: "test.go",
 			},
 			content:       false,
 			errorExpected: nil,
@@ -29,8 +29,8 @@ func TestWriteToDisk(t *testing.T) {
 		{
 			test: "file with content",
 			input: File{
-				path:    "main.go",
-				content: "#package main",
+				Path:    "main.go",
+				Content: "#package main",
 			},
 			content: true,
 		},
@@ -41,12 +41,12 @@ func TestWriteToDisk(t *testing.T) {
 			require.Equal(t, tc.errorExpected, tc.input.WriteToDisk())
 
 			if tc.content {
-				outputContent, errRead := helpers.ReadFile(tc.input.path)
-				require.Equal(t, outputContent[0], tc.input.content)
+				outputContent, errRead := helpers.ReadFile(tc.input.Path)
+				require.Equal(t, outputContent[0], tc.input.Content)
 				require.NoError(t, errRead)
 			}
 
-			require.NoError(t, os.Remove(tc.input.path))
+			require.NoError(t, os.Remove(tc.input.Path))
 		})
 	}
 }

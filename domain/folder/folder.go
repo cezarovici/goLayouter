@@ -7,11 +7,15 @@ import (
 )
 
 type Folder struct {
-	path string
+	Path string
 }
 
 var _ domain.FileOperations = &Folder{}
 
 func (f Folder) WriteToDisk() error {
-	return os.MkdirAll(f.path, 0755)
+	return os.MkdirAll(f.Path, 0755)
+}
+
+func (f Folder) GetPath() string {
+	return f.Path
 }

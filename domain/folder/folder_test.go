@@ -36,7 +36,7 @@ func TestWriteToDisk(t *testing.T) {
 			require.Equal(t, tc.expectedError, tc.input.WriteToDisk())
 
 			if !tc.alreadyExists {
-				require.NoError(t, os.Remove(tc.input.path))
+				require.NoError(t, os.Remove(tc.input.Path))
 			}
 		})
 	}
