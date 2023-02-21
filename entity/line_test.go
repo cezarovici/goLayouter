@@ -2,8 +2,10 @@ package line
 
 import (
 	"errors"
+	"log"
 	"testing"
 
+	"github.com/cezarovici/goLayouter/app/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -92,4 +94,40 @@ func TestNewLines(t *testing.T) {
 			require.Equal(t, tc.output, lines)
 		})
 	}
+}
+
+const _parseTestCases = "../testCases/parseTest/"
+
+func TestToItems(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "folders with indents",
+			input:  _parseTestCases + "foldersWithIndents/input",
+			output: _parseTestCases + "foldersWithIndents/output",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			inputContent, errorReading := helpers.ReadFile(tc.input)
+			log.Print(tc.input)
+			require.NoError(t, errorReading)
+
+			lines, errNewLines := NewLines(inputContent)
+			require.NoError(t, errNewLines)
+
+			outputContent, errorReading := helpers.ReadFile(tc.output)
+			require.NoError(t, errorReading)
+
+			items := lines.ToItems()
+			require.Equal(t, outputContent, items.ToStrings())
+		})
+	}
+
 }
