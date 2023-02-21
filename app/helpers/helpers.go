@@ -2,8 +2,10 @@ package helpers
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -60,7 +62,7 @@ func ToCurentDirectory(pathName string) bool {
 	//! another directory -> false
 }
 
-func ReturnSelector(line string) string {
+func RemoveSelector(line string) string {
 	return line[2:]
 }
 
@@ -82,4 +84,57 @@ func KindOfFile(fileName string) string {
 	}
 
 	return "folder"
+}
+
+func IsTestPackage(packageName string) bool {
+	packageName = RemoveSelector(packageName)
+
+	return packageName == "t" || packageName == "tt"
+}
+
+func CreateGolangTestFile(text string) (string, error) {
+	path, fileName := path.Split(text)
+
+	pos := strings.Index(fileName, ".")
+	if pos == -1 {
+		return "", errors.New("passed is not a file path")
+	}
+
+	return path + fileName[:pos] + "_test.go", nil
+}
+
+func SplitLine(text, packageName string) []string {
+	var res []string
+	files := strings.Split(text, " ")
+
+	for _, file := range files {
+		fileTrimmed := strings.TrimLeft(file, " ")
+		if len(fileTrimmed) == 0 {
+
+			continue
+		}
+
+		if IsTestPackage(packageName) {
+			testFile, err := CreateGolangTestFile(fileTrimmed)
+
+			if err == nil {
+				res = append(res, fileTrimmed, testFile)
+			}
+
+			continue
+		}
+
+		res = append(res, fileTrimmed)
+	}
+
+	return res
+}
+
+func GetRootPackage(pathName string) string {
+	if len(pathName) == 0 {
+		return "package main"
+	}
+	_, fileName := path.Split(pathName)
+
+	return fileName
 }
