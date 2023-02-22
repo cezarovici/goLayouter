@@ -110,13 +110,14 @@ func (lines Lines) ToItems() *domain.Items {
 
 				items = append(items, domain.Item{
 					ObjectPath: file.File{
-						Path:    stackPaths.String() + fileName,
+						Path:    stackPaths.String() + "/" + fileName,
 						Content: packageName,
 					},
 					Kind: helpers.KindOfFile(fileName),
 				})
 			}
 
+			stackIndents.Push(line.level)
 			continue
 		}
 

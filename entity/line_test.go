@@ -111,6 +111,11 @@ func TestToItems(t *testing.T) {
 			input:  _parseTestCases + "foldersWithIndents/input",
 			output: _parseTestCases + "foldersWithIndents/output",
 		},
+		{
+			test:   "folder with files",
+			input:  _parseTestCases + "foldersWithFiles/input",
+			output: _parseTestCases + "foldersWithFiles/output",
+		},
 	}
 
 	for _, tc := range testCases {
