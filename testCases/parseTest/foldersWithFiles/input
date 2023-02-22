@@ -1,0 +1,6 @@
+folder1
+ subfolder1
+ file.go obj.go
+ main.go
+subfolder2
+ test1.go
