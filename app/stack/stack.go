@@ -1,5 +1,7 @@
 package stack
 
+import "strings"
+
 type Stack []any
 
 func (s *Stack) Push(item any) {
@@ -22,4 +24,14 @@ func (s Stack) Peek() any {
 	}
 
 	return nil
+}
+
+func (s Stack) String() string {
+	var res []string
+
+	for _, item := range s {
+		res = append(res, item.(string))
+	}
+
+	return strings.Join(res, "/")
 }
