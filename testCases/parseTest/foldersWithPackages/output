@@ -1,0 +1,5 @@
+person
+person/person.go(package person)
+person/student
+person/student/student.go(package student)
+person/student/study.go(package studyInterests)

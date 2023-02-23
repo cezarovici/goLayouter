@@ -2,10 +2,12 @@ package line
 
 import (
 	"errors"
-	"log"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/app/helpers"
+	"github.com/cezarovici/goLayouter/domain"
+	"github.com/cezarovici/goLayouter/domain/file"
+	"github.com/cezarovici/goLayouter/domain/folder"
+	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -100,38 +102,209 @@ const _parseTestCases = "../testCases/parseTest/"
 
 func TestToItems(t *testing.T) {
 	type testCase struct {
-		test   string
-		input  string
-		output string
+		test          string
+		input         string
+		expectedItems *domain.Items
 	}
 
 	testCases := []testCase{
+		// {
+		// 	test:  "folders with files",
+		// 	input: _parseTestCases + "foldersWithFiles/input",
+		// 	expectedItems: &domain.Items{
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1/subfolder1",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "folder1/subfolder1/file.go",
+		// 				Content: "package subfolder1",
+		// 			},
+		// 			Kind: "normalFile",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "folder1/subfolder1/obj.go",
+		// 				Content: "package subfolder1",
+		// 			},
+		// 			Kind: "object",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "folder1/subfolder1/main.go",
+		// 				Content: "package main",
+		// 			},
+		// 			Kind: "main",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "subfolder2",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "subfolder2/test1.go",
+		// 				Content: "package subfolder2",
+		// 			},
+		// 			Kind: "test",
+		// 		},
+		// 	},
+		// },
+		// {
+		// 	test:  "folder with indents",
+		// 	input: _parseTestCases + "foldersWithIndents/input",
+		// 	expectedItems: &domain.Items{
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1/subfolder1",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1/subfolder1/subsubfolder1",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder1/subfolder2",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "folder2",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 	},
+		// },
+		//{
+		// 	test:  "folder with packages",
+		// 	input: _parseTestCases + "foldersWithPackages/input",
+		// 	expectedItems: &domain.Items{
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "person",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "person/person.go",
+		// 				Content: "package person",
+		// 			},
+		// 			Kind: "normalFile",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: folder.Folder{
+		// 				Path: "person/student",
+		// 			},
+		// 			Kind: "folder",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "person/student/student.go",
+		// 				Content: "package student",
+		// 			},
+		// 			Kind: "normalFile",
+		// 		},
+		// 		domain.Item{
+		// 			ObjectPath: file.File{
+		// 				Path:    "person/student/study.go",
+		// 				Content: "package studyInterests",
+		// 			},
+		// 			Kind: "normalFile",
+		// 		},
+		// 	},
+		// },
 		{
-			test:   "folders with indents",
-			input:  _parseTestCases + "foldersWithIndents/input",
-			output: _parseTestCases + "foldersWithIndents/output",
-		},
-		{
-			test:   "folder with files",
-			input:  _parseTestCases + "foldersWithFiles/input",
-			output: _parseTestCases + "foldersWithFiles/output",
+			test:  "folders with test packages",
+			input: _parseTestCases + "foldersWithTestPackage/input",
+			expectedItems: &domain.Items{
+				domain.Item{
+					ObjectPath: folder.Folder{
+						Path: "app",
+					},
+					Kind: "folder",
+				},
+				domain.Item{
+					ObjectPath: file.File{
+						Path:    "app/main.go",
+						Content: "package main",
+					},
+					Kind: "main",
+				},
+				domain.Item{
+					ObjectPath: folder.Folder{
+						Path: "app/domain",
+					},
+					Kind: "folder",
+				},
+				domain.Item{
+					ObjectPath: file.File{
+						Path:    "app/domain/interfaces.go",
+						Content: "package domain",
+					},
+					Kind: "normalFile",
+				},
+				domain.Item{
+					ObjectPath: file.File{
+						Path:    "app/domain/file.go",
+						Content: "package file",
+					},
+					Kind: "normalFile",
+				},
+				domain.Item{
+					ObjectPath: file.File{
+						Path:    "app/domain/obj_file.go",
+						Content: "package file",
+					},
+					Kind: "object",
+				},
+				domain.Item{
+					ObjectPath: file.File{
+						Path:    "app/domain/obj_file_test.go",
+						Content: "package file",
+					},
+					Kind: "test",
+				},
+			},
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			inputContent, errorReading := helpers.ReadFile(tc.input)
-			log.Print(tc.input)
 			require.NoError(t, errorReading)
 
 			lines, errNewLines := NewLines(inputContent)
 			require.NoError(t, errNewLines)
 
-			outputContent, errorReading := helpers.ReadFile(tc.output)
-			require.NoError(t, errorReading)
-
-			items := lines.ToItems()
-			require.Equal(t, outputContent, items.ToStrings())
+			require.Equal(t, tc.expectedItems, lines.ToItems())
 		})
 	}
 

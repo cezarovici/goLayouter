@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/app/helpers"
+	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 

@@ -50,6 +50,9 @@ func TypeOfFile(fileName string) string {
 		return "file"
 	case strings.Contains(fileName, "#"):
 		return "package"
+	case len(fileName) == 0:
+		return "empty"
+		// TODO : test that
 	default:
 		return "folder"
 	}
@@ -67,7 +70,7 @@ func RemoveSelector(line string) string {
 }
 
 func KindOfFile(fileName string) string {
-	if strings.Contains(fileName, "main") {
+	if fileName == "main" || fileName == "main.go" {
 		return "main"
 	}
 
@@ -87,8 +90,6 @@ func KindOfFile(fileName string) string {
 }
 
 func IsTestPackage(packageName string) bool {
-	packageName = RemoveSelector(packageName)
-
 	return packageName == "t" || packageName == "tt"
 }
 
@@ -136,5 +137,5 @@ func GetRootPackage(pathName string) string {
 	}
 	_, fileName := path.Split(pathName)
 
-	return fileName
+	return "package " + fileName
 }

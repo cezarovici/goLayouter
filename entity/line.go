@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cezarovici/goLayouter/app/helpers"
 	"github.com/cezarovici/goLayouter/app/stack"
 	"github.com/cezarovici/goLayouter/domain"
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
+	"github.com/cezarovici/goLayouter/helpers"
 )
 
 type Line struct {
@@ -59,6 +59,10 @@ func (lines Lines) ToItems() *domain.Items {
 
 	for _, line := range lines {
 		switch helpers.TypeOfFile(line.info) {
+		case "empty":
+			// jump if is parsed and empty line
+			continue
+
 		case "path":
 			stackPackages = &stack.Stack{_defaultPackage}
 			stackIndents = nil
@@ -88,9 +92,9 @@ func (lines Lines) ToItems() *domain.Items {
 			continue
 
 		case "file":
-			packageName := helpers.GetRootPackage(stackPackages.String())
+			packageName := helpers.GetRootPackage(stackPaths.String())
 
-			if !stackPackages.IsEmpty() {
+			if !stackPackages.IsEmpty() && stackPackages.Peek() != "package main" {
 				packageName = stackPackages.Peek().(string)
 			}
 
@@ -129,12 +133,12 @@ func (lines Lines) ToItems() *domain.Items {
 			stackPaths.Push(line.info)
 			stackIndents.Push(line.level)
 
-			folder := &folder.Folder{
+			folder := folder.Folder{
 				Path: stackPaths.String(),
 			}
 			items = append(items, domain.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(folder.Path),
+				Kind:       helpers.KindOfFile(line.info),
 			})
 
 			first = false
@@ -146,12 +150,12 @@ func (lines Lines) ToItems() *domain.Items {
 			stackPaths.Push(line.info)
 			stackIndents.Push(line.level)
 
-			folder := &folder.Folder{
+			folder := folder.Folder{
 				Path: stackPaths.String(),
 			}
 			items = append(items, domain.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(folder.Path),
+				Kind:       helpers.KindOfFile(line.info),
 			})
 
 			continue

@@ -1,0 +1,7 @@
+app
+app/main.go(package main)
+app/domain
+app/domain/intefaces.go(package domain)
+app/domain/file.go(package file)
+app/domain/obj_file.go(package file)
+app/domain/obj_file_test.go(pacakage file)

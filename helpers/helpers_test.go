@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const testCasesPath = "../../testCases/readTest/"
+const testCasesPath = "../testCases/readTest/"
 
 func TestReadFile(t *testing.T) {
 	type testCase struct {
@@ -141,6 +141,11 @@ func TestRemoveSelector(t *testing.T) {
 			input:  "# package main",
 			output: "package main",
 		},
+		{
+			test:   "test package",
+			input:  "# t",
+			output: "t",
+		},
 	}
 
 	for _, tc := range testCases {
@@ -202,12 +207,12 @@ func TestIsTestPackage(t *testing.T) {
 	testCases := []testCase{
 		{
 			test:   "package test type 1",
-			input:  "# t",
+			input:  "t",
 			output: true,
 		},
 		{
 			test:   "package test type 2",
-			input:  "# tt",
+			input:  "tt",
 			output: true,
 		},
 		{
@@ -310,17 +315,17 @@ func TestGetRootPackage(t *testing.T) {
 		{
 			test:   "just 1 file",
 			input:  "folder",
-			output: "folder",
+			output: "package folder",
 		},
 		{
 			test:   "2 folders",
 			input:  "folder/folder1",
-			output: "folder1",
+			output: "package folder1",
 		},
 		{
 			test:   "mutitple folders",
 			input:  "folder/subfolder1/subsubfolder1",
-			output: "subsubfolder1",
+			output: "package subsubfolder1",
 		},
 	}
 
