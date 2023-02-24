@@ -8,6 +8,13 @@ To get started with Go Layout Creator, you can install it by running the followi
 go get github.com/cezarovici/goLayouter
 # not working yet
 ```
+##Usage
+To use Go Layout Creator, create an input file with the desired folder and file structure, then run the following command:
+
+```sh
+# not working, but good idea
+go-layout-creator -i input_file_name -o output_folder_name
+```
 
 ### Change Directory
 You can use the "Change Directory" feature in Go Layout Creator to specify the directory in which you want to create your Go application layout. The directory should be a valid path on your computer, and you can specify it in the input file by prefixing the directory path with an exclamation mark.
