@@ -8,7 +8,7 @@ To get started with Go Layout Creator, you can install it by running the followi
 go get github.com/cezarovici/goLayouter
 # not working yet
 ```
-##Usage
+## Usage
 To use Go Layout Creator, create an input file with the desired folder and file structure, then run the following command:
 
 ```sh
@@ -131,14 +131,14 @@ myapp
    x
     errors
 ```
-<br>
+
 ### Package Name
 
 One of the essential features of Go Layout Creator is its package name functionality. By default, Go Layout Creator assigns the package name as the last directory name in the folder path. However, if you create a file called main.go, the package name is automatically set to package main. To specify a different package name for other files, simply add the following line to the input file:
 ```sh
 # package <package name>
 ```
-####Example 1: Default package name
+#### Example 1: Default package name
 Suppose you have the following input file:
 ```sh
 myapp
@@ -152,7 +152,7 @@ By default, Go Layout Creator will create the package with the name myapp and su
  └── subfolder1
     └──file2.go # package subfolder1
 ```
-####Example 2: Custom package name
+#### Example 2: Custom package name
 Suppose you have the following input file:
 ```sh
 myapp
@@ -169,7 +169,7 @@ myapp
  └─ subfolder1
     └──file2.go # package submypkg
 ```
-####Example 3: Main package name
+#### Example 3: Main package name
 Suppose you have the following input file:
 ```sh
 myapp
@@ -179,7 +179,7 @@ Since the file name is main.go, Go Layout Creator will use the package name pack
 ```sh
 main
   main.go # package main
-  go.mod # shoud be implemented
+  go.mod # should be implemented
 ```
 <br>
 
@@ -203,7 +203,7 @@ mywebapp
     models
       user_test.go
 ```
-<br>
+
 In this case, Go Layout Creator will create the following directory structure with the corresponding packages for each file:
 
 ```sh
