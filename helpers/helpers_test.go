@@ -179,6 +179,11 @@ func TestKindOfFile(t *testing.T) {
 			output: "object",
 		},
 		{
+			test:   "object test",
+			input:  "obj_file_test.go",
+			output: "test",
+		},
+		{
 			test:   "normal file",
 			input:  "file.go",
 			output: "normalFile",
@@ -275,19 +280,19 @@ func TestSplitline(t *testing.T) {
 		{
 			test:        "converting test file with package type 1",
 			input:       "file.go main.go head.go",
-			packageName: "# t",
+			packageName: "t",
 			output:      []string{"file.go", "file_test.go", "main.go", "main_test.go", "head.go", "head_test.go"},
 		},
 		{
 			test:        "converting test file with package type 2",
 			input:       "file.go main.go head.go",
-			packageName: "# tt",
+			packageName: "tt",
 			output:      []string{"file.go", "file_test.go", "main.go", "main_test.go", "head.go", "head_test.go"},
 		},
 		{
 			test:        "convert non test files",
 			input:       "file.go main.go head.go",
-			packageName: "# main",
+			packageName: "main",
 			output:      []string{"file.go", "main.go", "head.go"},
 		},
 	}

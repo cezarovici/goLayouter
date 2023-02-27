@@ -1,0 +1,18 @@
+! temporary_folder
+app
+ main.go
+ 
+ domain
+  interfaces.go
+  
+  file
+   file.go
+   
+  obj
+   obj_file.go
+   
+ student
+  student.go
+  
+  study
+   study.go

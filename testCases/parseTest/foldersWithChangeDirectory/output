@@ -1,0 +1,13 @@
+temporary_folder
+├── app
+│   └── main.go
+├── domain
+│   ├── file
+│   │   └── file.go
+│   ├── interfaces.go
+│   └── obj
+│       └── obj_file.go
+└── student
+    ├── student.go
+    └── study
+        └── study.go

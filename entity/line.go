@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cezarovici/goLayouter/app/stack"
-	"github.com/cezarovici/goLayouter/domain"
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
+	"github.com/cezarovici/goLayouter/domain/item"
 	"github.com/cezarovici/goLayouter/helpers"
+	"github.com/cezarovici/goLayouter/helpers/stack"
 )
 
 type Line struct {
@@ -26,6 +26,7 @@ const (
 
 func ConvertToLine(line string) Line {
 	lineInfo := strings.TrimLeft(line, " ")
+
 	lineLevel := len(line) - len(lineInfo)
 
 	return Line{
@@ -48,14 +49,14 @@ func NewLines(content []string) (Lines, error) {
 	return items, nil
 }
 
-func (lines Lines) ToItems() *domain.Items {
-	var items domain.Items
+func (lines Lines) ToItems() *item.Items {
+	var items item.Items
 
 	first := true
 
 	var stackPaths stack.Stack
 	var stackIndents stack.Stack
-	stackPackages := &stack.Stack{_defaultPackage}
+	stackPackages := stack.Stack{_defaultPackage}
 
 	for _, line := range lines {
 		switch helpers.TypeOfFile(line.info) {
@@ -64,7 +65,7 @@ func (lines Lines) ToItems() *domain.Items {
 			continue
 
 		case "path":
-			stackPackages = &stack.Stack{_defaultPackage}
+			stackPackages = stack.Stack{_defaultPackage}
 			stackIndents = nil
 			stackPaths = nil
 
@@ -72,12 +73,14 @@ func (lines Lines) ToItems() *domain.Items {
 				stackPaths.Push(helpers.RemoveSelector(line.info))
 				stackIndents.Push(-1)
 
-				items = append(items, domain.Item{
-					ObjectPath: &folder.Folder{
+				items = append(items, item.Item{
+					ObjectPath: folder.Folder{
 						Path: stackPaths.String(),
 					},
 					Kind: helpers.KindOfFile(line.info),
 				})
+
+				first = false
 
 				continue
 			}
@@ -94,14 +97,14 @@ func (lines Lines) ToItems() *domain.Items {
 		case "file":
 			packageName := helpers.GetRootPackage(stackPaths.String())
 
-			if !stackPackages.IsEmpty() && stackPackages.Peek() != "package main" {
+			if stackPackages.Peek() != "package main" {
 				packageName = stackPackages.Peek().(string)
 			}
 
 			if helpers.IsTestPackage(stackPackages.Peek().(string)) {
-				testPackage := stackPackages.Peek()
-				stackPackages.Pop()
-				packageName = stackPackages.Peek().(string)
+				testPackage := stackPackages.Peek()         // peek the test package ( t or tt )
+				stackPackages.Pop()                         // poping to get the previous package
+				packageName = stackPackages.Peek().(string) // setting the previous package
 
 				stackPackages.Push(testPackage)
 			}
@@ -112,7 +115,7 @@ func (lines Lines) ToItems() *domain.Items {
 					packageName = _defaultPackage
 				}
 
-				items = append(items, domain.Item{
+				items = append(items, item.Item{
 					ObjectPath: file.File{
 						Path:    stackPaths.String() + "/" + fileName,
 						Content: packageName,
@@ -121,22 +124,17 @@ func (lines Lines) ToItems() *domain.Items {
 				})
 			}
 
-			stackIndents.Push(line.level)
 			continue
-		}
-
-		if (stackIndents != nil) && stackIndents.Peek().(int) < 0 {
-			items = items[:len(items)-1]
 		}
 
 		if first {
 			stackPaths.Push(line.info)
-			stackIndents.Push(line.level)
+			stackIndents.Push(0)
 
 			folder := folder.Folder{
 				Path: stackPaths.String(),
 			}
-			items = append(items, domain.Item{
+			items = append(items, item.Item{
 				ObjectPath: folder,
 				Kind:       helpers.KindOfFile(line.info),
 			})
@@ -153,7 +151,7 @@ func (lines Lines) ToItems() *domain.Items {
 			folder := folder.Folder{
 				Path: stackPaths.String(),
 			}
-			items = append(items, domain.Item{
+			items = append(items, item.Item{
 				ObjectPath: folder,
 				Kind:       helpers.KindOfFile(line.info),
 			})
@@ -167,7 +165,7 @@ func (lines Lines) ToItems() *domain.Items {
 			stackPaths.Push(line.info)
 			stackIndents.Push(line.level)
 
-			items = append(items, domain.Item{
+			items = append(items, item.Item{
 				ObjectPath: folder.Folder{
 					Path: stackPaths.String(),
 				},
@@ -177,15 +175,22 @@ func (lines Lines) ToItems() *domain.Items {
 			continue
 		}
 
-		for line.level <= stackIndents.Peek().(int) && len(stackIndents) > 1 {
+		for line.level < stackIndents.Peek().(int) && len(stackIndents) > 1 {
 			stackPaths.Pop()
 			stackIndents.Pop()
+
+			if line.level == stackIndents.Peek().(int) {
+				stackPaths.Pop()
+				stackIndents.Pop()
+
+				break
+			}
 		}
 
 		stackPaths.Push(line.info)
 		stackIndents.Push(line.level)
 
-		items = append(items, domain.Item{
+		items = append(items, item.Item{
 			ObjectPath: folder.Folder{
 				Path: stackPaths.String(),
 			},

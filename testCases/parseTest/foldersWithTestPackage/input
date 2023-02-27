@@ -1,11 +1,11 @@
 app
-main.go 
+main.go
 
  domain
     interfaces.go
 
     # package file
-    file.go 
+    file.go
     
-    # t 
+    # t
     obj_file.go

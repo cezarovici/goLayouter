@@ -1,7 +1,9 @@
-package domain
+package item
+
+import "github.com/cezarovici/goLayouter/domain"
 
 type Item struct {
-	ObjectPath FileOperations
+	ObjectPath domain.FileOperations
 	Kind       string
 }
 

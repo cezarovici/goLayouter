@@ -1,0 +1,11 @@
+{{define "test" -}}
+package {{.Package}}
+
+import (
+	"testing"
+)
+
+func Test{{.ObjectName}}(t *testing.T) {
+	
+}
+{{end}}

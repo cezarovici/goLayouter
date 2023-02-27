@@ -60,7 +60,7 @@ func TypeOfFile(fileName string) string {
 
 // Return a true if the path move you to the curent directory
 func ToCurentDirectory(pathName string) bool {
-	return pathName[2:] == "."
+	return RemoveSelector(pathName) == "."
 	//! . -> true
 	//! another directory -> false
 }

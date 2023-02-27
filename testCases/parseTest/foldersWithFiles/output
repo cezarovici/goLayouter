@@ -1,7 +1,8 @@
 folder1
-folder1/subfolder1
-folder1/subfolder1/file.go(package subfolder1)
-folder1/subfolder1/obj.go(package subfolder1)
-folder1/subfolder1/main.go(pacakge subfolder1)
-subfolder2
-subfolder2/test1.go(pacakge subfolder2)
+├── subfolder1
+│   ├── file.go
+│   └── obj.go
+└── main.go
+
+folder2
+└── test1.go

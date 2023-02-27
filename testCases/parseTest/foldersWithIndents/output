@@ -1,6 +1,6 @@
 folder
 folder1
-folder1/subfolder1
-folder1/subfolder1/subsubfolder1
-folder1/subfolder2
-folder2
+  ├── subfolder1
+  |     └── subsubfolder1
+  └── subfolder2
+ folder2
