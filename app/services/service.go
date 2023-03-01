@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io"
 
+	"github.com/cezarovici/goLayouter/app/services/renders"
 	"github.com/cezarovici/goLayouter/domain/item"
 )
 
@@ -19,6 +20,6 @@ func NewService(content item.Items) (*Service, error) {
 
 	return &Service{
 		paths:       content,
-		renderFuncs: _renderFuncs,
+		renderFuncs: renders.RenderFuncs,
 	}, nil
 }

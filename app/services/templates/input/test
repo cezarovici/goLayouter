@@ -6,6 +6,6 @@ import (
 )
 
 func Test{{.ObjectName}}(t *testing.T) {
-	
+
 }
 {{end}}
