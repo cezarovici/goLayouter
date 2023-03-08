@@ -1,14 +1,18 @@
 {{define "object.gotmpl" -}}
+// Package {{.Package}} contains {{.ObjectName}} object definition.
 package {{.Package}}
 
+// {{.ObjectName}} represents a ...
 type {{.ObjectName}} struct {
 }
 
+// New{{.ObjectName}} returns a new instance of {{.ObjectName}}.
 func New{{.ObjectName}}() (*{{.ObjectName}}, error) {
 	return nil, nil
 }
 
+// Xxx is an example method on {{.ObjectName}}.
 func (obj {{.ObjectName}}) Xxx() {
-
+	// TODO: implement Xxx method
 }
 {{end}}
