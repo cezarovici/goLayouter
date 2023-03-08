@@ -15,22 +15,22 @@ type File struct {
 var _ domain.FileOperations = &File{}
 var _ io.Writer = &File{}
 
-func (f File) Write([]byte) (int, error) {
-	return 0, nil
+func (f File) GetContent() []byte {
+	return []byte(f.Content)
 }
 
-func (f File) WriteToDisk() error {
+func (f File) Write([]byte) (int, error) {
 	file, errCreate := os.Create(f.Path)
 	if errCreate != nil {
-		return errCreate
+		return 0, errCreate
 	}
 
-	_, errWrite := file.Write([]byte(f.Content))
+	length, errWrite := file.Write([]byte(f.Content))
 	if errWrite != nil {
-		return errCreate
+		return 0, errWrite
 	}
 
-	return nil
+	return length, nil
 }
 
 func (f File) GetPath() string {

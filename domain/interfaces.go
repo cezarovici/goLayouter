@@ -1,7 +1,6 @@
 package domain
 
 type FileOperations interface {
-	WriteToDisk() error
-	GetPath() string
+	GetContent() []byte
 	Write([]byte) (int, error)
 }

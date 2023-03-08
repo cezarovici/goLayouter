@@ -33,7 +33,8 @@ func TestWriteToDisk(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.expectedError, tc.input.WriteToDisk())
+			_, err := tc.input.Write(nil)
+			require.Equal(t, tc.expectedError, err)
 
 			if !tc.alreadyExists {
 				require.NoError(t, os.Remove(tc.input.Path))

@@ -15,11 +15,16 @@ var _ io.Writer = &Folder{}
 
 var _ domain.FileOperations = &Folder{}
 
-func (f Folder) Write([]byte) (int, error) {
-	return 0, nil
+func (f Folder) GetContent() []byte {
+	return nil
 }
-func (f Folder) WriteToDisk() error {
-	return os.MkdirAll(f.Path, 0755)
+
+func (f Folder) Write([]byte) (int, error) {
+	err := os.MkdirAll(f.Path, 0755)
+	if err != nil {
+		return 0, err
+	}
+	return 0, nil
 }
 
 func (f Folder) GetPath() string {

@@ -1,10 +1,10 @@
 package file
 
 import (
+	"io/ioutil"
 	"os"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -32,21 +32,25 @@ func TestWriteToDisk(t *testing.T) {
 				Path:    "main.go",
 				Content: "#package main",
 			},
-			content: true,
+			content:       true,
+			errorExpected: nil,
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.errorExpected, tc.input.WriteToDisk())
+			n, err := tc.input.Write(nil)
+			require.Equal(t, tc.errorExpected, err)
+			require.Equal(t, len(tc.input.Content), n)
 
-			if tc.content {
-				outputContent, errRead := helpers.ReadFile(tc.input.Path)
-				require.Equal(t, outputContent[0], tc.input.Content)
-				require.NoError(t, errRead)
-			}
+			_, errStat := os.Stat(tc.input.Path)
+			require.NoError(t, errStat)
 
+			outputContent, errRead := ioutil.ReadFile(tc.input.Path)
+			require.NoError(t, errRead)
+			require.Equal(t, tc.input.Content, string(outputContent))
 			require.NoError(t, os.Remove(tc.input.Path))
+
 		})
 	}
 }
