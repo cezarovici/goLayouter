@@ -8,30 +8,34 @@ import (
 	"github.com/cezarovici/goLayouter/domain/item"
 )
 
+// Service represents a service that renders items to the filesystem.
 type Service struct {
 	paths       item.Items
 	renderFuncs map[string]func(io.Writer, any) error
 }
 
-func NewService(content item.Items) (*Service, error) {
-	if len(content) == 0 {
-		return nil, errors.New("parsed content is empty")
+// NewService creates a new Service instance.
+func NewService(items item.Items) (*Service, error) {
+	if len(items) == 0 {
+		return nil, errors.New("no items provided")
 	}
 
 	return &Service{
-		paths:       content,
+		paths:       items,
 		renderFuncs: renders.RenderFuncs,
 	}, nil
 }
 
-func (serv Service) Render() error {
-	for _, path := range serv.paths {
-		if path.ObjectPath.WriteToDisk() != nil {
-			return path.ObjectPath.WriteToDisk()
+// RenderItems renders all items to the filesystem.
+func (service Service) Render() error {
+	for _, path := range service.paths {
+		_, errWrite := path.ObjectPath.Write(path.ObjectPath.GetContent())
+		if errWrite != nil {
+			return errWrite
 		}
 
 		if path.Kind != "folder" {
-			serv.renderFuncs[path.Kind](path.ObjectPath, nil)
+			service.renderFuncs[path.Kind](path.ObjectPath, nil)
 		}
 	}
 
