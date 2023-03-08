@@ -5,7 +5,11 @@ import (
 	"testing"
 )
 
+{{if .ObjectName -}}
 func Test{{.ObjectName}}(t *testing.T) {
+{{else -}}
+func TestXxx(t *testing.T){
+{{end}}
 	type inputType struct {
 		// complete with your input type
 	}

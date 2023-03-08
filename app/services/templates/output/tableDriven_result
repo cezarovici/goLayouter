@@ -5,6 +5,7 @@ import (
 )
 
 func TestEntry(t *testing.T) {
+
 	type inputType struct {
 		// complete with your input type
 	}
