@@ -5,8 +5,15 @@ import (
 	"testing"
 )
 
+{{if .ObjectName -}}
 // Test{{.ObjectName}} tests the {{.ObjectName}} type.
 func Test{{.ObjectName}}(t *testing.T) {
-	// TODO: write tests for {{.ObjectName}}
+    t.Errorf("Test{{.ObjectName}} not implemented")
 }
+{{else -}}
+// TestXxx tests the default case.
+func TestXxx(t *testing.T) {
+    t.Errorf("TestXxx not implemented")
+}
+{{end -}}
 {{end}}

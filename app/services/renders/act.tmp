@@ -6,5 +6,5 @@ import (
 
 // TestEntry tests the Entry type.
 func TestEntry(t *testing.T) {
-	t.Errorf("TestEntry not implemented")
+    t.Errorf("TestEntry not implemented")
 }

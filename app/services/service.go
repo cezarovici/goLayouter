@@ -34,10 +34,11 @@ func (service Service) Render() error {
 			return errWrite
 		}
 
-		if path.Kind != "folder" {
-			service.renderFuncs[path.Kind](path.ObjectPath, nil)
-			//TODO: replace nil with an extra object
+		if path.Kind == "normalFile" || path.Kind == "folder" {
+			continue
 		}
+
+		service.renderFuncs[path.Kind](path.ObjectPath, nil)
 	}
 
 	return nil
