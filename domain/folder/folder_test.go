@@ -7,35 +7,42 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestWriteToDisk(t *testing.T) {
+// TestWrite is a unit test function for the Write() method of the Folder struct.
+func TestWrite(t *testing.T) {
+	// Define a struct to represent a test case
 	type testCase struct {
-		test          string
-		input         Folder
-		alreadyExists bool
-
-		expectedError error
+		test          string // A description of the test case
+		input         Folder // The input Folder object for the test
+		alreadyExists bool   // Whether the input Folder object already exists
+		expectedError error  // The expected error returned by the Write() method
 	}
 
+	// Define a list of test cases
 	testCases := []testCase{
 		{
 			test:          "already existing directory",
-			input:         Folder{"../folder"},
+			input:         Folder{"../folder"}, // A Folder object with an existing path
 			alreadyExists: true,
 			expectedError: nil,
 		},
 		{
 			test:          "new directory",
-			input:         Folder{"newFolder"},
+			input:         Folder{"newFolder"}, // A Folder object with a new path
 			alreadyExists: false,
 			expectedError: nil,
 		},
 	}
 
+	// Loop through each test case
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			// Call the Write() method with a nil logger and capture the returned error
 			_, err := tc.input.Write(nil)
+
+			// Assert that the error returned by Write() matches the expected error
 			require.Equal(t, tc.expectedError, err)
 
+			// If the input Folder object doesn't exist yet, assert that it was successfully removed
 			if !tc.alreadyExists {
 				require.NoError(t, os.Remove(tc.input.Path))
 			}

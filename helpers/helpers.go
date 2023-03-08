@@ -9,19 +9,21 @@ import (
 	"strings"
 )
 
-// Read file from parsed path
+// ReadFile reads a file from the parsed file path and returns its contents as a slice of strings.
 func ReadFile(filePath string) ([]string, error) {
+	// Check if the file exists
 	_, errExists := os.Stat(filePath)
 	if errExists != nil {
 		return nil, fmt.Errorf("not a valid file parsed")
-
 	}
 
+	// Open the file
 	fileHandler, errOp := os.Open(filePath)
 	if errOp != nil {
 		return nil, errOp
 	}
 
+	// Close the file when the function exits
 	var errClo error
 	defer func() {
 		errClo = fileHandler.Close()
@@ -29,11 +31,13 @@ func ReadFile(filePath string) ([]string, error) {
 
 	var res []string
 
+	// Read the file line by line and append each line to the result slice
 	scanner := bufio.NewScanner(fileHandler)
 	for scanner.Scan() {
 		res = append(res, scanner.Text())
 	}
 
+	// If the file is empty, return an error
 	if len(res) == 0 {
 		return nil, fmt.Errorf("empty file passed")
 	}
@@ -41,7 +45,7 @@ func ReadFile(filePath string) ([]string, error) {
 	return res, errClo
 }
 
-// Return the type of file
+// TypeOfFile returns the type of a file based on its name.
 func TypeOfFile(fileName string) string {
 	switch {
 	case strings.Contains(fileName, "!"):
@@ -52,23 +56,22 @@ func TypeOfFile(fileName string) string {
 		return "package"
 	case len(fileName) == 0:
 		return "empty"
-		// TODO : test that
 	default:
 		return "folder"
 	}
 }
 
-// Return a true if the path move you to the curent directory
+// ToCurentDirectory returns true if the given path moves to the current directory.
 func ToCurentDirectory(pathName string) bool {
 	return RemoveSelector(pathName) == "."
-	//! . -> true
-	//! another directory -> false
 }
 
+// RemoveSelector removes the leading selector from a line of text.
 func RemoveSelector(line string) string {
 	return line[2:]
 }
 
+// KindOfFile returns a string representing the kind of a file based on its name.
 func KindOfFile(fileName string) string {
 	if fileName == "main" || fileName == "main.go" {
 		return "main"
@@ -89,10 +92,12 @@ func KindOfFile(fileName string) string {
 	return "folder"
 }
 
+// IsTestPackage returns true if the given package name indicates a test package.
 func IsTestPackage(packageName string) bool {
 	return packageName == "t" || packageName == "tt"
 }
 
+// CreateGolangTestFile returns the file path of the test file corresponding to a given file path.
 func CreateGolangTestFile(text string) (string, error) {
 	path, fileName := path.Split(text)
 
@@ -104,6 +109,7 @@ func CreateGolangTestFile(text string) (string, error) {
 	return path + fileName[:pos] + "_test.go", nil
 }
 
+// SplitLine splits a line of text into a slice of file paths, and also creates test files for test packages.
 func SplitLine(text, packageName string) []string {
 	var res []string
 	files := strings.Split(text, " ")
@@ -111,7 +117,6 @@ func SplitLine(text, packageName string) []string {
 	for _, file := range files {
 		fileTrimmed := strings.TrimLeft(file, " ")
 		if len(fileTrimmed) == 0 {
-
 			continue
 		}
 
@@ -131,7 +136,9 @@ func SplitLine(text, packageName string) []string {
 	return res
 }
 
-func GetRootPackage(pathName string) string {
+// GetLastPath returns the package name of the last directory in the given path.
+// If the path is empty, it returns "package main"
+func GetLastPath(pathName string) string {
 	if len(pathName) == 0 {
 		return "package main"
 	}

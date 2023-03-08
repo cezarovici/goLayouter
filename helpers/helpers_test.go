@@ -9,6 +9,9 @@ import (
 
 const testCasesPath = "../testCases/readTest/"
 
+// ReadFile reads a file and returns its content as an array of strings
+// It takes a filepath as input and returns a slice of strings with the file's content
+// If there's any error, it returns an error
 func TestReadFile(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -59,6 +62,8 @@ func TestReadFile(t *testing.T) {
 
 }
 
+// TypeOfFile takes a file path and returns a string indicating its type
+// It takes a filepath as input and returns a string with the file's type
 func TestTypeOfFile(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -96,6 +101,9 @@ func TestTypeOfFile(t *testing.T) {
 	}
 }
 
+// ToCurentDirectory checks if a file path is in the current directory or not
+// It takes a filepath as input and returns a boolean indicating whether
+// the path is in the current directory or not
 func TestToCurentDirectory(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -123,6 +131,8 @@ func TestToCurentDirectory(t *testing.T) {
 	}
 }
 
+// TestRemoveSelector is a unit test function for the RemoveSelector function.
+// It tests the function's ability to remove a selector from a given string input.
 func TestRemoveSelector(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -155,6 +165,9 @@ func TestRemoveSelector(t *testing.T) {
 	}
 }
 
+// TestKindOfFile is a unit test function to test the KindOfFile function
+// It tests the KindOfFile function with different inputs and expected
+// outputs using a table-driven approach.
 func TestKindOfFile(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -202,6 +215,9 @@ func TestKindOfFile(t *testing.T) {
 	}
 }
 
+// TestIsTestPackage is a unit test function to verify the behavior of the IsTestPackage function.
+// It takes in a list of test cases, where each test case consists of an input string representing a package name and
+// an expected output boolean indicating whether the package is a test package or not.
 func TestIsTestPackage(t *testing.T) {
 	type testCase struct {
 		test   string
@@ -234,6 +250,9 @@ func TestIsTestPackage(t *testing.T) {
 	}
 }
 
+// TestCreatingGolangTestFile is a test function that tests the functionality of
+// the CreateGolangTestFile function. It tests whether the function creates a new test file with the
+// correct name based on the input file name.
 func TestCreatingGolangTestFile(t *testing.T) {
 	type testCase struct {
 		test  string
@@ -268,6 +287,10 @@ func TestCreatingGolangTestFile(t *testing.T) {
 	}
 }
 
+// This function TestSplitline tests the SplitLine function.
+// The SplitLine function takes a string representing a list of filenames
+// separated by spaces and converts
+// them to a list of filenames and test filenames, based on the package name provided.
 func TestSplitline(t *testing.T) {
 	type testCase struct {
 		test        string
@@ -304,7 +327,12 @@ func TestSplitline(t *testing.T) {
 	}
 }
 
-func TestGetRootPackage(t *testing.T) {
+// GetLastPath returns the last folder in a given path as a package declaration string.
+// It takes a string as input representing the path to a folder.
+// If the input is an empty string, it returns "package main".
+// Otherwise, it splits the input path by the "/" separator and returns the package name declared in the last folder.
+// For example, given the input "folder/subfolder1/subsubfolder1", the function returns "package subsubfolder1".
+func TestGetLastPath(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
@@ -336,7 +364,7 @@ func TestGetRootPackage(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, GetRootPackage(tc.input))
+			require.Equal(t, tc.output, GetLastPath(tc.input))
 		})
 	}
 }

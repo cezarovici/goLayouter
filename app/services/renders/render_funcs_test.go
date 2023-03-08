@@ -10,7 +10,6 @@ import (
 
 // Model represents the data that will be used to render the templates.
 type Model struct {
-	FileName   string // Name of the Go file being rendered.
 	ObjectName string // Name of the main object in the Go file.
 	Package    string // Name of the package the Go file belongs to.
 }
