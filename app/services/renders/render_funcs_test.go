@@ -8,58 +8,65 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// Model represents the data that will be used to render the templates.
 type Model struct {
-	FileName   string
-	ObjectName string
-	Package    string
+	FileName   string // Name of the Go file being rendered.
+	ObjectName string // Name of the main object in the Go file.
+	Package    string // Name of the package the Go file belongs to.
 }
 
+// exampleModel is an instance of the Model struct that can be used for testing.
 var exampleModel = Model{
-	FileName:   "entry.go",
 	ObjectName: "Entry",
 	Package:    "entry",
 }
 
+// TestRenderFuncs is a unit test that verifies the output of each rendering function.
 func TestRenderFuncs(t *testing.T) {
+	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
-		test           string
-		kind           string
-		outputTestName string
+		test           string // Name of the test case.
+		kind           string // Name of the rendering function to test.
+		outputTestName string // Path to the file that contains the expected output.
 	}
 
+	// Define the test cases to run.
 	testCases := []testCase{
 		{
 			test:           "main render",
 			kind:           "main",
-			outputTestName: _mainOutput,
+			outputTestName: mainOutputPath,
 		},
 		{
 			test:           "test render",
 			kind:           "test",
-			outputTestName: _testOutput,
+			outputTestName: testOutputPath,
 		},
 		{
 			test:           "obj render",
 			kind:           "object",
-			outputTestName: _objectOutput,
+			outputTestName: objectOutputPath,
 		},
 		{
 			test:           "tdd render",
 			kind:           "tableDriven",
-			outputTestName: _tddOutput,
+			outputTestName: tddOutputPath,
 		},
 	}
+
+	// Iterate over each test case and run the test.
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			{
-				var buffer bytes.Buffer
-				require.NoError(t, RenderFuncs[tc.kind](&buffer, exampleModel))
+			// Render the template and capture the output.
+			var buffer bytes.Buffer
+			require.NoError(t, RenderFuncs[tc.kind](&buffer, exampleModel))
 
-				bytesContent, errRead := os.ReadFile(tc.outputTestName)
-				require.NoError(t, errRead)
+			// Read the expected output from the file system.
+			bytesContent, errRead := os.ReadFile(tc.outputTestName)
+			require.NoError(t, errRead)
 
-				require.Equal(t, bytesContent, buffer.Bytes())
-			}
+			// Verify that the output matches the expected output.
+			require.Equal(t, bytesContent, buffer.Bytes())
 		})
 	}
 }

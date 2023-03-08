@@ -36,6 +36,7 @@ func (service Service) Render() error {
 
 		if path.Kind != "folder" {
 			service.renderFuncs[path.Kind](path.ObjectPath, nil)
+			//TODO: replace nil with an extra object
 		}
 	}
 
