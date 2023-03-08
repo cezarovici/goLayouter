@@ -1,11 +1,11 @@
 package renders
 
 import (
+	"bytes"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/udhos/equalfile"
 )
 
 type Model struct {
@@ -52,19 +52,13 @@ func TestRenderFuncs(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			{
-				buffer, errCreate := os.Create(_buffer)
-				require.NoError(t, errCreate)
+				var buffer bytes.Buffer
+				require.NoError(t, RenderFuncs[tc.kind](&buffer, exampleModel))
 
-				require.NoError(t, RenderFuncs[tc.kind](buffer, exampleModel))
+				bytesContent, errRead := os.ReadFile(tc.outputTestName)
+				require.NoError(t, errRead)
 
-				cmp := equalfile.New(nil, equalfile.Options{}) // compare using single mode
-				equal, errCompare := cmp.CompareFile(buffer.Name(), tc.outputTestName)
-
-				require.NoError(t, buffer.Close())
-				require.NoError(t, errCompare)
-				require.NoError(t, os.Remove(buffer.Name()))
-
-				require.Equal(t, true, equal)
+				require.Equal(t, bytesContent, buffer.Bytes())
 			}
 		})
 	}

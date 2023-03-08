@@ -1,6 +1,7 @@
 package file
 
 import (
+	"io"
 	"os"
 
 	"github.com/cezarovici/goLayouter/domain"
@@ -12,6 +13,11 @@ type File struct {
 }
 
 var _ domain.FileOperations = &File{}
+var _ io.Writer = &File{}
+
+func (f File) Write([]byte) (int, error) {
+	return 0, nil
+}
 
 func (f File) WriteToDisk() error {
 	file, errCreate := os.Create(f.Path)

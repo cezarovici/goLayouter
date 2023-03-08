@@ -23,3 +23,17 @@ func NewService(content item.Items) (*Service, error) {
 		renderFuncs: renders.RenderFuncs,
 	}, nil
 }
+
+func (serv Service) Render() error {
+	for _, path := range serv.paths {
+		if path.ObjectPath.WriteToDisk() != nil {
+			return path.ObjectPath.WriteToDisk()
+		}
+
+		if path.Kind != "folder" {
+			serv.renderFuncs[path.Kind](path.ObjectPath, nil)
+		}
+	}
+
+	return nil
+}
