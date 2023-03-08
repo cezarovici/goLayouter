@@ -1,0 +1,12 @@
+! /home/cezar/ram
+app_temp
+main.go
+
+ domain
+    interfaces.go
+
+    # package file
+    file.go
+    
+    # t
+    obj_file.go
