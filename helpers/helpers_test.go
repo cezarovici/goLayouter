@@ -368,3 +368,45 @@ func TestGetLastPath(t *testing.T) {
 		})
 	}
 }
+
+func TestRemoveObjectKey(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "exception 1",
+			input:  "obj.go",
+			output: "obj.go",
+		},
+		{
+			test:   "exception 2",
+			input:  "file.go",
+			output: "file.go",
+		},
+		{
+			test:   "case 1",
+			input:  "obj_myObj.go",
+			output: "myObj.go",
+		},
+		{
+			test:   "case 2",
+			input:  "object_myObj.go",
+			output: "myObj.go",
+		},
+		{
+			test:   "case 3",
+			input:  "obj_test_myObj.go",
+			output: "test_myObj.go",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, RemoveObjectKey(tc.input))
+		})
+	}
+}

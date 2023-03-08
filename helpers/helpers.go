@@ -77,12 +77,12 @@ func KindOfFile(fileName string) string {
 		return "main"
 	}
 
-	if strings.Contains(fileName, "test") {
-		return "test"
-	}
-
 	if strings.Contains(fileName, "obj") {
 		return "object"
+	}
+
+	if strings.Contains(fileName, "test") {
+		return "test"
 	}
 
 	if strings.Contains(fileName, ".") {
@@ -138,11 +138,31 @@ func SplitLine(text, packageName string) []string {
 
 // GetLastPath returns the package name of the last directory in the given path.
 // If the path is empty, it returns "package main"
-func GetLastPath(pathName string) string {
-	if len(pathName) == 0 {
+func GetLastPath(path string) string {
+	if len(path) == 0 {
 		return "package main"
 	}
-	_, fileName := path.Split(pathName)
 
-	return "package " + fileName
+	// Split the input path by the "/" separator
+	folders := strings.Split(path, "/")
+
+	// Get the last folder in the path
+	lastFolder := folders[len(folders)-1]
+
+	// Return the package declaration string for the last folder
+	return fmt.Sprintf("package %s", lastFolder)
+
+}
+
+func RemoveObjectKey(fileName string) string {
+	if fileName == "obj.go" || fileName == "object.go" || !strings.Contains(fileName, "_") {
+		return fileName
+	}
+
+	newFileName, case1 := strings.CutPrefix(fileName, "object_")
+	if !case1 {
+		newFileName, _ = strings.CutPrefix(fileName, "obj_")
+	}
+
+	return newFileName
 }
