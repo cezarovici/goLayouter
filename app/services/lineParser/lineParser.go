@@ -1,7 +1,7 @@
 package lineparser
 
 import (
-	"strings"
+	"path"
 
 	"github.com/cezarovici/goLayouter/helpers"
 )
@@ -17,6 +17,7 @@ import (
 
 // case 3
 // func_test.go -> template test //TODO -> check if there is any objects
+//DONE
 
 // case 4
 // obj_myObj_test.go ->
@@ -26,10 +27,25 @@ type lineParser struct {
 	Package    string
 }
 
-func (l *lineParser) SetObjectName(path string) {
-	(*l).ObjectName = strings.Title(helpers.GetLastPath(path))
+func (l *lineParser) SetObjectName(filePath string) {
+	var (
+		objName  string
+		fileName string
+	)
+
+	_, fileName = path.Split(filePath)
+
+	switch helpers.KindOfFile(fileName) {
+	case "test", "object":
+		objName = helpers.ExtractObjectFrom(fileName)
+
+	default:
+		objName = ""
+	}
+
+	(*l).ObjectName = objName
 }
 
 func (l *lineParser) SetPackage(path string) {
-	(*l).Package = helpers.GetLastPath(path)
+	(*l).Package = helpers.GetPackageFrom(path)
 }

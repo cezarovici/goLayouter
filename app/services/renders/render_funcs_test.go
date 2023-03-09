@@ -2,7 +2,6 @@ package renders
 
 import (
 	"bytes"
-	"log"
 	"os"
 	"testing"
 
@@ -42,16 +41,16 @@ func TestRenderFuncs(t *testing.T) {
 			kind:           "test",
 			outputTestName: testOutputPath,
 		},
-		// {
-		// 	test:           "obj render",
-		// 	kind:           "object",
-		// 	outputTestName: objectOutputPath,
-		// },
-		// {
-		// 	test:           "tdd render",
-		// 	kind:           "tableDriven",
-		// 	outputTestName: tddOutputPath,
-		// },
+		{
+			test:           "obj render",
+			kind:           "object",
+			outputTestName: objectOutputPath,
+		},
+		{
+			test:           "tdd render",
+			kind:           "tableDriven",
+			outputTestName: tddOutputPath,
+		},
 	}
 
 	// Iterate over each test case and run the test.
@@ -65,19 +64,8 @@ func TestRenderFuncs(t *testing.T) {
 			bytesContent, errRead := os.ReadFile(tc.outputTestName)
 			require.NoError(t, errRead)
 
-			log.Print(string(bytesContent))
-			log.Print(buffer.String())
-
-			b1, _ := os.Create("exp.tmp")
-			b2, _ := os.Create("act.tmp")
-
-			b1.Write(bytesContent)
-			b2.Write(buffer.Bytes())
 			// Verify that the output matches the expected output.
 			require.Equal(t, bytesContent, buffer.Bytes())
-
-			//os.Remove("b1")
-			//os.Remove("b2")
 		})
 	}
 }
