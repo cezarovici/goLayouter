@@ -96,7 +96,7 @@ func TestTypeOfFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, TypeOfFile(tc.input))
+			require.Equal(t, tc.output, TypeOf(tc.input))
 		})
 	}
 }
@@ -332,7 +332,7 @@ func TestSplitline(t *testing.T) {
 // If the input is an empty string, it returns "package main".
 // Otherwise, it splits the input path by the "/" separator and returns the package name declared in the last folder.
 // For example, given the input "folder/subfolder1/subsubfolder1", the function returns "package subsubfolder1".
-func TestGetLastPath(t *testing.T) {
+func TestGetPackageFromPath(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
@@ -364,7 +364,7 @@ func TestGetLastPath(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, GetLastPath(tc.input))
+			require.Equal(t, tc.output, GetPackageFrom(tc.input))
 		})
 	}
 }
@@ -402,11 +402,53 @@ func TestRemoveObjectKey(t *testing.T) {
 			input:  "obj_test_myObj.go",
 			output: "test_myObj.go",
 		},
+		{
+			test:   "case 4",
+			input:  "file_test.go",
+			output: "file_test.go",
+		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, RemoveObjectKey(tc.input))
+			require.Equal(t, tc.output, RemoveObjectPrefix(tc.input))
+		})
+	}
+}
+
+func TestExtractObjectFrom(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "simple object file",
+			input:  "obj_file.go",
+			output: "File",
+		},
+		{
+			test:   "test object file",
+			input:  "obj_file_test.go",
+			output: "File",
+		},
+		{
+			test:   "simple file",
+			input:  "file.go",
+			output: "File",
+		},
+		{
+			test:   "without _",
+			input:  "objectFile.go",
+			output: "File",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, ExtractObjectFrom(tc.input))
 		})
 	}
 }

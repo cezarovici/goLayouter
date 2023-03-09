@@ -46,7 +46,7 @@ func ReadFile(filePath string) ([]string, error) {
 }
 
 // TypeOfFile returns the type of a file based on its name.
-func TypeOfFile(fileName string) string {
+func TypeOf(fileName string) string {
 	switch {
 	case strings.Contains(fileName, "!"):
 		return "path"
@@ -77,12 +77,12 @@ func KindOfFile(fileName string) string {
 		return "main"
 	}
 
-	if strings.Contains(fileName, "obj") {
-		return "object"
-	}
-
 	if strings.Contains(fileName, "test") {
 		return "test"
+	}
+
+	if strings.Contains(fileName, "obj") {
+		return "object"
 	}
 
 	if strings.Contains(fileName, ".") {
@@ -136,9 +136,9 @@ func SplitLine(text, packageName string) []string {
 	return res
 }
 
-// GetLastPath returns the package name of the last directory in the given path.
+// GetPackageFromPath returns the package name of the last directory in the given path.
 // If the path is empty, it returns "package main"
-func GetLastPath(path string) string {
+func GetPackageFrom(path string) string {
 	if len(path) == 0 {
 		return "package main"
 	}
@@ -154,15 +154,37 @@ func GetLastPath(path string) string {
 
 }
 
-func RemoveObjectKey(fileName string) string {
-	if fileName == "obj.go" || fileName == "object.go" || !strings.Contains(fileName, "_") {
+func RemoveObjectPrefix(fileName string) string {
+	if fileName == "obj.go" || fileName == "object.go" {
 		return fileName
 	}
 
-	newFileName, case1 := strings.CutPrefix(fileName, "object_")
-	if !case1 {
-		newFileName, _ = strings.CutPrefix(fileName, "obj_")
+	var remove bool
+
+	if strings.Contains(fileName, "obj") {
+		remove = true
 	}
 
-	return newFileName
+	newFileName, case1 := strings.CutPrefix(fileName, "object")
+	if !case1 {
+		newFileName, _ = strings.CutPrefix(fileName, "obj")
+	}
+
+	if remove {
+		fileName = strings.Replace(newFileName, "_", "", 1)
+	}
+
+	return fileName
+}
+func ExtractObjectFrom(fileName string) string {
+	withoutObjPrefix := RemoveObjectPrefix(fileName)
+
+	withoutSuffix, isTest := strings.CutSuffix(withoutObjPrefix, "test.go")
+	if !isTest {
+		withoutSuffix, _ = strings.CutSuffix(withoutObjPrefix, ".go")
+	}
+
+	objectName := strings.Replace(withoutSuffix, "_", "", 1)
+
+	return strings.Title(objectName)
 }
