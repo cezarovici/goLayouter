@@ -2,7 +2,6 @@ package line
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/cezarovici/goLayouter/domain/file"
@@ -78,7 +77,7 @@ func (lines Lines) ToItems() *item.Items {
 	// Iterate over each line in the input file
 	for _, line := range lines {
 		// Check the type of the line (empty, path, or file)
-		switch helpers.TypeOfFile(line.info) {
+		switch helpers.TypeOf(line.info) {
 		case "empty":
 			// If the line is empty, skip it
 			continue
@@ -125,7 +124,7 @@ func (lines Lines) ToItems() *item.Items {
 		// based on the directory structure of the file path
 		case "file":
 			// Get the last path based on the directory structure of the file path
-			packageName := helpers.GetLastPath(pathStack.String())
+			packageName := helpers.GetPackageFrom(pathStack.String())
 			// Check if the current package name is not the default package ("package main")
 			if packageStack.Peek() != _defaultPackage {
 				// If it's not the default package, use the current package name
@@ -160,7 +159,7 @@ func (lines Lines) ToItems() *item.Items {
 				}
 
 				if helpers.KindOfFile(fileName) == "object" || helpers.KindOfFile(fileName) == "test" {
-					fileName = helpers.RemoveObjectKey(fileName)
+					fileName = helpers.RemoveObjectPrefix(fileName)
 
 					if helpers.KindOfFile(fileName) != "test" {
 						isObject = true
@@ -171,7 +170,6 @@ func (lines Lines) ToItems() *item.Items {
 				if isObject {
 					kind = "object"
 				}
-				log.Print(fileName, " ", kind)
 
 				// Create a new item with the file path and package name
 				newFile := file.File{
