@@ -73,6 +73,10 @@ func RemoveSelector(line string) string {
 
 // KindOfFile returns a string representing the kind of a file based on its name.
 func KindOfFile(fileName string) string {
+	if !strings.Contains(fileName, ".") {
+		return "folder"
+	}
+
 	if fileName == "main" || fileName == "main.go" {
 		return "main"
 	}
