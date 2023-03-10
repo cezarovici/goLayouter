@@ -2,6 +2,7 @@ package line
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/cezarovici/goLayouter/domain/file"
@@ -151,6 +152,7 @@ func (lines Lines) ToItems() *item.Items {
 
 			// Iterate over the files and determine the package name and kind for each file
 			for _, fileName := range files {
+				var objectName string
 				isObject := false
 
 				// If the file is a main package, use the default package name
@@ -158,6 +160,7 @@ func (lines Lines) ToItems() *item.Items {
 					packageName = _defaultPackage
 				}
 
+				objectName = helpers.ConvertToObjectName(fileName)
 				if helpers.KindOfFile(fileName) == "object" || helpers.KindOfFile(fileName) == "test" {
 					fileName = helpers.RemoveObjectPrefix(fileName)
 
@@ -175,8 +178,9 @@ func (lines Lines) ToItems() *item.Items {
 				newFile := file.File{
 					Path:       pathStack.String() + "/" + fileName,
 					Package:    packageName,
-					ObjectName: helpers.ConvertToObjectName(fileName),
+					ObjectName: objectName,
 				}
+				log.Print(objectName)
 
 				newItem := item.Item{
 					ObjectPath: newFile,

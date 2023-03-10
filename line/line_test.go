@@ -241,15 +241,17 @@ func TestToItems(t *testing.T) {
 				},
 				item.Item{
 					ObjectPath: file.File{
-						Path:    "app/domain/file.go",
-						Package: "package file",
+						Path:       "app/domain/file.go",
+						Package:    "package file",
+						ObjectName: "File",
 					},
 					Kind: "object",
 				},
 				item.Item{
 					ObjectPath: file.File{
-						Path:    "app/domain/file_test.go",
-						Package: "package file",
+						Path:       "app/domain/file_test.go",
+						Package:    "package file",
+						ObjectName: "File",
 					},
 					Kind: "test",
 				},
@@ -313,8 +315,9 @@ func TestToItems(t *testing.T) {
 				},
 				item.Item{
 					ObjectPath: file.File{
-						Path:    "temporary_folder/app/domain/obj/file.go",
-						Package: "package obj",
+						Path:       "temporary_folder/app/domain/obj/file.go",
+						Package:    "package obj",
+						ObjectName: "File",
 					},
 					Kind: "object",
 				},
