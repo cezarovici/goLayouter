@@ -19,7 +19,7 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 		return errParse
 	}
 
-	file, errCreate := os.Create(renderToPath)
+	file, errCreate := os.OpenFile(renderToPath, os.O_RDWR, 0755)
 	if errCreate != nil {
 		return errCreate
 	}

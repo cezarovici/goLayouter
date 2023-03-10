@@ -16,7 +16,7 @@ type Model struct {
 // exampleModel is an instance of the Model struct that can be used for testing.
 var exampleModel = Model{
 	ObjectName: "Entry",
-	Package:    "entry",
+	Package:    "package entry",
 }
 
 // TestRenderFuncs is a unit test that verifies the output of each rendering function.

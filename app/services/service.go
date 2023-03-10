@@ -35,7 +35,7 @@ func (service Service) Render() error {
 		if path.Kind == "normalFile" || path.Kind == "folder" {
 			continue
 		}
-
+		//TODO no object name recognised
 		errRender := service.renderFuncs[path.Kind](path.ObjectPath.GetPath(), path.ObjectPath)
 		if errRender != nil {
 			return errRender
