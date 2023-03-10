@@ -155,14 +155,13 @@ func GetPackageFrom(path string) string {
 }
 
 func RemoveObjectPrefix(fileName string) string {
-	if fileName == "obj.go" || fileName == "object.go" {
+	isObject := strings.Contains(fileName, "obj")
+	if !isObject {
 		return fileName
 	}
 
-	var remove bool
-
-	if strings.Contains(fileName, "obj") {
-		remove = true
+	if fileName == "obj.go" || fileName == "object.go" {
+		return fileName
 	}
 
 	newFileName, case1 := strings.CutPrefix(fileName, "object")
@@ -170,19 +169,22 @@ func RemoveObjectPrefix(fileName string) string {
 		newFileName, _ = strings.CutPrefix(fileName, "obj")
 	}
 
-	if remove {
-		fileName = strings.Replace(newFileName, "_", "", 1)
-	}
+	fileName = strings.Replace(newFileName, "_", "", 1)
 
 	return fileName
 }
 
 func ExtractObjectFrom(fileName string) string {
-	withoutObjPrefix := RemoveObjectPrefix(fileName)
-
-	if !strings.Contains(fileName, "obj") {
+	isObject := strings.Contains(fileName, "obj")
+	if !isObject {
 		return ""
 	}
+
+	if fileName == "obj.go" || fileName == "object.go" {
+		return ""
+	}
+
+	withoutObjPrefix := RemoveObjectPrefix(fileName)
 
 	withoutSuffix, isTest := strings.CutSuffix(withoutObjPrefix, "test.go")
 	if !isTest {

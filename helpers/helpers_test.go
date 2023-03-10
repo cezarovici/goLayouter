@@ -437,7 +437,7 @@ func TestExtractObjectFrom(t *testing.T) {
 		{
 			test:   "simple file",
 			input:  "file.go",
-			output: "File",
+			output: "",
 		},
 		{
 			test:   "without _",
@@ -453,7 +453,7 @@ func TestExtractObjectFrom(t *testing.T) {
 	}
 }
 
-func TestSetObjectName(t *testing.T) {
+func TestConvertToObjectName(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
@@ -475,6 +475,11 @@ func TestSetObjectName(t *testing.T) {
 			test:   "obj test file",
 			input:  "app/test/obj_file_test.go",
 			output: "File",
+		},
+		{
+			test:   "unusual",
+			input:  "obj.go",
+			output: "",
 		},
 	}
 
