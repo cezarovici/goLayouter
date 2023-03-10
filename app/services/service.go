@@ -2,27 +2,25 @@ package services
 
 import (
 	"errors"
-	"io"
 
-	"github.com/cezarovici/goLayouter/app/services/renders"
 	"github.com/cezarovici/goLayouter/domain/item"
 )
 
 // Service represents a service that renders items to the filesystem.
 type Service struct {
 	paths       item.Items
-	renderFuncs map[string]func(io.Writer, any) error
+	renderFuncs map[string]func(string, any) error
 }
 
 // NewService creates a new Service instance.
-func NewService(items item.Items) (*Service, error) {
+func NewService(items item.Items, templates map[string]func(string, any) error) (*Service, error) {
 	if len(items) == 0 {
 		return nil, errors.New("no items provided")
 	}
 
 	return &Service{
 		paths:       items,
-		renderFuncs: renders.RenderFuncs,
+		renderFuncs: templates,
 	}, nil
 }
 
@@ -38,7 +36,7 @@ func (service Service) Render() error {
 			continue
 		}
 
-		errRender := service.renderFuncs[path.Kind](path.ObjectPath, path.ObjectPath)
+		errRender := service.renderFuncs[path.Kind](path.ObjectPath.GetPath(), path.ObjectPath)
 		if errRender != nil {
 			return errRender
 		}

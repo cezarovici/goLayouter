@@ -1,7 +1,6 @@
 package renders
 
 import (
-	"bytes"
 	"os"
 	"testing"
 
@@ -56,16 +55,20 @@ func TestRenderFuncs(t *testing.T) {
 	// Iterate over each test case and run the test.
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			// Render the template and capture the output.
-			var buffer bytes.Buffer
-			require.NoError(t, RenderFuncs[tc.kind](&buffer, exampleModel))
-
+			buffer := "buffer"
 			// Read the expected output from the file system.
 			bytesContent, errRead := os.ReadFile(tc.outputTestName)
 			require.NoError(t, errRead)
 
+			require.NoError(t, RenderFuncs[tc.kind](buffer, exampleModel))
+			bytesExpected, errRead := os.ReadFile(buffer)
+			require.NoError(t, errRead)
+
 			// Verify that the output matches the expected output.
-			require.Equal(t, bytesContent, buffer.Bytes())
+			require.Equal(t, bytesContent, bytesExpected)
+
+			//Clean the buffer
+			require.NoError(t, os.Remove(buffer))
 		})
 	}
 }

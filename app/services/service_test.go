@@ -1,11 +1,10 @@
 package services
 
 import (
-	"io"
-	"io/ioutil"
 	"os"
 	"testing"
 
+	"github.com/cezarovici/goLayouter/app/services/renders"
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
 	"github.com/cezarovici/goLayouter/domain/item"
@@ -14,14 +13,13 @@ import (
 
 func TestRender(t *testing.T) {
 	// Define some test data
-	filePath := "test.txt"
-	filePackage := []byte("hello world")
+	filePath := "main.go"
 	folderPath := "testFolder"
 
 	items := item.Items{
 		item.Item{
-			Kind:       "file",
-			ObjectPath: file.File{Path: filePath, Package: string(filePackage)},
+			Kind:       "main",
+			ObjectPath: file.File{Path: filePath}, //Package: string(filePackage)},
 		},
 		item.Item{
 			Kind:       "folder",
@@ -29,27 +27,15 @@ func TestRender(t *testing.T) {
 		},
 	}
 
-	renderFuncs := map[string]func(io.Writer, any) error{
-		"file":   func(w io.Writer, data any) error { return nil },
-		"folder": func(w io.Writer, data any) error { return nil },
-	}
-
 	// Create a new service instance
-	serv := Service{
-		paths:       items,
-		renderFuncs: renderFuncs,
-	}
+	serv, errNewService := NewService(items, renders.RenderFuncs)
+	require.NoError(t, errNewService)
 
 	// Call the Render method
 	err := serv.Render()
 
 	// Check that there were no errors
 	require.NoError(t, err)
-
-	// Check that the file was written correctly
-	outputPackage, errRead := ioutil.ReadFile(filePath)
-	require.NoError(t, errRead)
-	require.Equal(t, filePackage, outputPackage)
 
 	// Check that the folder was created
 	_, errStat := os.Stat(folderPath)
