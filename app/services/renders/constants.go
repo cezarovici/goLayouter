@@ -1,8 +1,8 @@
 package renders
 
-// Test cases directory
 const (
-	testCasesDir = "../templates/"
+	// Path from main to run templates
+	pathFromMain = "../services/templates/"
 )
 
 // Input and output directories
@@ -13,16 +13,16 @@ const (
 
 // Output file paths
 const (
-	mainOutputPath   = testCasesDir + outputDir + "main_result"
-	objectOutputPath = testCasesDir + outputDir + "object_result"
-	testOutputPath   = testCasesDir + outputDir + "test_result"
-	tddOutputPath    = testCasesDir + outputDir + "tableDriven_result"
+	mainOutputPath   = pathFromMain + outputDir + "main_result"
+	objectOutputPath = pathFromMain + outputDir + "object_result"
+	testOutputPath   = pathFromMain + outputDir + "test_result"
+	tddOutputPath    = pathFromMain + outputDir + "tableDriven_result"
 )
 
 // Input file paths
 const (
-	mainInputPath   = testCasesDir + inputDir + "main.gotmpl"
-	objectInputPath = testCasesDir + inputDir + "object.gotmpl"
-	testInputPath   = testCasesDir + inputDir + "test.gotmpl"
-	tddInputPath    = testCasesDir + inputDir + "tableDriven.gotmpl"
+	mainInputPath   = pathFromMain + inputDir + "main.gotmpl"
+	objectInputPath = pathFromMain + inputDir + "object.gotmpl"
+	testInputPath   = pathFromMain + inputDir + "test.gotmpl"
+	tddInputPath    = pathFromMain + inputDir + "tableDriven.gotmpl"
 )

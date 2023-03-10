@@ -3,6 +3,7 @@ package renders
 
 import (
 	"io"
+	"log"
 	"os"
 	"text/template"
 )
@@ -19,7 +20,7 @@ func renderTo(w io.Writer, templateFilePath string, model any) error {
 	if errParse != nil {
 		return errParse
 	}
-
+	log.Print(model)
 	// Execute the template with the model data and write the output to the writer.
 	return t.Execute(w, model)
 }

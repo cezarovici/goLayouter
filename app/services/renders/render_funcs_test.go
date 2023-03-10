@@ -22,6 +22,7 @@ var exampleModel = Model{
 
 // TestRenderFuncs is a unit test that verifies the output of each rendering function.
 func TestRenderFuncs(t *testing.T) {
+	require.NoError(t, os.Chdir("../../cmd"))
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test           string // Name of the test case.

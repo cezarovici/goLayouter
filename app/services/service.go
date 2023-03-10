@@ -38,7 +38,10 @@ func (service Service) Render() error {
 			continue
 		}
 
-		service.renderFuncs[path.Kind](path.ObjectPath, nil)
+		errRender := service.renderFuncs[path.Kind](path.ObjectPath, path.ObjectPath)
+		if errRender != nil {
+			return errRender
+		}
 	}
 
 	return nil
