@@ -26,3 +26,7 @@ func (f Folder) Write([]byte) (int, error) {
 	}
 	return 0, nil
 }
+
+func (f Folder) GetPath() string {
+	return f.Path
+}

@@ -42,3 +42,7 @@ func (f File) Write(Package []byte) (int, error) {
 	// Return the number of bytes written.
 	return length, nil
 }
+
+func (f File) GetPath() string {
+	return f.Path
+}
