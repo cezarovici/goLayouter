@@ -64,10 +64,10 @@ func TestNewLines(t *testing.T) {
 	testCases := []testCase{
 		// Cases with errors
 		{
-			test:          "no content",
+			test:          "no Package",
 			input:         nil,
 			output:        nil,
-			errorExpected: errors.New("no content parsed"),
+			errorExpected: errors.New("no Package parsed"),
 		},
 
 		// Happy cases
@@ -127,21 +127,21 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/file.go",
-						Content: "package subfolder1",
+						Package: "package subfolder1",
 					},
 					Kind: "normalFile",
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/obj.go",
-						Content: "package subfolder1",
+						Package: "package subfolder1",
 					},
 					Kind: "object",
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/main.go",
-						Content: "package main",
+						Package: "package main",
 					},
 					Kind: "main",
 				},
@@ -154,7 +154,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder2/test1.go",
-						Content: "package folder2",
+						Package: "package folder2",
 					},
 					Kind: "test",
 				},
@@ -215,7 +215,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/main.go",
-						Content: "package main",
+						Package: "package main",
 					},
 					Kind: "main",
 				},
@@ -228,28 +228,28 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/interfaces.go",
-						Content: "package domain",
+						Package: "package domain",
 					},
 					Kind: "normalFile",
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/file.go",
-						Content: "package file",
+						Package: "package file",
 					},
 					Kind: "normalFile",
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/file.go",
-						Content: "package file",
+						Package: "package file",
 					},
 					Kind: "object",
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/file_test.go",
-						Content: "package file",
+						Package: "package file",
 					},
 					Kind: "test",
 				},
@@ -274,7 +274,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/main.go",
-						Content: "package main",
+						Package: "package main",
 					},
 					Kind: "main",
 				},
@@ -287,7 +287,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/domain/interfaces.go",
-						Content: "package domain",
+						Package: "package domain",
 					},
 					Kind: "normalFile",
 				},
@@ -300,7 +300,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/domain/file/file.go",
-						Content: "package file",
+						Package: "package file",
 					},
 					Kind: "normalFile",
 				},
@@ -314,7 +314,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/domain/obj/file.go",
-						Content: "package obj",
+						Package: "package obj",
 					},
 					Kind: "object",
 				},
@@ -327,7 +327,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/student/student.go",
-						Content: "package student",
+						Package: "package student",
 					},
 					Kind: "normalFile",
 				},
@@ -340,7 +340,7 @@ func TestToItems(t *testing.T) {
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/student/study/study.go",
-						Content: "package study",
+						Package: "package study",
 					},
 					Kind: "normalFile",
 				},
@@ -350,10 +350,10 @@ func TestToItems(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			inputContent, errorReading := helpers.ReadFile(tc.input)
+			inputPackage, errorReading := helpers.ReadFile(tc.input)
 			require.NoError(t, errorReading)
 
-			lines, errNewLines := NewLines(inputContent)
+			lines, errNewLines := NewLines(inputPackage)
 			require.NoError(t, errNewLines)
 
 			require.Equal(t, tc.expectedItems, lines.ToItems())

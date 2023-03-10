@@ -15,13 +15,13 @@ import (
 func TestRender(t *testing.T) {
 	// Define some test data
 	filePath := "test.txt"
-	fileContent := []byte("hello world")
+	filePackage := []byte("hello world")
 	folderPath := "testFolder"
 
 	items := item.Items{
 		item.Item{
 			Kind:       "file",
-			ObjectPath: file.File{Path: filePath, Content: string(fileContent)},
+			ObjectPath: file.File{Path: filePath, Package: string(filePackage)},
 		},
 		item.Item{
 			Kind:       "folder",
@@ -47,9 +47,9 @@ func TestRender(t *testing.T) {
 	require.NoError(t, err)
 
 	// Check that the file was written correctly
-	outputContent, errRead := ioutil.ReadFile(filePath)
+	outputPackage, errRead := ioutil.ReadFile(filePath)
 	require.NoError(t, errRead)
-	require.Equal(t, fileContent, outputContent)
+	require.Equal(t, filePackage, outputPackage)
 
 	// Check that the folder was created
 	_, errStat := os.Stat(folderPath)

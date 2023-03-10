@@ -452,3 +452,35 @@ func TestExtractObjectFrom(t *testing.T) {
 		})
 	}
 }
+
+func TestSetObjectName(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "simple object file",
+			input:  "app/test/obj_file.go",
+			output: "File",
+		},
+		{
+			test:   "simple test file",
+			input:  "app/test/file_test.go",
+			output: "",
+		},
+		{
+			test:   "obj test file",
+			input:  "app/test/obj_file_test.go",
+			output: "File",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, ConvertToObjectName(tc.input))
+		})
+	}
+}

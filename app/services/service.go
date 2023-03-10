@@ -29,7 +29,7 @@ func NewService(items item.Items) (*Service, error) {
 // RenderItems renders all items to the filesystem.
 func (service Service) Render() error {
 	for _, path := range service.paths {
-		_, errWrite := path.ObjectPath.Write(path.ObjectPath.GetContent())
+		_, errWrite := path.ObjectPath.Write(path.ObjectPath.GetPackage())
 		if errWrite != nil {
 			return errWrite
 		}

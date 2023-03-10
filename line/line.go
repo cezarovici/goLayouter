@@ -13,7 +13,7 @@ import (
 
 // Line represents a line of text and its indentation level
 type Line struct {
-	info  string // the text content of the line
+	info  string // the text Package of the line
 	level int    // the indentation level of the line
 }
 
@@ -43,17 +43,17 @@ func ConvertToLine(line string) Line {
 }
 
 // NewLines converts a slice of strings to a slice of Lines, using ConvertToLine to parse each string
-func NewLines(content []string) (Lines, error) {
-	// Return an error if there is no content to parse
-	if len(content) == 0 {
-		return nil, fmt.Errorf("no content parsed")
+func NewLines(Package []string) (Lines, error) {
+	// Return an error if there is no Package to parse
+	if len(Package) == 0 {
+		return nil, fmt.Errorf("no Package parsed")
 	}
 
 	// Initialize an empty slice of Lines
 	var items Lines
 
-	// Parse each string in the content slice and append the resulting Line to the items slice
-	for _, line := range content {
+	// Parse each string in the Package slice and append the resulting Line to the items slice
+	for _, line := range Package {
 		items = append(items, ConvertToLine(line))
 	}
 
@@ -173,8 +173,9 @@ func (lines Lines) ToItems() *item.Items {
 
 				// Create a new item with the file path and package name
 				newFile := file.File{
-					Path:    pathStack.String() + "/" + fileName,
-					Content: packageName,
+					Path:       pathStack.String() + "/" + fileName,
+					Package:    packageName,
+					ObjectName: helpers.ConvertToObjectName(fileName),
 				}
 
 				newItem := item.Item{

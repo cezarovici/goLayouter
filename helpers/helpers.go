@@ -176,8 +176,13 @@ func RemoveObjectPrefix(fileName string) string {
 
 	return fileName
 }
+
 func ExtractObjectFrom(fileName string) string {
 	withoutObjPrefix := RemoveObjectPrefix(fileName)
+
+	if !strings.Contains(fileName, "obj") {
+		return ""
+	}
 
 	withoutSuffix, isTest := strings.CutSuffix(withoutObjPrefix, "test.go")
 	if !isTest {
@@ -187,4 +192,23 @@ func ExtractObjectFrom(fileName string) string {
 	objectName := strings.Replace(withoutSuffix, "_", "", 1)
 
 	return strings.Title(objectName)
+}
+
+func ConvertToObjectName(filePath string) string {
+	var (
+		objName  string
+		fileName string
+	)
+
+	_, fileName = path.Split(filePath)
+
+	switch KindOfFile(fileName) {
+	case "test", "object":
+		objName = ExtractObjectFrom(fileName)
+
+	default:
+		objName = ""
+	}
+
+	return objName
 }

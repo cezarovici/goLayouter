@@ -28,7 +28,6 @@ func TestRenderFuncs(t *testing.T) {
 		kind           string // Name of the rendering function to test.
 		outputTestName string // Path to the file that contains the expected output.
 	}
-
 	// Define the test cases to run.
 	testCases := []testCase{
 		{

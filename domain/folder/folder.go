@@ -15,7 +15,7 @@ var _ io.Writer = &Folder{}
 
 var _ domain.FileOperations = &Folder{}
 
-func (f Folder) GetContent() []byte {
+func (f Folder) GetPackage() []byte {
 	return nil
 }
 
@@ -25,8 +25,4 @@ func (f Folder) Write([]byte) (int, error) {
 		return 0, err
 	}
 	return 0, nil
-}
-
-func (f Folder) GetPath() string {
-	return f.Path
 }
