@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"log"
 
 	"github.com/cezarovici/goLayouter/domain/item"
 )
@@ -35,6 +36,7 @@ func (service Service) Render() error {
 		if path.Kind == "normalFile" || path.Kind == "folder" {
 			continue
 		}
+		log.Print(path.ObjectPath)
 		//TODO no object name recognised
 		errRender := service.renderFuncs[path.Kind](path.ObjectPath.GetPath(), path.ObjectPath)
 		if errRender != nil {
