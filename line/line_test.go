@@ -311,7 +311,7 @@ func TestToItems(t *testing.T) {
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/app/domain/obj",
 					},
-					Kind: "object",
+					Kind: "folder",
 				},
 				item.Item{
 					ObjectPath: file.File{

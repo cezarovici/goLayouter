@@ -56,6 +56,9 @@ func TestRenderFuncs(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			buffer := "buffer"
+			_, errCreating := os.Create(buffer)
+			require.NoError(t, errCreating)
+
 			// Read the expected output from the file system.
 			bytesContent, errRead := os.ReadFile(tc.outputTestName)
 			require.NoError(t, errRead)

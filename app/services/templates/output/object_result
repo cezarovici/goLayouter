@@ -1,4 +1,4 @@
-// Package entry contains Entry object definition.
+// package entry contains Entry object definition.
 package entry
 
 // Entry represents a ...
