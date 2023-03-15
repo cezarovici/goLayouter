@@ -1,39 +1,36 @@
 # Go Layout Creator for Automated Go Application Layouts
 
-Go Layout Creator is an efficient open-source tool that allows developers to create a Go application layout with ease. The process of manually creating folders and files can be tedious and error-prone. By automating this process, Go Layout Creator helps developers save time and effort, and focus on what they do best - coding.
+Go Layout Creator is an efficient open-source tool that enables developers to create a Go application layout easily. The manual process of creating folders and files can be tedious and prone to errors. By automating this process, Go Layout Creator helps developers save time and effort, allowing them to concentrate on their coding tasks.
 
 ## Getting Started
-To get started with Go Layout Creator, you can install it by running the following command in your terminal:
+To begin using Go Layout Creator, the user can install it by executing the following command in their terminal:
 ```sh
 go get github.com/cezarovici/goLayouter
-# not working yet
 ```
 ## Usage
-To use Go Layout Creator, create an input file with the desired folder and file structure, then run the following command:
+To use the tool, developers should first create an input file that outlines the desired folder and file structure. Once the input file is ready, they can run a command in the terminal to generate the layout.
 
 ```sh
-# not working, but good idea
-go-layout-creator -i input_file_name -o output_folder_name
+go-layout-creator input_file_name 
 ```
 
 ### Change Directory
-You can use the "Change Directory" feature in Go Layout Creator to specify the directory in which you want to create your Go application layout. The directory should be a valid path on your computer, and you can specify it in the input file by prefixing the directory path with an exclamation mark.
+The "Change Directory" feature in Go Layout Creator allows developers to specify the directory where they want to create their Go application layout. This directory should be a valid path on the developer's computer, and can be specified in the input file by adding an exclamation mark before the directory path.
 
-For example, if you want to create the Go application layout in a directory called "myapp" on your Desktop, you can specify the path as follows:
+For instance, if a developer wants to create a Go application layout in a directory named "myapp" on their Desktop, they can specify the path as follows:
 ```sh
 ! ~/Desktop/myapp
 ```
-Alternatively, you can use a relative path to specify the directory. For example, if you want to create the Go application layout in the current directory, you can simply use a single period (".") as follows:
+A relative path can also be used to specify the directory for creating the Go application layout. To create the layout in the current directory, a single period (".") can be used as the directory path in the input file.
 ```sh
 ! .
 ```
-Once you've specified the directory, Go Layout Creator will create the Go application layout in that directory.
 <br>
 
 ### Line indentation 
-Line indentation is a powerful feature of Go Layout Creator that allows you to create nested directories with ease. All you need to do is indent the desired directory or file with one or more spaces, and Go Layout Creator will automatically create the necessary subdirectories.
+Line indentation is a powerful feature of Go Layout Creator. It allows users to create nested directories easily by indenting the desired directory or file with one or more spaces. The tool will automatically create the necessary subdirectories.
 
-This is particularly helpful when creating complex directory structures for projects such as Kubernetes manifests. For example, the following input file:
+This feature is particularly useful when creating complex directory structures for projects such as Kubernetes manifests. For example, the following input file:
  ```sh
 app1
  controllers
@@ -55,9 +52,9 @@ will generate the following directory structure:
     │   └── database.yaml
     └── README.md   # this needs to be implemented
 ```
-As you can see, the controllers and models directories are nested within the app1 directory. The files within these directories are also nested within their respective directories. This can be a real time-saver when working on large projects with many different files and directories.
+The controllers and models directories are nested within the app1 directory. The files within these directories are also nested within their respective directories. This can be a real time-saver when working on large projects with many different files and directories.
 
-Note that files do not have to be indented, instead, they can either be on the same line or indented with one or more spaces. For example:
+Files do not have to be indented, instead, they can either be on the same line or indented with one or more spaces. For example:
 
 ```sh
 project1
@@ -78,8 +75,7 @@ Output directory structure:
     │   └── rollback.sh
     └── README.md # needs to be implemented
 ```
-
-Now, let's consider a more complex example using Kubernetes directory structure. Suppose you want to create a Kubernetes application with the following directory structure:
+A directory structure for a Kubernetes application could include subdirectories for deployments, services, and volumes. For example, the deployments directory might contain YAML files defining Kubernetes deployments, while the services directory might contain YAML files defining Kubernetes services. The volumes directory could include subdirectories for different types of data, such as configuration files or persistent data storage.
 ```sh
 myapp/
  ├─ manifests
@@ -105,7 +101,7 @@ myapp/
          └─ x
              └─ errors
 ```
-To create this directory structure with Go Layout Creator, you would use the following input file:
+To create this directory structure with Go Layout Creator, the developer should use the following input file:
 ```sh
 myapp
  manifests
@@ -134,12 +130,13 @@ myapp
 
 ### Package Name
 
-One of the essential features of Go Layout Creator is its package name functionality. By default, Go Layout Creator assigns the package name as the last directory name in the folder path. However, if you create a file called main.go, the package name is automatically set to package main. To specify a different package name for other files, simply add the following line to the input file:
+One of the key features of Go Layout Creator is its ability to assign package names based on the directory structure. By default, the package name is set to the last directory name in the folder path. However, if a file named main.go is present, the package name is automatically set to "main". To set a custom package name for other files, users can add a line to the input file specifying the desired package name.
+
+
 ```sh
 # package <package name>
 ```
 #### Example 1: Default package name
-Suppose you have the following input file:
 ```sh
 myapp
   file1.go
@@ -153,7 +150,6 @@ By default, Go Layout Creator will create the package with the name myapp and su
     └──file2.go # package subfolder1
 ```
 #### Example 2: Custom package name
-Suppose you have the following input file:
 ```sh
 myapp
 # package mypkg
@@ -170,7 +166,6 @@ myapp
     └──file2.go # package submypkg
 ```
 #### Example 3: Main package name
-Suppose you have the following input file:
 ```sh
 myapp
   main.go
@@ -183,7 +178,7 @@ main
 ```
 <br>
 
-Suppose you want to create the file structure for a web application that uses the Gin framework and Docker. Your input file might look something like this:
+For a web application that uses the Gin framework and Docker. The input file might look something like this:
 
 ```sh
 mywebapp
@@ -227,12 +222,13 @@ mywebapp/
 ```
 
 #### Creating test files
-For test files, use the following syntax:
+For test files, go-layouter has the following syntax:
 ```sh
 # t for simple tests
 # tt for tdd
 ```
-If you want to create a folder structure like this:
+
+For this app
 ```sh
 my_project
 ├── main
@@ -243,7 +239,7 @@ my_project
     └── lib_test.go
 ```
 
-You can specify it in the input file as follows:
+The input file should be
 
 ```sh
 ! my_project
@@ -256,4 +252,4 @@ lib
 ```
 
 ## Conclusion
-Go Layout Creator simplifies the process of creating Go application layouts. By automating the process of creating folders and files, developers can save time and reduce the likelihood of errors. With its package name, change directory, file creation, and line indentation functionality, Go Layout Creator is a valuable tool for developers looking to improve their workflow.
+Go Layout Creator simplifies the process of creating Go application layouts by automating the creation of folders and files, saving developers time and reducing the likelihood of errors. Its functionality includes setting package names, changing directories, creating files, and indenting lines, making it a valuable tool for developers seeking to improve their workflow.
