@@ -54,20 +54,20 @@ var RenderFuncs = map[string]func(string, any) error{
 
 // renderMain is a render function to render a main file from a template
 func renderMain(renderToPath string, object any) error {
-	return renderTo(renderToPath, mainInputPath, object)
+	return renderTo(renderToPath, _mainInputPath, object)
 }
 
 // renderTest is a render function to render a test file from a template
 func renderTest(renderToPath string, object any) error {
-	return renderTo(renderToPath, testInputPath, object)
+	return renderTo(renderToPath, _testInputPath, object)
 }
 
 // renderObject is a render function to render an object file from a template
 func renderObject(renderToPath string, object any) error {
-	return renderTo(renderToPath, objectInputPath, object)
+	return renderTo(renderToPath, _objectInputPath, object)
 }
 
 // renderTableDriven is a render function to render a table-driven test file from a template
 func renderTableDriven(renderToPath string, object any) error {
-	return renderTo(renderToPath, tddInputPath, object)
+	return renderTo(renderToPath, _tddInputPath, object)
 }

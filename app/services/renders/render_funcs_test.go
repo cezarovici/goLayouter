@@ -33,22 +33,22 @@ func TestRenderFuncs(t *testing.T) {
 		{
 			test:           "main render",
 			kind:           "main",
-			outputTestName: mainOutputPath,
+			outputTestName: _mainOutputPath,
 		},
 		{
 			test:           "test render",
 			kind:           "test",
-			outputTestName: testOutputPath,
+			outputTestName: _testOutputPath,
 		},
 		{
 			test:           "obj render",
 			kind:           "object",
-			outputTestName: objectOutputPath,
+			outputTestName: _objectOutputPath,
 		},
 		{
 			test:           "tdd render",
 			kind:           "tableDriven",
-			outputTestName: tddOutputPath,
+			outputTestName: _tddOutputPath,
 		},
 	}
 

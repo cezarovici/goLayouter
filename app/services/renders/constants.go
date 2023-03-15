@@ -13,16 +13,16 @@ const (
 
 // Output file paths
 const (
-	mainOutputPath   = pathFromMain + outputDir + "main_result"
-	objectOutputPath = pathFromMain + outputDir + "object_result"
-	testOutputPath   = pathFromMain + outputDir + "test_result"
-	tddOutputPath    = pathFromMain + outputDir + "tableDriven_result"
+	_mainOutputPath   = pathFromMain + outputDir + "main_result"
+	_objectOutputPath = pathFromMain + outputDir + "object_result"
+	_testOutputPath   = pathFromMain + outputDir + "test_result"
+	_tddOutputPath    = pathFromMain + outputDir + "tableDriven_result"
 )
 
 // Input file paths
 const (
-	mainInputPath   = pathFromMain + inputDir + "main.gotmpl"
-	objectInputPath = pathFromMain + inputDir + "object.gotmpl"
-	testInputPath   = pathFromMain + inputDir + "test.gotmpl"
-	tddInputPath    = pathFromMain + inputDir + "tableDriven.gotmpl"
+	_mainInputPath   = pathFromMain + inputDir + "main.gotmpl"
+	_objectInputPath = pathFromMain + inputDir + "object.gotmpl"
+	_testInputPath   = pathFromMain + inputDir + "test.gotmpl"
+	_tddInputPath    = pathFromMain + inputDir + "tableDriven.gotmpl"
 )
