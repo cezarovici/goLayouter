@@ -3,6 +3,7 @@ package file
 import (
 	"os"
 
+	apperrors "github.com/cezarovici/goLayouter/app/errors"
 	"github.com/cezarovici/goLayouter/domain"
 )
 
@@ -26,16 +27,24 @@ func (f File) Write(Package []byte) error {
 	// Create the file at the specified path.
 	file, errCreate := os.Create(f.Path)
 	if errCreate != nil {
-		return errCreate
+		return &apperrors.ErrDomain{
+			Caller:     "object file -> Write",
+			MethodName: "os.Create",
+			Issue:      errCreate,
+		}
 	}
 
 	// Write the Package of the file to disk.
 	_, errWrite := file.Write([]byte(f.Package))
 	if errWrite != nil {
-		return errWrite
+		return &apperrors.ErrDomain{
+			Caller:     "object file -> Write",
+			MethodName: "file.Writes",
+			Issue:      errWrite,
+		}
 	}
 
-	// Return the number of bytes written.
+	// Return no error
 	return nil
 }
 

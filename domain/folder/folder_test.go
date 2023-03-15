@@ -49,3 +49,13 @@ func TestWrite(t *testing.T) {
 		})
 	}
 }
+
+func TestGetPackage(t *testing.T) {
+	folder := Folder{
+		Path: "folder1",
+	}
+
+	require.NoError(t, folder.Write(nil))
+	require.Equal(t, []uint8([]byte(nil)), folder.GetPackage())
+	require.NoError(t, os.Remove(folder.Path))
+}
