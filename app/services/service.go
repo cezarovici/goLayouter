@@ -2,8 +2,9 @@ package services
 
 import (
 	"errors"
-	"log"
 
+	apperrors "github.com/cezarovici/goLayouter/app/errors"
+	"github.com/cezarovici/goLayouter/app/services/renders"
 	"github.com/cezarovici/goLayouter/domain/item"
 )
 
@@ -16,7 +17,12 @@ type Service struct {
 // NewService creates a new Service instance.
 func NewService(items item.Items, renders map[string]func(string, any) error) (*Service, error) {
 	if len(items) == 0 {
-		return nil, errors.New("no items provided")
+		return nil, &apperrors.ErrService{
+			Caller:     "Service",
+			MethodName: "NewService",
+			Issue:      errors.New("no items parsed"),
+			WithTime:   true,
+		}
 	}
 
 	return &Service{
@@ -29,17 +35,26 @@ func NewService(items item.Items, renders map[string]func(string, any) error) (*
 func (service Service) Render() error {
 	for _, path := range service.paths {
 		if errWrite := path.ObjectPath.Write(path.ObjectPath.GetPackage()); errWrite != nil {
-			return errWrite
+			return &apperrors.ErrService{
+				Caller:     "Service",
+				MethodName: "Render -> Write",
+				Issue:      errWrite,
+				WithTime:   false,
+			}
 		}
 
 		if path.Kind == "normalFile" || path.Kind == "folder" {
 			continue
 		}
-		log.Print(path.ObjectPath)
-		//TODO no object name recognised
-		errRender := service.renderFuncs[path.Kind](path.ObjectPath.GetPath(), path.ObjectPath)
+
+		errRender := renders.RenderFuncs[path.Kind](path.ObjectPath.GetPath(), path.ObjectPath)
 		if errRender != nil {
-			return errRender
+			return &apperrors.ErrService{
+				Caller:     "Service",
+				MethodName: "Render -> render funcs",
+				Issue:      errRender,
+				WithTime:   true,
+			}
 		}
 	}
 

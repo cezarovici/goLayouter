@@ -1,9 +1,11 @@
 package services
 
 import (
+	"errors"
 	"os"
 	"testing"
 
+	apperrors "github.com/cezarovici/goLayouter/app/errors"
 	"github.com/cezarovici/goLayouter/app/services/renders"
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
@@ -13,13 +15,16 @@ import (
 
 func TestRender(t *testing.T) {
 	// Define some test data
-	filePath := "main.go"
-	folderPath := "testFolder"
+	const (
+		filePath    = "main.go"
+		folderPath  = "testFolder"
+		filePackage = "package file"
+	)
 
 	items := item.Items{
 		item.Item{
 			Kind:       "main",
-			ObjectPath: file.File{Path: filePath}, //Package: string(filePackage)},
+			ObjectPath: file.File{Path: filePath, Package: string(filePackage)},
 		},
 		item.Item{
 			Kind:       "folder",
@@ -32,10 +37,8 @@ func TestRender(t *testing.T) {
 	require.NoError(t, errNewService)
 
 	// Call the Render method
-	err := serv.Render()
-
 	// Check that there were no errors
-	require.NoError(t, err)
+	require.NoError(t, serv.Render())
 
 	// Check that the folder was created
 	_, errStat := os.Stat(folderPath)
@@ -44,4 +47,27 @@ func TestRender(t *testing.T) {
 	// Clean up the test data
 	require.NoError(t, os.Remove(filePath))
 	require.NoError(t, os.Remove(folderPath))
+}
+
+func TestNewService(t *testing.T) {
+	items := item.Items{
+		{ObjectPath: file.File{Path: "/path/to/template1.tmpl", Package: "Template 1 data"}, Kind: "normalFile"},
+		{ObjectPath: file.File{Path: "/path/to/template2.tmpl", Package: "Template 2 data"}, Kind: "normalFile"},
+	}
+	// Test with non-empty items and renders map
+	service, err := NewService(items, renders.RenderFuncs)
+	require.NoError(t, err)
+
+	// Test with empty items
+	_, err = NewService(item.Items{}, service.renderFuncs)
+	require.Error(t, err)
+
+	expectedErr := &apperrors.ErrService{
+		Caller:     "Service",
+		MethodName: "NewService",
+		Issue:      errors.New("no items parsed"),
+	}
+	if !errors.As(err, &expectedErr) {
+		t.Errorf("NewService() error = %v, expected %v", err, expectedErr)
+	}
 }

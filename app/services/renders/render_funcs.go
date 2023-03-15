@@ -4,24 +4,38 @@ package renders
 import (
 	"os"
 	"text/template"
+
+	apperrors "github.com/cezarovici/goLayouter/app/errors"
 )
 
 // renderTo renders the given model data to the specified template file and writes the output to the provided writer.
 func renderTo(renderToPath string, templateFilePath string, model any) error {
 	// Check if the specified template file exists.
 	if _, err := os.Stat(templateFilePath); os.IsNotExist(err) {
-		return err
+		return &apperrors.ErrService{
+			Caller:     "Renders",
+			MethodName: "os.Stat",
+			Issue:      err,
+		}
 	}
 
 	// Parse the template file.
 	t, errParse := template.ParseFiles(templateFilePath)
 	if errParse != nil {
-		return errParse
+		return &apperrors.ErrService{
+			Caller:     "Renders",
+			MethodName: "template parse files",
+			Issue:      errParse,
+		}
 	}
 
 	file, errCreate := os.OpenFile(renderToPath, os.O_RDWR, 0755)
 	if errCreate != nil {
-		return errCreate
+		return &apperrors.ErrService{
+			Caller:     "Renders",
+			MethodName: "os open file",
+			Issue:      errCreate,
+		}
 	}
 	defer file.Close()
 
