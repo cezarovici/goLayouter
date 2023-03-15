@@ -44,9 +44,8 @@ func TestWrite(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			// Call the Write() method and verify its return values.
-			n, err := tc.input.Write(nil)
+			err := tc.input.Write(nil)
 			require.Equal(t, tc.errorExpected, err)
-			require.Equal(t, len(tc.input.Package), n)
 
 			// Verify that the file was created and contains the expected Package.
 			_, errStat := os.Stat(tc.input.Path)

@@ -1,7 +1,6 @@
 package file
 
 import (
-	"io"
 	"os"
 
 	"github.com/cezarovici/goLayouter/domain"
@@ -17,30 +16,27 @@ type File struct {
 // Ensure File implements the domain.FileOperations interface.
 var _ domain.FileOperations = &File{}
 
-// Ensure File implements the io.Writer interface.
-var _ io.Writer = &File{}
-
 // GetPackage returns the Package of the file as a byte slice.
 func (f File) GetPackage() []byte {
 	return []byte(f.Package)
 }
 
 // Write writes the Package of the file to disk at the specified path.
-func (f File) Write(Package []byte) (int, error) {
+func (f File) Write(Package []byte) error {
 	// Create the file at the specified path.
 	file, errCreate := os.Create(f.Path)
 	if errCreate != nil {
-		return 0, errCreate
+		return errCreate
 	}
 
 	// Write the Package of the file to disk.
-	length, errWrite := file.Write([]byte(f.Package))
+	_, errWrite := file.Write([]byte(f.Package))
 	if errWrite != nil {
-		return 0, errWrite
+		return errWrite
 	}
 
 	// Return the number of bytes written.
-	return length, nil
+	return nil
 }
 
 func (f File) GetPath() string {

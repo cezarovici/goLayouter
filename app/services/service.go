@@ -14,22 +14,21 @@ type Service struct {
 }
 
 // NewService creates a new Service instance.
-func NewService(items item.Items, templates map[string]func(string, any) error) (*Service, error) {
+func NewService(items item.Items, renders map[string]func(string, any) error) (*Service, error) {
 	if len(items) == 0 {
 		return nil, errors.New("no items provided")
 	}
 
 	return &Service{
 		paths:       items,
-		renderFuncs: templates,
+		renderFuncs: renders,
 	}, nil
 }
 
 // RenderItems renders all items to the filesystem.
 func (service Service) Render() error {
 	for _, path := range service.paths {
-		_, errWrite := path.ObjectPath.Write(path.ObjectPath.GetPackage())
-		if errWrite != nil {
+		if errWrite := path.ObjectPath.Write(path.ObjectPath.GetPackage()); errWrite != nil {
 			return errWrite
 		}
 

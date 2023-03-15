@@ -37,7 +37,7 @@ func TestWrite(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			// Call the Write() method with a nil logger and capture the returned error
-			_, err := tc.input.Write(nil)
+			err := tc.input.Write(nil)
 
 			// Assert that the error returned by Write() matches the expected error
 			require.Equal(t, tc.expectedError, err)
