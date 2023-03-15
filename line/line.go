@@ -2,7 +2,6 @@ package line
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/cezarovici/goLayouter/domain/file"
@@ -180,7 +179,6 @@ func (lines Lines) ToItems() *item.Items {
 					Package:    packageName,
 					ObjectName: objectName,
 				}
-				log.Print(objectName)
 
 				newItem := item.Item{
 					ObjectPath: newFile,
