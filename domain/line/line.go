@@ -50,19 +50,19 @@ func NewLines(Package []string) (Lines, error) {
 	}
 
 	// Initialize an empty slice of Lines
-	var items Lines
+	var res Lines
 
-	// Parse each string in the Package slice and append the resulting Line to the items slice
+	// Parse each string in the Package slice and append the resulting Line to the res slice
 	for _, line := range Package {
-		items = append(items, ConvertToLine(line))
+		res = append(res, ConvertToLine(line))
 	}
 
-	return items, nil
+	return res, nil
 }
 
 func (lines Lines) ToItems() *item.Items {
-	// Create an empty slice of items
-	var items item.Items
+	// Create an empty slice of res
+	var res item.Items
 
 	// Set a flag to indicate if this is the first line being processed
 	firstLine := true
@@ -94,7 +94,7 @@ func (lines Lines) ToItems() *item.Items {
 				indentStack.Push(-1)
 
 				// Create a new item with the path and kind of the current line
-				items = append(items, item.Item{
+				res = append(res, item.Item{
 					ObjectPath: folder.Folder{
 						Path: pathStack.String(),
 					},
@@ -185,8 +185,8 @@ func (lines Lines) ToItems() *item.Items {
 					Kind:       kind,
 				}
 
-				// Add the new item to the items list
-				items = append(items, newItem)
+				// Add the new item to the res list
+				res = append(res, newItem)
 			}
 
 			continue
@@ -203,8 +203,8 @@ func (lines Lines) ToItems() *item.Items {
 				Path: pathStack.String(),
 			}
 
-			// Add the Folder object to the list of items
-			items = append(items, item.Item{
+			// Add the Folder object to the list of res
+			res = append(res, item.Item{
 				ObjectPath: folder,
 				Kind:       helpers.KindOfFile(line.info),
 			})
@@ -217,7 +217,7 @@ func (lines Lines) ToItems() *item.Items {
 
 		// If the line level is greater than the top level on the stack, the line is a
 		// subdirectory and should be pushed onto the stack. A new folder object should
-		// be created and added to the items list.
+		// be created and added to the res list.
 		if line.level > indentStack.Peek().(int) {
 			pathStack.Push(line.info)
 			indentStack.Push(line.level)
@@ -225,7 +225,7 @@ func (lines Lines) ToItems() *item.Items {
 			folder := folder.Folder{
 				Path: pathStack.String(),
 			}
-			items = append(items, item.Item{
+			res = append(res, item.Item{
 				ObjectPath: folder,
 				Kind:       helpers.KindOfFile(line.info),
 			})
@@ -235,14 +235,14 @@ func (lines Lines) ToItems() *item.Items {
 
 		// If the line level is equal to the top level on the stack, the line is in the
 		// same directory as the previous line and should replace the previous line on
-		// the stack. A new folder object should be created and added to the items list.
+		// the stack. A new folder object should be created and added to the res list.
 		if line.level == indentStack.Peek().(int) {
 			pathStack.Pop()
 
 			pathStack.Push(line.info)
 			indentStack.Push(line.level)
 
-			items = append(items, item.Item{
+			res = append(res, item.Item{
 				ObjectPath: folder.Folder{
 					Path: pathStack.String(),
 				},
@@ -253,9 +253,9 @@ func (lines Lines) ToItems() *item.Items {
 		}
 
 		// If the line level is less than the top level on the stack, we need to
-		// pop items off the stack until we reach the parent directory of the current line.
+		// pop Items off the stack until we reach the parent directory of the current line.
 		// Then, we can add the current line to the stack and create a new folder object
-		// to be added to the items list.
+		// to be added to the Items list.
 		for line.level < indentStack.Peek().(int) && len(indentStack) > 1 {
 			pathStack.Pop()
 			indentStack.Pop()
@@ -271,7 +271,7 @@ func (lines Lines) ToItems() *item.Items {
 		pathStack.Push(line.info)
 		indentStack.Push(line.level)
 
-		items = append(items, item.Item{
+		res = append(res, item.Item{
 			ObjectPath: folder.Folder{
 				Path: pathStack.String(),
 			},
@@ -279,7 +279,7 @@ func (lines Lines) ToItems() *item.Items {
 		})
 	}
 
-	return &items
+	return &res
 }
 
 //TODO add go.mod yaml.config github actions
