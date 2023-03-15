@@ -6,8 +6,8 @@ import (
 
 	"github.com/cezarovici/goLayouter/app/services"
 	"github.com/cezarovici/goLayouter/app/services/renders"
+	"github.com/cezarovici/goLayouter/domain/line"
 	"github.com/cezarovici/goLayouter/helpers"
-	"github.com/cezarovici/goLayouter/line"
 )
 
 func main() {

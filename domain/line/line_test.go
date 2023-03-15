@@ -98,7 +98,7 @@ func TestNewLines(t *testing.T) {
 	}
 }
 
-const _parseTestCases = "../testCases/parseTest/"
+const _parseTestCases = "../../testCases/parseTest/"
 
 func TestToItems(t *testing.T) {
 	type testCase struct {
