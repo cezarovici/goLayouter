@@ -17,8 +17,8 @@ type File struct {
 // Ensure File implements the domain.FileOperations interface.
 var _ domain.FileOperations = &File{}
 
-// GetPackage returns the Package of the file as a byte slice.
-func (f File) GetPackage() []byte {
+// GetContent returns the Package of the file as a byte slice.
+func (f File) GetContent() []byte {
 	return []byte(f.Package)
 }
 

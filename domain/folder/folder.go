@@ -13,7 +13,7 @@ type Folder struct {
 
 var _ domain.FileOperations = &Folder{}
 
-func (f Folder) GetPackage() []byte {
+func (f Folder) GetContent() []byte {
 	return []uint8([]byte(nil))
 }
 

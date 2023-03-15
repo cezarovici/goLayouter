@@ -8,13 +8,13 @@ import (
 )
 
 // Model represents the data that will be used to render the templates.
-type Model struct {
+type model struct {
 	ObjectName string // Name of the main object in the Go file.
 	Package    string // Name of the package the Go file belongs to.
 }
 
 // exampleModel is an instance of the Model struct that can be used for testing.
-var exampleModel = Model{
+var exampleModel = model{
 	ObjectName: "Entry",
 	Package:    "package entry",
 }

@@ -34,7 +34,7 @@ func NewService(items item.Items, renders map[string]func(string, any) error) (*
 // RenderItems renders all items to the filesystem.
 func (service Service) Render() error {
 	for _, path := range service.paths {
-		if errWrite := path.ObjectPath.Write(path.ObjectPath.GetPackage()); errWrite != nil {
+		if errWrite := path.ObjectPath.Write(path.ObjectPath.GetContent()); errWrite != nil {
 			return &apperrors.ErrService{
 				Caller:     "Service",
 				MethodName: "Render -> Write",
