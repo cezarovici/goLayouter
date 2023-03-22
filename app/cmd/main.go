@@ -10,6 +10,20 @@ import (
 	"github.com/cezarovici/goLayouter/helpers"
 )
 
+// It reads the file source from the command line
+// and then creates a service that will render the
+//	contents of the file source	.
+
+// If any error occurs, the application will exit
+//	with a non-zero exit code.
+
+// The exit codes are:
+// 1 - no file source provided
+// 2 - failed to read file
+// 3 - failed to create lines from file
+// 4 - failed to create service
+// 5 - failed to render service
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Error: no file source provided")
