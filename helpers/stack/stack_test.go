@@ -107,3 +107,30 @@ func TestPeek(t *testing.T) {
 		})
 	}
 }
+
+func TestString(t *testing.T) {
+	type testCase struct {
+		test   string
+		input  Stack
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "non empty",
+			input:  Stack{"file", "folder"},
+			output: "file/folder",
+		},
+		{
+			test:   "empty stack",
+			input:  Stack{},
+			output: "",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, tc.input.String())
+		})
+	}
+}

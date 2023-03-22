@@ -58,27 +58,29 @@ func (e *ErrDomain) Error() string {
 	return res[0] + "\n" + res[1] + "\n" + res[2] + "\n" + res[3]
 }
 
-// Examples
+type ErrRender struct {
+	Caller     string
+	MethodName string
+	Issue      error
 
-//TODO remove
+	NanosecondsDuration int64
+	WithTime            bool
+}
 
-// func fooService() error {
-// 	now := time.Now()
+const areaErrRender = "Render"
 
-// 	return &ErrService{
-// 		Caller:     "fooService",
-// 		MethodName: "m1",
-// 		Issue:      errors.New("issue 1"),
+func (e *ErrRender) Error() string {
+	var res [4]string
 
-// 		WithTime:            true,
-// 		NanosecondsDuration: int64(time.Since(now).Nanoseconds()),
-// 	}
-// }
+	if e.WithTime {
+		res[0] = fmt.Sprintf("\nArea: %s [%d] - duration nanoseconds: %d", areaErrRender, time.Now().Unix(), e.NanosecondsDuration)
+	} else {
+		res[0] = fmt.Sprintf("\nArea: %s", areaErrRender)
+	}
 
-// func fooDomain() error {
-// 	return &ErrDomain{
-// 		Caller:     "fooDomain",
-// 		MethodName: "fooService",
-// 		Issue:      fooService(),
-// 	}
-// }
+	res[1] = fmt.Sprintf("Caller: %s", e.Caller)
+	res[2] = fmt.Sprintf("Method Name: %s", e.MethodName)
+	res[3] = fmt.Sprintf("Issue: %s", e.Issue.Error())
+
+	return res[0] + "\n" + res[1] + "\n" + res[2] + "\n" + res[3]
+}

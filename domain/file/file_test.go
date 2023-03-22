@@ -60,3 +60,69 @@ func TestWrite(t *testing.T) {
 		})
 	}
 }
+
+func TestGetContent(t *testing.T) {
+	type testCase struct {
+		test  string
+		input File
+
+		output []byte
+	}
+
+	testCases := []testCase{
+		{
+			test:   "just 1 file",
+			input:  File{Package: "main.go"},
+			output: []byte("main.go"),
+		},
+		{
+			test:   "file from previous path",
+			input:  File{Package: "../main.go"},
+			output: []byte("../main.go"),
+		},
+		{
+			test:   "file from next path",
+			input:  File{Package: "file/main.go"},
+			output: []byte("file/main.go"),
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, tc.input.GetContent())
+		})
+	}
+}
+
+func TestGetPath(t *testing.T) {
+	type testCase struct {
+		test  string
+		input File
+
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "just 1 file",
+			input:  File{Path: "main.go"},
+			output: "main.go",
+		},
+		{
+			test:   "file from previous path",
+			input:  File{Path: "../main.go"},
+			output: "../main.go",
+		},
+		{
+			test:   "file from next path",
+			input:  File{Path: "file/main.go"},
+			output: "file/main.go",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.test, func(t *testing.T) {
+			require.Equal(t, tc.output, tc.input.GetPath())
+		})
+	}
+}

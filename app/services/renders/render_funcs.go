@@ -13,7 +13,7 @@ import (
 func renderTo(renderToPath string, templateFilePath string, model any) error {
 	// Check if the specified template file exists.
 	if _, err := os.Stat(templateFilePath); os.IsNotExist(err) {
-		return &apperrors.ErrService{
+		return &apperrors.ErrRender{
 			Caller:     "Renders",
 			MethodName: "os.Stat",
 			Issue:      err,
@@ -23,7 +23,7 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 	// Parse the template file.
 	t, errParse := template.ParseFiles(templateFilePath)
 	if errParse != nil {
-		return &apperrors.ErrService{
+		return &apperrors.ErrRender{
 			Caller:     "Renders",
 			MethodName: "template parse files",
 			Issue:      errParse,

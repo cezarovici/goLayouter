@@ -59,3 +59,13 @@ func TestGetContent(t *testing.T) {
 	require.Equal(t, []uint8([]byte(nil)), folder.GetContent())
 	require.NoError(t, os.Remove(folder.Path))
 }
+
+func TestGetPath(t *testing.T) {
+	folder := Folder{
+		Path: "folder1",
+	}
+
+	require.NoError(t, folder.Write(nil))
+	require.Equal(t, "folder1", folder.GetPath())
+	require.NoError(t, os.Remove(folder.Path))
+}
