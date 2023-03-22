@@ -91,9 +91,23 @@ func ExtractObjectFrom(fileName string) string {
 
 	objectName := strings.Replace(withoutSuffix, "_", "", 1)
 
-	return strings.Title(objectName)
+	return strings.ToUpper(objectName[:1]) + objectName[1:]
 }
 
+// ConvertToObjectName returns the object name from a given file name.
+// It takes a string as input representing the file name.
+// If the input is an empty string, it returns an empty string.
+// Otherwise, it splits the input file name by the "_" separator and returns the last element.
+//
+// For example, given the input "obj_file.go", the function returns "File".
+//
+// If the input is "file.go", the function returns an empty string.
+//
+// If the input is "objectFile.go", the function returns "File".
+//
+// If the input is "obj_file_test.go", the function returns "File".
+//
+// If the input is "file_test.go", the function returns an empty string.
 func ConvertToObjectName(filePath string) string {
 	var (
 		objName  string
