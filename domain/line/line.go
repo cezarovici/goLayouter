@@ -155,22 +155,22 @@ func (lines Lines) ToItems() *item.Items {
 				isObject := false
 
 				// If the file is a main package, use the default package name
-				if helpers.KindOfFile(fileName) == "main" {
+				if helpers.KindOfFile(fileName) == item.Main {
 					packageName = _defaultPackage
 				}
 
 				objectName = helpers.ConvertToObjectName(fileName)
-				if helpers.KindOfFile(fileName) == "object" || helpers.KindOfFile(fileName) == "test" {
+				if helpers.KindOfFile(fileName) == item.Object || helpers.KindOfFile(fileName) == item.Test {
 					fileName = helpers.RemoveObjectPrefix(fileName)
 
-					if helpers.KindOfFile(fileName) != "test" {
+					if helpers.KindOfFile(fileName) != item.Test {
 						isObject = true
 					}
 				}
 
 				kind := helpers.KindOfFile(fileName)
 				if isObject {
-					kind = "object"
+					kind = item.Object
 				}
 
 				// Create a new item with the file path and package name

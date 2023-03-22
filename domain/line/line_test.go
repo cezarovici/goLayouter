@@ -116,47 +116,47 @@ func TestToItems(t *testing.T) {
 					ObjectPath: folder.Folder{
 						Path: "folder1",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder1/subfolder1",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/file.go",
 						Package: "package subfolder1",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/obj.go",
 						Package: "package subfolder1",
 					},
-					Kind: "object",
+					Kind: item.Object,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder1/subfolder1/main.go",
 						Package: "package main",
 					},
-					Kind: "main",
+					Kind: item.Main,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder2",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "folder2/test1.go",
 						Package: "package folder2",
 					},
-					Kind: "test",
+					Kind: item.Test,
 				},
 			},
 		},
@@ -168,37 +168,37 @@ func TestToItems(t *testing.T) {
 					ObjectPath: folder.Folder{
 						Path: "folder",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder1",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder1/subfolder1",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder1/subfolder1/subsubfolder1",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder1/subfolder2",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "folder2",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 			},
 		},
@@ -210,34 +210,34 @@ func TestToItems(t *testing.T) {
 					ObjectPath: folder.Folder{
 						Path: "app",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/main.go",
 						Package: "package main",
 					},
-					Kind: "main",
+					Kind: item.Main,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "app/domain",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/interfaces.go",
 						Package: "package domain",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "app/domain/file.go",
 						Package: "package file",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 				item.Item{
 					ObjectPath: file.File{
@@ -245,7 +245,7 @@ func TestToItems(t *testing.T) {
 						Package:    "package file",
 						ObjectName: "File",
 					},
-					Kind: "object",
+					Kind: item.Object,
 				},
 				item.Item{
 					ObjectPath: file.File{
@@ -253,7 +253,7 @@ func TestToItems(t *testing.T) {
 						Package:    "package file",
 						ObjectName: "File",
 					},
-					Kind: "test",
+					Kind: item.Test,
 				},
 			},
 		},
@@ -265,53 +265,53 @@ func TestToItems(t *testing.T) {
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/app",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/main.go",
 						Package: "package main",
 					},
-					Kind: "main",
+					Kind: item.Main,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/app/domain",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/domain/interfaces.go",
 						Package: "package domain",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/app/domain/file",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/app/domain/file/file.go",
 						Package: "package file",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/app/domain/obj",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
@@ -319,33 +319,33 @@ func TestToItems(t *testing.T) {
 						Package:    "package obj",
 						ObjectName: "File",
 					},
-					Kind: "object",
+					Kind: item.Object,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/student",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/student/student.go",
 						Package: "package student",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder/student/study",
 					},
-					Kind: "folder",
+					Kind: item.Folder,
 				},
 				item.Item{
 					ObjectPath: file.File{
 						Path:    "temporary_folder/student/study/study.go",
 						Package: "package study",
 					},
-					Kind: "normalFile",
+					Kind: item.NormalFile,
 				},
 			},
 		},

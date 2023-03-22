@@ -3,6 +3,7 @@ package helpers
 import (
 	"testing"
 
+	"github.com/cezarovici/goLayouter/domain/item"
 	"github.com/stretchr/testify/require"
 )
 
@@ -77,39 +78,39 @@ func TestKindOfFile(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
-		output string
+		output item.KindOfFile
 	}
 
 	testCases := []testCase{
 		{
 			test:   "test main",
 			input:  "main.go",
-			output: "main",
+			output: item.Main,
 		},
 		{
 			test:   "test file",
 			input:  "func_test.go",
-			output: "test",
+			output: item.Test,
 		},
 		{
 			test:   "object file",
 			input:  "obj_file.go",
-			output: "object",
+			output: item.Object,
 		},
 		{
 			test:   "object test",
 			input:  "obj_file_test.go",
-			output: "test",
+			output: item.Test,
 		},
 		{
 			test:   "normal file",
 			input:  "file.go",
-			output: "normalFile",
+			output: item.NormalFile,
 		},
 		{
 			test:   "input folder",
 			input:  "folder1",
-			output: "folder",
+			output: item.Folder,
 		},
 	}
 

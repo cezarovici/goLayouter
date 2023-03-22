@@ -23,11 +23,11 @@ func TestRender(t *testing.T) {
 
 	items := item.Items{
 		item.Item{
-			Kind:       "main",
+			Kind:       item.Main,
 			ObjectPath: file.File{Path: filePath, Package: string(filePackage)},
 		},
 		item.Item{
-			Kind:       "folder",
+			Kind:       item.Folder,
 			ObjectPath: folder.Folder{Path: folderPath},
 		},
 	}
@@ -51,8 +51,8 @@ func TestRender(t *testing.T) {
 
 func TestNewService(t *testing.T) {
 	items := item.Items{
-		{ObjectPath: file.File{Path: "/path/to/template1.tmpl", Package: "Template 1 data"}, Kind: "normalFile"},
-		{ObjectPath: file.File{Path: "/path/to/template2.tmpl", Package: "Template 2 data"}, Kind: "normalFile"},
+		{ObjectPath: file.File{Path: "/path/to/template1.tmpl", Package: "Template 1 data"}, Kind: item.NormalFile},
+		{ObjectPath: file.File{Path: "/path/to/template2.tmpl", Package: "Template 2 data"}, Kind: item.NormalFile},
 	}
 	// Test with non-empty items and renders map
 	service, err := NewService(items, renders.RenderFuncs)

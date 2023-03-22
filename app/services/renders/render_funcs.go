@@ -6,6 +6,7 @@ import (
 	"text/template"
 
 	apperrors "github.com/cezarovici/goLayouter/app/errors"
+	"github.com/cezarovici/goLayouter/domain/item"
 )
 
 // renderTo renders the given model data to the specified template file and writes the output to the provided writer.
@@ -45,11 +46,11 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 
 // RenderFuncs is a map of render function names to their corresponding functions.
 // Each function takes a writer and a model as input, and generates Go code using the corresponding template.
-var RenderFuncs = map[string]func(string, any) error{
-	"main":        renderMain,
-	"test":        renderTest,
-	"object":      renderObject,
-	"tableDriven": renderTableDriven,
+var RenderFuncs = map[item.KindOfFile]func(string, any) error{
+	item.Main:        renderMain,
+	item.Test:        renderTest,
+	item.Object:      renderObject,
+	item.TableDriven: renderTableDriven,
 }
 
 // renderMain is a render function to render a main file from a template

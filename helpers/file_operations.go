@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/cezarovici/goLayouter/domain/item"
 )
 
 // ReadFile reads a file from the parsed file path and returns its contents as a slice of strings.
@@ -60,26 +62,26 @@ func TypeOf(fileName string) string {
 }
 
 // KindOfFile returns a string representing the kind of a file based on its name.
-func KindOfFile(fileName string) string {
+func KindOfFile(fileName string) item.KindOfFile {
 	if !strings.Contains(fileName, ".") {
-		return "folder"
+		return item.Folder
 	}
 
 	if fileName == "main" || fileName == "main.go" {
-		return "main"
+		return item.Main
 	}
 
 	if strings.Contains(fileName, "test") {
-		return "test"
+		return item.Test
 	}
 
 	if strings.Contains(fileName, "obj") {
-		return "object"
+		return item.Object
 	}
 
 	if strings.Contains(fileName, ".") {
-		return "normalFile"
+		return item.NormalFile
 	}
 
-	return "folder"
+	return item.Folder
 }

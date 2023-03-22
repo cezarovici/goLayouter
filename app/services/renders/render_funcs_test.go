@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/cezarovici/goLayouter/domain/item"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,30 +25,30 @@ func TestRenderFuncs(t *testing.T) {
 	require.NoError(t, os.Chdir("../../cmd"))
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
-		test           string // Name of the test case.
-		kind           string // Name of the rendering function to test.
-		outputTestName string // Path to the file that contains the expected output.
+		test           string          // Name of the test case.
+		kind           item.KindOfFile // Name of the rendering function to test.
+		outputTestName string          // Path to the file that contains the expected output.
 	}
 	// Define the test cases to run.
 	testCases := []testCase{
 		{
 			test:           "main render",
-			kind:           "main",
+			kind:           item.Main,
 			outputTestName: _mainOutputPath,
 		},
 		{
 			test:           "test render",
-			kind:           "test",
+			kind:           item.Test,
 			outputTestName: _testOutputPath,
 		},
 		{
 			test:           "obj render",
-			kind:           "object",
+			kind:           item.Object,
 			outputTestName: _objectOutputPath,
 		},
 		{
 			test:           "tdd render",
-			kind:           "tableDriven",
+			kind:           item.TableDriven,
 			outputTestName: _tddOutputPath,
 		},
 	}

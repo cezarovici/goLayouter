@@ -11,11 +11,11 @@ import (
 // Service represents a service that renders items to the filesystem.
 type Service struct {
 	paths       item.Items
-	renderFuncs map[string]func(string, any) error
+	renderFuncs map[item.KindOfFile]func(string, any) error
 }
 
 // NewService creates a new Service instance.
-func NewService(items item.Items, renders map[string]func(string, any) error) (*Service, error) {
+func NewService(items item.Items, renders map[item.KindOfFile]func(string, any) error) (*Service, error) {
 	if len(items) == 0 {
 		return nil, &apperrors.ErrService{
 			Caller:     "Service",
@@ -43,7 +43,7 @@ func (service Service) Render() error {
 			}
 		}
 
-		if path.Kind == "normalFile" || path.Kind == "folder" {
+		if path.Kind == item.NormalFile || path.Kind == item.Folder {
 			continue
 		}
 

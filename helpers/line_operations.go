@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"path"
 	"strings"
+
+	"github.com/cezarovici/goLayouter/domain/item"
 )
 
 // SplitLine splits a line of text into a slice of file paths, and also creates test files for test packages.
@@ -117,7 +119,7 @@ func ConvertToObjectName(filePath string) string {
 	_, fileName = path.Split(filePath)
 
 	switch KindOfFile(fileName) {
-	case "test", "object":
+	case item.Test, item.Object:
 		objName = ExtractObjectFrom(fileName)
 
 	default:
