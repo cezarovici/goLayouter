@@ -8,7 +8,7 @@ import (
 )
 
 func TestPush(t *testing.T) {
-	var res = stack.Stack{"folder1"}
+	res := stack.Stack{"folder1"}
 
 	type testCase struct {
 		test   string
@@ -33,7 +33,7 @@ func TestPush(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	var res = stack.Stack{"folder1", "folder2"}
+	res := stack.Stack{"folder1", "folder2"}
 	type testCase struct {
 		test string
 

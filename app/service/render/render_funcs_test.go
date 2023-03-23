@@ -15,15 +15,8 @@ type model struct {
 	Package    string // Name of the package the Go file belongs to.
 }
 
-// exampleModel is an instance of the Model struct that can be used for testing.
-var exampleModel = model{
-	ObjectName: "Entry",
-	Package:    "package entry",
-}
-
 // TestRenderFuncs is a unit test that verifies the output of each rendering function.
 func TestRenderFuncs(t *testing.T) {
-	require.NoError(t, os.Chdir("../../cmd"))
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test           string          // Name of the test case.
@@ -53,6 +46,14 @@ func TestRenderFuncs(t *testing.T) {
 			outputTestName: render.TddOutputPath,
 		},
 	}
+
+	// exampleModel is an instance of the Model struct that can be used for testing.
+	exampleModel := model{
+		ObjectName: "Entry",
+		Package:    "package entry",
+	}
+
+	require.NoError(t, os.Chdir("../../cmd"))
 
 	// Iterate over each test case and run the test.
 	for _, tc := range testCases {

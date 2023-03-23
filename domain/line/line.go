@@ -11,7 +11,7 @@ import (
 	"github.com/cezarovici/goLayouter/helpers/stack"
 )
 
-// Line represents a line of text and its indentation Level
+// Line represents a line of text and its indentation Level.
 type Line struct {
 	Info  string // the text Package of the line
 	Level int    // the indentation Level of the line
