@@ -14,13 +14,13 @@ type Folder struct {
 var _ domain.FileOperations = &Folder{}
 
 func (f Folder) GetContent() []byte {
-	return []uint8([]byte(nil))
+	return ([]byte(nil))
 }
 
 func (f Folder) Write([]byte) error {
-	errWrite := os.MkdirAll(f.Path, 0755)
+	errWrite := os.MkdirAll(f.Path, 0o755)
 	if errWrite != nil {
-		return &apperrors.ErrDomain{
+		return &apperrors.DomainError{
 			Caller:     "object file -> Write",
 			MethodName: "file.Writes",
 			Issue:      errWrite,

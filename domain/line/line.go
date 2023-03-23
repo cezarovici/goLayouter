@@ -11,10 +11,10 @@ import (
 	"github.com/cezarovici/goLayouter/helpers/stack"
 )
 
-// Line represents a line of text and its indentation level
+// Line represents a line of text and its indentation Level
 type Line struct {
-	info  string // the text Package of the line
-	level int    // the indentation level of the line
+	Info  string // the text Package of the line
+	Level int    // the indentation Level of the line
 }
 
 // Lines is a slice of Line
@@ -27,25 +27,26 @@ const (
 	_testPackageType2 = "# tt"         // test package type 2
 )
 
-// ConvertToLine converts a string to a Line struct, parsing the indentation level
+// ConvertToLine converts a string to a Line struct, parsing the indentation Level
 func ConvertToLine(line string) Line {
 	// Trim any whitespace from the beginning of the line
 	lineInfo := strings.TrimLeft(line, " ")
 
-	// Calculate the indentation level by subtracting the length of the trimmed text
+	// Calculate the indentation Level by subtracting the length of the trimmed text
 	// from the length of the original line
 	lineLevel := len(line) - len(lineInfo)
 
 	return Line{
-		info:  lineInfo,
-		level: lineLevel,
+		Info:  lineInfo,
+		Level: lineLevel,
 	}
 }
 
-// NewLines converts a slice of strings to a slice of Lines, using ConvertToLine to parse each string
-func NewLines(Package []string) (Lines, error) {
+// NewLines converts a slice of strings to a slice of Lines,
+// using ConvertToLine to parse each string
+func NewLines(content []string) (Lines, error) {
 	// Return an error if there is no Package to parse
-	if len(Package) == 0 {
+	if len(content) == 0 {
 		return nil, fmt.Errorf("no Package parsed")
 	}
 
@@ -53,7 +54,7 @@ func NewLines(Package []string) (Lines, error) {
 	var res Lines
 
 	// Parse each string in the Package slice and append the resulting Line to the res slice
-	for _, line := range Package {
+	for _, line := range content {
 		res = append(res, ConvertToLine(line))
 	}
 
@@ -67,7 +68,7 @@ func (lines Lines) ToItems() *item.Items {
 	// Set a flag to indicate if this is the first line being processed
 	firstLine := true
 
-	// Create stacks to keep track of the paths and indentation levels
+	// Create stacks to keep track of the paths and indentation Levels
 	var pathStack stack.Stack
 	var indentStack stack.Stack
 
@@ -77,7 +78,7 @@ func (lines Lines) ToItems() *item.Items {
 	// Iterate over each line in the input file
 	for _, line := range lines {
 		// Check the type of the line (empty, path, or file)
-		switch helpers.TypeOf(line.info) {
+		switch helpers.TypeOf(line.Info) {
 		case "empty":
 			// If the line is empty, skip it
 			continue
@@ -88,9 +89,10 @@ func (lines Lines) ToItems() *item.Items {
 			indentStack = nil
 			pathStack = nil
 
-			// If the path is not the current directory, add it to the path stack and create a new item
-			if !helpers.ToCurentDirectory(line.info) {
-				pathStack.Push(helpers.RemoveSelector(line.info))
+			// If the path is not the current directory,
+			// add it to the path stack and create a new item
+			if !helpers.ToCurentDirectory(line.Info) {
+				pathStack.Push(helpers.RemoveSelector(line.Info))
 				indentStack.Push(-1)
 
 				// Create a new item with the path and kind of the current line
@@ -98,7 +100,7 @@ func (lines Lines) ToItems() *item.Items {
 					ObjectPath: folder.Folder{
 						Path: pathStack.String(),
 					},
-					Kind: helpers.KindOfFile(line.info),
+					Kind: helpers.KindOfFile(line.Info),
 				})
 
 				// Set firstLine to false since we have already processed the first line
@@ -108,19 +110,21 @@ func (lines Lines) ToItems() *item.Items {
 				continue
 			}
 
-			// If the path is the current directory, push the current level to the indent stack and continue
-			indentStack.Push(line.level)
+			// If the path is the current directory,
+			// push the current Level to the indent stack and continue
+			indentStack.Push(line.Level)
 
 			continue
 
 		// Check if the type of the line is "package"
 		case "package":
 			// Push the package name onto the package stack
-			packageStack.Push(helpers.RemoveSelector(line.info))
+			packageStack.Push(helpers.RemoveSelector(line.Info))
 			// Continue to the next line
 			continue
 
-		// If the current entry in the path stack is a file, we need to determine the package name
+		// If the current entry in the path stack is a file,
+		// we need to determine the package name
 		// based on the directory structure of the file path
 		case "file":
 			// Get the last path based on the directory structure of the file path
@@ -147,7 +151,7 @@ func (lines Lines) ToItems() *item.Items {
 			}
 
 			// Split the line into files based on the current package name
-			files := helpers.SplitLine(line.info, packageStack.Peek().(string))
+			files := helpers.SplitLine(line.Info, packageStack.Peek().(string))
 
 			// Iterate over the files and determine the package name and kind for each file
 			for _, fileName := range files {
@@ -192,10 +196,11 @@ func (lines Lines) ToItems() *item.Items {
 			continue
 		}
 
-		// If this is the first line of the file, we need to push the file path onto the path stack
-		// and push an initial indentation level (0) onto the indent stack
+		// If this is the first line of the file,
+		// we need to push the file path onto the path stack
+		// and push an initial indentation Level (0) onto the indent stack
 		if firstLine {
-			pathStack.Push(line.info)
+			pathStack.Push(line.Info)
 			indentStack.Push(0)
 
 			// Create a new Folder object representing the directory containing the file
@@ -206,7 +211,7 @@ func (lines Lines) ToItems() *item.Items {
 			// Add the Folder object to the list of res
 			res = append(res, item.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(line.info),
+				Kind:       helpers.KindOfFile(line.Info),
 			})
 
 			// Set the firstLine flag to false so that this block of code is not executed again
@@ -215,52 +220,52 @@ func (lines Lines) ToItems() *item.Items {
 			continue
 		}
 
-		// If the line level is greater than the top level on the stack, the line is a
+		// If the line Level is greater than the top Level on the stack, the line is a
 		// subdirectory and should be pushed onto the stack. A new folder object should
 		// be created and added to the res list.
-		if line.level > indentStack.Peek().(int) {
-			pathStack.Push(line.info)
-			indentStack.Push(line.level)
+		if line.Level > indentStack.Peek().(int) {
+			pathStack.Push(line.Info)
+			indentStack.Push(line.Level)
 
 			folder := folder.Folder{
 				Path: pathStack.String(),
 			}
 			res = append(res, item.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(line.info),
+				Kind:       helpers.KindOfFile(line.Info),
 			})
 
 			continue
 		}
 
-		// If the line level is equal to the top level on the stack, the line is in the
+		// If the line Level is equal to the top Level on the stack, the line is in the
 		// same directory as the previous line and should replace the previous line on
 		// the stack. A new folder object should be created and added to the res list.
-		if line.level == indentStack.Peek().(int) {
+		if line.Level == indentStack.Peek().(int) {
 			pathStack.Pop()
 
-			pathStack.Push(line.info)
-			indentStack.Push(line.level)
+			pathStack.Push(line.Info)
+			indentStack.Push(line.Level)
 
 			res = append(res, item.Item{
 				ObjectPath: folder.Folder{
 					Path: pathStack.String(),
 				},
-				Kind: helpers.KindOfFile(line.info),
+				Kind: helpers.KindOfFile(line.Info),
 			})
 
 			continue
 		}
 
-		// If the line level is less than the top level on the stack, we need to
+		// If the line Level is less than the top Level on the stack, we need to
 		// pop Items off the stack until we reach the parent directory of the current line.
 		// Then, we can add the current line to the stack and create a new folder object
 		// to be added to the Items list.
-		for line.level < indentStack.Peek().(int) && len(indentStack) > 1 {
+		for line.Level < indentStack.Peek().(int) && len(indentStack) > 1 {
 			pathStack.Pop()
 			indentStack.Pop()
 
-			if line.level == indentStack.Peek().(int) {
+			if line.Level == indentStack.Peek().(int) {
 				pathStack.Pop()
 				indentStack.Pop()
 
@@ -268,18 +273,18 @@ func (lines Lines) ToItems() *item.Items {
 			}
 		}
 
-		pathStack.Push(line.info)
-		indentStack.Push(line.level)
+		pathStack.Push(line.Info)
+		indentStack.Push(line.Level)
 
 		res = append(res, item.Item{
 			ObjectPath: folder.Folder{
 				Path: pathStack.String(),
 			},
-			Kind: helpers.KindOfFile(line.info),
+			Kind: helpers.KindOfFile(line.Info),
 		})
 	}
 
 	return &res
 }
 
-//TODO add go.mod yaml.config github actions
+// TODO add go.mod yaml.config github actions

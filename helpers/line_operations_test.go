@@ -1,9 +1,10 @@
-package helpers
+package helpers_test
 
 import (
 	"testing"
 
 	"github.com/cezarovici/goLayouter/domain/item"
+	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -19,7 +20,7 @@ func TestToCurentDirectory(t *testing.T) {
 
 	testCases := []testCase{
 		{
-			test:   "path to curent directory",
+			test:   "path to current directory",
 			input:  "! .",
 			output: true,
 		},
@@ -32,7 +33,7 @@ func TestToCurentDirectory(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, ToCurentDirectory(tc.input))
+			require.Equal(t, tc.output, helpers.ToCurentDirectory(tc.input))
 		})
 	}
 }
@@ -66,7 +67,7 @@ func TestRemoveSelector(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, RemoveSelector(tc.input))
+			require.Equal(t, tc.output, helpers.RemoveSelector(tc.input))
 		})
 	}
 }
@@ -116,7 +117,7 @@ func TestKindOfFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, KindOfFile(tc.input))
+			require.Equal(t, tc.output, helpers.KindOfFile(tc.input))
 		})
 	}
 }
@@ -151,7 +152,7 @@ func TestIsTestPackage(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, IsTestPackage(tc.input))
+			require.Equal(t, tc.output, helpers.IsTestPackage(tc.input))
 		})
 	}
 }
@@ -188,7 +189,7 @@ func TestCreatingGolangTestFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			tc.checkResult(CreateGolangTestFile(tc.input))
+			tc.checkResult(helpers.CreateGolangTestFile(tc.input))
 		})
 	}
 }
@@ -228,7 +229,7 @@ func TestSplitline(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, SplitLine(tc.input, tc.packageName))
+			require.Equal(t, tc.output, helpers.SplitLine(tc.input, tc.packageName))
 		})
 	}
 }
@@ -270,7 +271,7 @@ func TestGetPackageFromPath(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, GetPackageFrom(tc.input))
+			require.Equal(t, tc.output, helpers.GetPackageFrom(tc.input))
 		})
 	}
 }
@@ -317,7 +318,7 @@ func TestRemoveObjectKey(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, RemoveObjectPrefix(tc.input))
+			require.Equal(t, tc.output, helpers.RemoveObjectPrefix(tc.input))
 		})
 	}
 }
@@ -354,7 +355,7 @@ func TestExtractObjectFrom(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, ExtractObjectFrom(tc.input))
+			require.Equal(t, tc.output, helpers.ExtractObjectFrom(tc.input))
 		})
 	}
 }
@@ -391,7 +392,7 @@ func TestConvertToObjectName(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, ConvertToObjectName(tc.input))
+			require.Equal(t, tc.output, helpers.ConvertToObjectName(tc.input))
 		})
 	}
 }

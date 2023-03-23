@@ -1,4 +1,4 @@
-package line
+package line_test
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
 	"github.com/cezarovici/goLayouter/domain/item"
+	"github.com/cezarovici/goLayouter/domain/line"
 	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
@@ -15,39 +16,39 @@ func TestConvertToLine(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
-		output Line
+		output line.Line
 	}
 
 	testCases := []testCase{
 		{
-			test:  "first line",
+			test:  "first line.line",
 			input: "folder1",
-			output: Line{
-				info:  "folder1",
-				level: 0,
+			output: line.Line{
+				Info:  "folder1",
+				Level: 0,
 			},
 		},
 		{
-			test:  "different level",
+			test:  "different Level",
 			input: "  subfolder",
-			output: Line{
-				info:  "subfolder",
-				level: 2,
+			output: line.Line{
+				Info:  "subfolder",
+				Level: 2,
 			},
 		},
 		{
 			test:  "package",
 			input: " # package",
-			output: Line{
-				info:  "# package",
-				level: 1,
+			output: line.Line{
+				Info:  "# package",
+				Level: 1,
 			},
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, ConvertToLine(tc.input))
+			require.Equal(t, tc.output, line.ConvertToLine(tc.input))
 		})
 	}
 }
@@ -56,7 +57,7 @@ func TestNewLines(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  []string
-		output Lines
+		output line.Lines
 
 		errorExpected error
 	}
@@ -72,16 +73,16 @@ func TestNewLines(t *testing.T) {
 
 		// Happy cases
 		{
-			test:  "2 lines",
+			test:  "2 line.lines",
 			input: []string{"folder1", " subfolder1"},
-			output: Lines{
-				Line{
-					info:  "folder1",
-					level: 0,
+			output: line.Lines{
+				line.Line{
+					Info:  "folder1",
+					Level: 0,
 				},
-				Line{
-					info:  "subfolder1",
-					level: 1,
+				line.Line{
+					Info:  "subfolder1",
+					Level: 1,
 				},
 			},
 			errorExpected: nil,
@@ -90,9 +91,9 @@ func TestNewLines(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			lines, errCreatingLines := NewLines(tc.input)
+			lines, errCreatinLines := line.NewLines(tc.input)
 
-			require.Equal(t, tc.errorExpected, errCreatingLines)
+			require.Equal(t, tc.errorExpected, errCreatinLines)
 			require.Equal(t, tc.output, lines)
 		})
 	}
@@ -356,11 +357,10 @@ func TestToItems(t *testing.T) {
 			inputPackage, errorReading := helpers.ReadFile(tc.input)
 			require.NoError(t, errorReading)
 
-			lines, errNewLines := NewLines(inputPackage)
+			lines, errNewLines := line.NewLines(inputPackage)
 			require.NoError(t, errNewLines)
 
 			require.Equal(t, tc.expectedItems, lines.ToItems())
 		})
 	}
-
 }

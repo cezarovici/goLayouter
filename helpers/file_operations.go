@@ -9,7 +9,8 @@ import (
 	"github.com/cezarovici/goLayouter/domain/item"
 )
 
-// ReadFile reads a file from the parsed file path and returns its contents as a slice of strings.
+// ReadFile reads a file from the parsed file path
+// and returns its contents as a slice of strings.
 func ReadFile(filePath string) ([]string, error) {
 	// Check if the file exists
 	_, errExists := os.Stat(filePath)

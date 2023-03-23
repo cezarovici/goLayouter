@@ -23,11 +23,11 @@ func (f File) GetContent() []byte {
 }
 
 // Write writes the Package of the file to disk at the specified path.
-func (f File) Write(Package []byte) error {
+func (f File) Write(_ []byte) error {
 	// Create the file at the specified path.
 	file, errCreate := os.Create(f.Path)
 	if errCreate != nil {
-		return &apperrors.ErrDomain{
+		return &apperrors.DomainError{
 			Caller:     "object file -> Write",
 			MethodName: "os.Create",
 			Issue:      errCreate,
@@ -37,7 +37,7 @@ func (f File) Write(Package []byte) error {
 	// Write the Package of the file to disk.
 	_, errWrite := file.Write([]byte(f.Package))
 	if errWrite != nil {
-		return &apperrors.ErrDomain{
+		return &apperrors.DomainError{
 			Caller:     "object file -> Write",
 			MethodName: "file.Writes",
 			Issue:      errWrite,

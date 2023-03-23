@@ -1,33 +1,34 @@
-package folder
+package folder_test
 
 import (
 	"os"
 	"testing"
 
+	"github.com/cezarovici/goLayouter/domain/folder"
 	"github.com/stretchr/testify/require"
 )
 
-// TestWrite is a unit test function for the Write() method of the Folder struct.
+// TestWrite is a unit test function for the Write() method of the folder.Folder struct.
 func TestWrite(t *testing.T) {
 	// Define a struct to represent a test case
 	type testCase struct {
-		test          string // A description of the test case
-		input         Folder // The input Folder object for the test
-		alreadyExists bool   // Whether the input Folder object already exists
-		expectedError error  // The expected error returned by the Write() method
+		test          string        // A description of the test case
+		input         folder.Folder // The input folder.Folder object for the test
+		alreadyExists bool          // Whether the input folder.Folder object already exists
+		expectedError error         // The expected error returned by the Write() method
 	}
 
 	// Define a list of test cases
 	testCases := []testCase{
 		{
 			test:          "already existing directory",
-			input:         Folder{"../folder"}, // A Folder object with an existing path
+			input:         folder.Folder{"../folder.folder"}, // A folder.Folder object with an existing path
 			alreadyExists: true,
 			expectedError: nil,
 		},
 		{
 			test:          "new directory",
-			input:         Folder{"newFolder"}, // A Folder object with a new path
+			input:         folder.Folder{"newfolder.Folder"}, // A folder.Folder object with a new path
 			alreadyExists: false,
 			expectedError: nil,
 		},
@@ -42,7 +43,7 @@ func TestWrite(t *testing.T) {
 			// Assert that the error returned by Write() matches the expected error
 			require.Equal(t, tc.expectedError, err)
 
-			// If the input Folder object doesn't exist yet, assert that it was successfully removed
+			// If the input folder.Folder object doesn't exist yet, assert that it was successfully removed
 			if !tc.alreadyExists {
 				require.NoError(t, os.Remove(tc.input.Path))
 			}
@@ -51,21 +52,21 @@ func TestWrite(t *testing.T) {
 }
 
 func TestGetContent(t *testing.T) {
-	folder := Folder{
-		Path: "folder1",
+	folder := folder.Folder{
+		Path: "folder.folder1",
 	}
 
 	require.NoError(t, folder.Write(nil))
-	require.Equal(t, []uint8([]byte(nil)), folder.GetContent())
+	require.Equal(t, []byte(nil), folder.GetContent())
 	require.NoError(t, os.Remove(folder.Path))
 }
 
 func TestGetPath(t *testing.T) {
-	folder := Folder{
-		Path: "folder1",
+	folder := folder.Folder{
+		Path: "folder.folder1",
 	}
 
 	require.NoError(t, folder.Write(nil))
-	require.Equal(t, "folder1", folder.GetPath())
+	require.Equal(t, "folder.folder1", folder.GetPath())
 	require.NoError(t, os.Remove(folder.Path))
 }
