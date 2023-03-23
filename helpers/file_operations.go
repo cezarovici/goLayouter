@@ -13,8 +13,7 @@ import (
 // and returns its contents as a slice of strings.
 func ReadFile(filePath string) ([]string, error) {
 	// Check if the file exists
-	_, errExists := os.Stat(filePath)
-	if errExists != nil {
+	if _, errExists := os.Stat(filePath); errExists != nil {
 		return nil, fmt.Errorf("not a valid file parsed")
 	}
 

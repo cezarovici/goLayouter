@@ -17,7 +17,7 @@ type Line struct {
 	Level int    // the indentation Level of the line
 }
 
-// Lines is a slice of Line
+// Lines is a slice of Line.
 type Lines []Line
 
 // Constants for default and test package types

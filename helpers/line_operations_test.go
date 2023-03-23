@@ -240,6 +240,8 @@ func TestSplitline(t *testing.T) {
 // Otherwise, it splits the input path by the "/" separator and returns the package name declared in the last folder.
 // For example, given the input "folder/subfolder1/subsubfolder1", the function returns "package subsubfolder1".
 func TestGetPackageFromPath(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -271,12 +273,14 @@ func TestGetPackageFromPath(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
 			require.Equal(t, tc.output, helpers.GetPackageFrom(tc.input))
 		})
 	}
 }
 
 func TestRemoveObjectKey(t *testing.T) {
+	t.Parallel()
 	type testCase struct {
 		test   string
 		input  string
@@ -318,6 +322,7 @@ func TestRemoveObjectKey(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
 			require.Equal(t, tc.output, helpers.RemoveObjectPrefix(tc.input))
 		})
 	}
@@ -355,12 +360,14 @@ func TestExtractObjectFrom(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
 			require.Equal(t, tc.output, helpers.ExtractObjectFrom(tc.input))
 		})
 	}
 }
 
 func TestConvertToObjectName(t *testing.T) {
+	t.Parallel()
 	type testCase struct {
 		test   string
 		input  string
@@ -392,6 +399,7 @@ func TestConvertToObjectName(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
 			require.Equal(t, tc.output, helpers.ConvertToObjectName(tc.input))
 		})
 	}

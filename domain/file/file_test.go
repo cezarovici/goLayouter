@@ -11,6 +11,7 @@ import (
 // TestWrite is a unit test that verifies the behavior of the Write() method
 // of the file.File struct when writing Package to disk.
 func TestWrite(t *testing.T) {
+	t.Parallel()
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test          string    // Name of the test case.
@@ -62,6 +63,8 @@ func TestWrite(t *testing.T) {
 }
 
 func TestGetContent(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test  string
 		input file.File
@@ -89,12 +92,16 @@ func TestGetContent(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, tc.input.GetContent())
 		})
 	}
 }
 
 func TestGetPath(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test  string
 		input file.File
@@ -122,6 +129,8 @@ func TestGetPath(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, tc.input.GetPath())
 		})
 	}
