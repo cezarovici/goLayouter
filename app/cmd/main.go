@@ -24,34 +24,48 @@ import (
 // 4 - failed to create service
 // 5 - failed to render service
 
+const (
+	ExitCodeSuccess = iota
+	ExitCodeNoFileSource
+	ExitCodeInvalidArgs
+	ExitCodeParsingContent
+	ExitCodeCreateService
+	ExitCodeRender
+)
+
+const (
+	MinimumArgs = 2
+	FirstArg    = 1
+)
+
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < MinimumArgs {
 		fmt.Println("Error: no file source provided")
-		os.Exit(1)
+		os.Exit(ExitCodeNoFileSource)
 	}
 
-	fileSource := os.Args[1]
+	fileSource := os.Args[FirstArg]
 	content, err := helpers.ReadFile(fileSource)
 	if err != nil {
 		fmt.Printf("Error: failed to read file: %v\n", err)
-		os.Exit(2)
+		os.Exit(ExitCodeInvalidArgs)
 	}
 
 	lines, err := line.NewLines(content)
 	if err != nil {
 		fmt.Printf("Error: failed to create lines from file: %v\n", err)
-		os.Exit(3)
+		os.Exit(ExitCodeParsingContent)
 	}
 
 	items := lines.ToItems()
 	serv, errNewService := service.NewService(*items, render.Funcs)
 	if errNewService != nil {
 		fmt.Printf("Error: failed to create service: %v\n", err)
-		os.Exit(4)
+		os.Exit(ExitCodeCreateService)
 	}
 
 	if err := serv.Render(); err != nil {
 		fmt.Printf("Error: failed to render service: %v\n", err)
-		os.Exit(5)
+		os.Exit(ExitCodeRender)
 	}
 }
