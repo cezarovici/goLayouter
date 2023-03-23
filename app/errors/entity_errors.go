@@ -5,22 +5,22 @@ import (
 	"time"
 )
 
-type ErrService struct {
-	Caller     string
-	MethodName string
-	Issue      error
-
-	NanosecondsDuration int64
+type ServiceError struct {
+	Caller              string
+	MethodName          string
+	Issue               error
 	WithTime            bool
+	NanosecondsDuration int64
 }
 
 const areaErrService = "Service"
 
-func (e *ErrService) Error() string {
+func (e *ServiceError) Error() string {
 	var res [4]string
 
 	if e.WithTime {
-		res[0] = fmt.Sprintf("\nArea: %s [%d] - duration nanoseconds: %d", areaErrService, time.Now().Unix(), e.NanosecondsDuration)
+		res[0] = fmt.Sprintf("\nArea: %s [%d] - duration nanoseconds: %d", areaErrService,
+			time.Now().Unix(), e.NanosecondsDuration)
 	} else {
 		res[0] = fmt.Sprintf("\nArea: %s", areaErrService)
 	}
@@ -32,7 +32,7 @@ func (e *ErrService) Error() string {
 	return res[0] + "\n" + res[1] + "\n" + res[2] + "\n" + res[3]
 }
 
-type ErrDomain struct {
+type DomainError struct {
 	Caller     string
 	MethodName string
 	Issue      error
@@ -42,7 +42,7 @@ type ErrDomain struct {
 
 const areaErrDomain = "Domain"
 
-func (e *ErrDomain) Error() string {
+func (e *DomainError) Error() string {
 	var res [4]string
 
 	if e.WithTime {
@@ -58,7 +58,7 @@ func (e *ErrDomain) Error() string {
 	return res[0] + "\n" + res[1] + "\n" + res[2] + "\n" + res[3]
 }
 
-type ErrRender struct {
+type RenderError struct {
 	Caller     string
 	MethodName string
 	Issue      error
@@ -69,11 +69,12 @@ type ErrRender struct {
 
 const areaErrRender = "Render"
 
-func (e *ErrRender) Error() string {
+func (e *RenderError) Error() string {
 	var res [4]string
 
 	if e.WithTime {
-		res[0] = fmt.Sprintf("\nArea: %s [%d] - duration nanoseconds: %d", areaErrRender, time.Now().Unix(), e.NanosecondsDuration)
+		res[0] = fmt.Sprintf("\nArea: %s [%d] - duration nanoseconds: %d",
+			areaErrRender, time.Now().Unix(), e.NanosecondsDuration)
 	} else {
 		res[0] = fmt.Sprintf("\nArea: %s", areaErrRender)
 	}

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cezarovici/goLayouter/app/services"
-	"github.com/cezarovici/goLayouter/app/services/renders"
+	"github.com/cezarovici/goLayouter/app/service"
+	"github.com/cezarovici/goLayouter/app/service/render"
 	"github.com/cezarovici/goLayouter/domain/line"
 	"github.com/cezarovici/goLayouter/helpers"
 )
@@ -44,7 +44,7 @@ func main() {
 	}
 
 	items := lines.ToItems()
-	serv, errNewService := services.NewService(*items, renders.RenderFuncs)
+	serv, errNewService := service.NewService(*items, render.Funcs)
 	if errNewService != nil {
 		fmt.Printf("Error: failed to create service: %v\n", err)
 		os.Exit(4)
