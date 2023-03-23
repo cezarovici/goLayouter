@@ -1,55 +1,56 @@
-package stack
+package stack_test
 
 import (
 	"testing"
 
+	"github.com/cezarovici/goLayouter/helpers/stack"
 	"github.com/stretchr/testify/require"
 )
 
 func TestPush(t *testing.T) {
-	var stack = Stack{"folder1"}
+	var res = stack.Stack{"folder1"}
 
 	type testCase struct {
 		test   string
 		input  string
-		output Stack
+		output stack.Stack
 	}
 
 	testCases := []testCase{
 		{
 			test:   "Push one element",
 			input:  "folder2",
-			output: Stack{"folder1", "folder2"},
+			output: stack.Stack{"folder1", "folder2"},
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			stack.Push(tc.input)
-			require.Equal(t, tc.output, stack)
+			res.Push(tc.input)
+			require.Equal(t, tc.output, res)
 		})
 	}
 }
 
 func TestPop(t *testing.T) {
-	var stack = Stack{"folder1", "folder2"}
+	var res = stack.Stack{"folder1", "folder2"}
 	type testCase struct {
 		test string
 
-		output Stack
+		output stack.Stack
 	}
 
 	testCases := []testCase{
 		{
 			test:   "Pop one element",
-			output: Stack{"folder1"},
+			output: stack.Stack{"folder1"},
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			stack.Pop()
-			require.Equal(t, tc.output, stack)
+			res.Pop()
+			require.Equal(t, tc.output, res)
 		})
 	}
 }
@@ -57,19 +58,19 @@ func TestPop(t *testing.T) {
 func TestIsEmpty(t *testing.T) {
 	type testCase struct {
 		test   string
-		input  Stack
+		input  stack.Stack
 		output bool
 	}
 
 	testCases := []testCase{
 		{
-			test:   "empty stack",
-			input:  Stack{},
+			test:   "empty stack.stack",
+			input:  stack.Stack{},
 			output: true,
 		},
 		{
-			test:   "non-empty stack",
-			input:  Stack{"file"},
+			test:   "non-empty stack.stack",
+			input:  stack.Stack{"file"},
 			output: false,
 		},
 	}
@@ -84,19 +85,19 @@ func TestIsEmpty(t *testing.T) {
 func TestPeek(t *testing.T) {
 	type testCase struct {
 		test   string
-		input  Stack
+		input  stack.Stack
 		output any
 	}
 
 	testCases := []testCase{
 		{
 			test:   "non empty",
-			input:  Stack{"file", "folder"},
+			input:  stack.Stack{"file", "folder"},
 			output: "folder",
 		},
 		{
-			test:   "empty stack",
-			input:  Stack{},
+			test:   "empty stack.stack",
+			input:  stack.Stack{},
 			output: nil,
 		},
 	}
@@ -111,19 +112,19 @@ func TestPeek(t *testing.T) {
 func TestString(t *testing.T) {
 	type testCase struct {
 		test   string
-		input  Stack
+		input  stack.Stack
 		output string
 	}
 
 	testCases := []testCase{
 		{
 			test:   "non empty",
-			input:  Stack{"file", "folder"},
+			input:  stack.Stack{"file", "folder"},
 			output: "file/folder",
 		},
 		{
-			test:   "empty stack",
-			input:  Stack{},
+			test:   "empty stack.stack",
+			input:  stack.Stack{},
 			output: "",
 		},
 	}
