@@ -1,0 +1,16 @@
+// package entry contains Entry object definition.
+package entry
+
+// Entry represents a ...
+type Entry struct {
+}
+
+// NewEntry returns a new instance of Entry.
+func NewEntry() (*Entry, error) {
+	return nil, nil
+}
+
+// Xxx is an example method on Entry.
+func (obj Entry) Xxx() {
+	// TODO: implement Xxx method
+}

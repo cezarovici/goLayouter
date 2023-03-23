@@ -1,0 +1,11 @@
+package entry
+
+import (
+	"testing"
+)
+
+// TestEntry tests the Entry type.
+func TestEntry(t *testing.T) {
+//TODO add TestEntry
+t.Errorf("TestEntry not implemented")
+}
