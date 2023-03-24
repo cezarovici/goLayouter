@@ -13,17 +13,17 @@ var Funcs = map[item.KindOfFile]func(string, any) error{
 }
 
 const (
-	// Path from main to run templates:
+	// Path from main to run templates.
 	pathFromMain = "../service/templates/"
 )
 
-// Input and output directories:
+// Input and output directories.
 const (
 	inputDir  = "input/"
 	outputDir = "output/"
 )
 
-// Output file paths:
+// Output file paths.
 const (
 	MainOutputPath   = pathFromMain + outputDir + "main_result"
 	ObjectOutputPath = pathFromMain + outputDir + "object_result"
@@ -31,7 +31,7 @@ const (
 	TddOutputPath    = pathFromMain + outputDir + "tableDriven_result"
 )
 
-// Input file paths
+// Input file paths.
 const (
 	MainInputPath   = pathFromMain + inputDir + "main.gotmpl"
 	ObjectInputPath = pathFromMain + inputDir + "object.gotmpl"

@@ -2,6 +2,7 @@ package service_test
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"testing"
 
@@ -15,6 +16,7 @@ import (
 )
 
 func TestRender(t *testing.T) {
+	t.Parallel()
 	// Define some test data
 	const (
 		filePath    = "main.go"
@@ -46,11 +48,15 @@ func TestRender(t *testing.T) {
 	require.NoError(t, errStat)
 
 	// Clean up the test data
-	require.NoError(t, os.Remove(filePath))
-	require.NoError(t, os.Remove(folderPath))
+	defer func() {
+		require.NoError(t, os.Remove(filePath))
+		require.NoError(t, os.Remove(folderPath))
+	}()
 }
 
 func TestNewService(t *testing.T) {
+	t.Parallel()
+
 	items := item.Items{
 		{ObjectPath: file.File{Path: "/path/to/template1.tmpl", Package: "Template 1 data"}, Kind: item.NormalFile},
 		{ObjectPath: file.File{Path: "/path/to/template2.tmpl", Package: "Template 2 data"}, Kind: item.NormalFile},
@@ -66,7 +72,7 @@ func TestNewService(t *testing.T) {
 	expectedErr := &apperrors.ServiceError{
 		Caller:     "Service",
 		MethodName: "NewService",
-		Issue:      errors.New("no items parsed"),
+		Issue:      fmt.Errorf("no items parsed"),
 	}
 	if !errors.As(err, &expectedErr) {
 		t.Errorf("NewService() error = %v, expected %v", err, expectedErr)

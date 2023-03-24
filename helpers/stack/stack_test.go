@@ -9,7 +9,7 @@ import (
 
 func TestPush(t *testing.T) {
 	t.Parallel()
-	res := stack.Stack{"folder1"}
+	var res = stack.Stack{"folder1"}
 
 	type testCase struct {
 		test   string
@@ -25,12 +25,14 @@ func TestPush(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			res.Push(tc.input)
-			require.Equal(t, tc.output, res)
+			res.Push(currentTestCase.input)
+			require.Equal(t, currentTestCase.output, res)
 		})
 	}
 }
@@ -52,12 +54,14 @@ func TestPop(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
 			res.Pop()
-			require.Equal(t, tc.output, res)
+			require.Equal(t, currentTestCase.output, res)
 		})
 	}
 }
@@ -84,11 +88,12 @@ func TestIsEmpty(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, tc.input.IsEmpty())
+			require.Equal(t, currentTestCase.output, currentTestCase.input.IsEmpty())
 		})
 	}
 }
@@ -115,11 +120,13 @@ func TestPeek(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, tc.input.Peek())
+			require.Equal(t, currentTestCase.output, currentTestCase.input.Peek())
 		})
 	}
 }
@@ -146,11 +153,13 @@ func TestString(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, tc.input.String())
+			require.Equal(t, currentTestCase.output, currentTestCase.input.String())
 		})
 	}
 }

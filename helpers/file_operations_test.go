@@ -1,7 +1,7 @@
 package helpers_test
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/cezarovici/goLayouter/helpers"
@@ -30,13 +30,13 @@ func TestReadFile(t *testing.T) {
 			test:          "empty file",
 			input:         testCasesPath + "emptyFile",
 			output:        nil,
-			errorExpected: errors.New("empty file passed"),
+			errorExpected: fmt.Errorf("empty file passed"),
 		},
 		{
 			test:          "no valid file",
 			input:         testCasesPath + "invalid path",
 			output:        nil,
-			errorExpected: errors.New("not a valid file parsed"),
+			errorExpected: fmt.Errorf("not a valid file parsed"),
 		},
 
 		// Valid cases
@@ -54,14 +54,16 @@ func TestReadFile(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			output, errorReading := helpers.ReadFile(tc.input)
+			output, errorReading := helpers.ReadFile(currentTestCase.input)
 
-			require.Equal(t, tc.errorExpected, errorReading)
-			require.Equal(t, output, tc.output)
+			require.Equal(t, currentTestCase.errorExpected, errorReading)
+			require.Equal(t, output, currentTestCase.output)
 		})
 	}
 }
@@ -100,11 +102,13 @@ func TestTypeOfFile(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.TypeOf(tc.input))
+			require.Equal(t, currentTestCase.output, helpers.TypeOf(currentTestCase.input))
 		})
 	}
 }

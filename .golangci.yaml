@@ -1,6 +1,6 @@
 run:
   build-tags:
-    - goLayouter
+    - infra
   # timeout for analysis, e.g. 30s, 5m, default is 1m
   deadline: 5m
 
@@ -8,7 +8,7 @@ run:
   # can use regexp here: generated.*, regexp is applied on full path;
   # default value is empty list, but next dirs are always skipped independently
   # from this option's value:
-  # vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
+  #   	vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
   skip-dirs:
     - proto
 
@@ -17,110 +17,154 @@ run:
     - ".*\\.generated\\.go"
 
 linters:
-  enable-all: true
-  disable:
+  disable-all: true
+  enable:
+    - errcheck
+    - gocritic
+    - goconst
+    # - gofumpt
     - goimports
-    - golint
-    - varcheck
-    - structcheck
-    - maligned
-    - prealloc
-    - unused
-    - interfacer
+    - govet
+    - ineffassign
+    - lll
+    - misspell
+    - typecheck
+    - unconvert
+  fast: false
 
-  deadcode:
-    skip-unreachable: true
+linters-settings:
+  errcheck:
+    # report about not checking of errors in type assetions: `a := b.(MyStruct)`;
+    # default is false: such cases aren't reported by default.
+    check-type-assertions: false
 
-  dupl:
-    threshold: 100
-
-
-  gocyclo:
-    min-complexity: 10
-
-
-  gosimple:
-    min-confidence: 0
-
-
+    # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(numStr)`;
+    # default is false: such cases aren't reported by default.
+    check-blank: false
   govet:
+    # report about shadowed variables
     check-shadowing: false
-
-  staticcheck:
-    ignore:
-      - ST1005
-      - SA1019
-      - SA4006
-      - SA4008
-      - SA5009
-      - SA5010
-
-  unconvert:
-    ignore:
-      - 'time.Duration'
-
-  gosec:
-    exclude:
-      - 'G204'
-      - 'G307'
-
-  bodyclose:
-    whitelist:
-      - '*http.Request'
-      - '*net.TCPConn'
-      - '*tls.Conn'
-
-  scopelint:
-    check-parameter-shadowing: false
-    check-shadowing-imported: false
-
-  typecheck:
-    unused-global-variables-exclude:
-      - '.*_test\\.go'
-
+    enable:
+      - fieldalignment
+  golint:
+    # minimal confidence for issues, default is 0.8
+    min-confidence: 0.0
+  gofmt:
+    # simplify code: gofmt with `-s` option, true by default
+    simplify: true
+  goimports:
+    # put imports beginning with prefix after 3rd-party packages;
+    # it's a comma-separated list of prefixes
+    local-prefixes: istio.io/
+  maligned:
+    # print struct with more effective memory layout or not, false by default
+    suggest-new: true
+  misspell:
+    # Correct spellings using locale preferences for US or UK.
+    # Default is to use a neutral variety of English.
+    # Setting locale to US will correct the British spelling of 'colour' to 'color'.
+    locale: US
+    ignore-words:
+      - cancelled
   lll:
-    line-length: 120
-    tab-width: 2
+    # max line length, lines longer will be reported. Default is 120.
+    # '\t' is counted as 1 character by default, and can be changed with the tab-width option
+    line-length: 160
+    # tab width in spaces. Default to 1.
+    tab-width: 1
+  unused:
+    # treat code as a program (not a library) and report unused exported identifiers; default is false.
+    # XXX: if you enable this setting, unused will report a lot of false-positives in text editors:
+    # if it's called for subdir of a project it can't find funcs usages. All text editor integrations
+    # with golangci-lint call it on a directory with the changed file.
+    check-exported: false
+  unparam:
+    # call graph construction algorithm (cha, rta). In general, use cha for libraries,
+    # and rta for programs with main packages. Default is cha.
+    algo: cha
 
-  stylecheck:
-    allow-underscore-dangle: true
-    package-comments-first: false
-    type-comments-first: false
-    var-comments-first: false
-    function-comments-first: false
-    exported-first: true
-    underscore-dangle-exempt-list: ['_', 'Err.*', 'Unmarshal.*']
-    tag-char-case: 'lower'
-    tag-struct-aligned: true
-    tag-struct-lowercase: true
-    tag-struct-camelcase: false
-    tag-struct-uppercase: false
-    tag-struct-omit-empty: true
-    tag-json-lowercase: true
-    tag-yaml-lowercase: true
-    align-array-values: true
-    align-case-conditions: true
-    align-comments: true
-    align-function-parameters: true
-    align-struct-values: true
-    break-return-assignment: true
-    double-negation: true
-    unnecessary-else: true
-    unnecessary-first-var: true
-    unnecessary-semicolon: true
-    package-case: 'snake'
-    package-underscore-exempt-list: ['test']
-    receiver-name: 'r'
-    receiver-name-exempt-list: ['srv', 'db', 'mux']
-    short-if-assignment: true
-    simplify-boolean-expr: true
-    simplify-if-expr: true
-    simplify-switch-expr: true
-    space-after-cast: true
-    trim-white-space: true
-    unparam-name: 'unused'
-    unparam-exempt-list: ['ctx', 'cancel', 'err']
-    use-string-builder: true
-    use-tab-indent: true
-    var-group: 'aligned'
-    var-indent: true
+    # Inspect exported functions, default is false. Set to true if no external program/library imports your code.
+    # XXX: if you enable this setting, unparam will report a lot of false-positives in text editors:
+    # if it's called for subdir of a project it can't find external interfaces. All text editor integrations
+    # with golangci-lint call it on a directory with the changed file.
+    check-exported: false
+  gocritic:
+    enabled-checks:
+      - argOrder
+      - badCond
+      - boolExprSimplify
+      - builtinShadow
+      - captLocal
+      - caseOrder
+      - codegenComment
+      - commentedOutCode
+      - commentedOutImport
+      - defaultCaseOrder
+      - deprecatedComment
+      - docStub
+      - dupArg
+      - dupBranchBody
+      - dupCase
+      - dupSubExpr
+      - elseif
+      - emptyFallthrough
+      - equalFold
+      - flagDeref
+      - flagName
+      - hexLiteral
+      - indexAlloc
+      - initClause
+      - methodExprCall
+      - nilValReturn
+      - octalLiteral
+      - offBy1
+      - rangeExprCopy
+      - regexpMust
+      - sloppyLen
+      - stringXbytes
+      - switchTrue
+      - typeAssertChain
+      - typeSwitchVar
+      - typeUnparen
+      - underef
+      - unlambda
+      - unnecessaryBlock
+      - unslice
+      - valSwap
+      - weakCond
+
+  goconst: # https://github.com/jgautheron/goconst
+    # minimal occurrences count to trigger, 3 by default
+    min-occurrences: 3
+
+issues:
+  # List of regexps of issue texts to exclude, empty list by default.
+  # But independently from this option we use default exclude patterns,
+  # it can be disabled by `exclude-use-default: false`. To list all
+  # excluded by default patterns execute `golangci-lint run --help`
+  exclude:
+    - composite literal uses unkeyed fields
+
+  exclude-rules:
+    # Exclude some linters from running on test files.
+    - path: _test\.go$|^tests/|^samples/|fixtures\.go$
+      linters:
+        - errcheck
+        - maligned
+        - govet
+        - lll
+    - path: _mock\.go$|_event\.go$|^config/|infra/events\.go$
+      linters:
+        - govet
+
+  # Independently from option `exclude` we use default exclude patterns,
+  # it can be disabled by this option. To list all
+  # excluded by default patterns execute `golangci-lint run --help`.
+  # Default value for this option is true.
+  exclude-use-default: true
+
+  # Maximum issues count per one linter. Set to 0 to disable. Default is 50.
+  max-per-linter: 0
+
+  # Maximum count of issues with the same text. Set to 0 to disable. Default is 3.
+  max-same-issues: 0

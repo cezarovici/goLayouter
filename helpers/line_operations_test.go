@@ -33,11 +33,13 @@ func TestToCurentDirectory(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.ToCurentDirectory(tc.input))
+			require.Equal(t, currentTestCase.output, helpers.ToCurentDirectory(currentTestCase.input))
 		})
 	}
 }
@@ -71,11 +73,14 @@ func TestRemoveSelector(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.RemoveSelector(tc.input))
+			require.Equal(t, currentTestCase.output,
+				helpers.RemoveSelector(currentTestCase.input))
 		})
 	}
 }
@@ -125,11 +130,14 @@ func TestKindOfFile(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.KindOfFile(tc.input))
+			require.Equal(t, currentTestCase.output,
+				helpers.KindOfFile(currentTestCase.input))
 		})
 	}
 }
@@ -164,19 +172,22 @@ func TestIsTestPackage(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.IsTestPackage(tc.input))
+			require.Equal(t, currentTestCase.output,
+				helpers.IsTestPackage(currentTestCase.input))
 		})
 	}
 }
 
-// TestCreatingGolangTestFile is a test function that tests the functionality of
+// TestCreateGolangTestFile is a test function that tests the functionality of
 // the CreateGolangTestFile function. It tests whether the function creates a new test file with the
 // correct name based on the input file name.
-func TestCreatingGolangTestFile(t *testing.T) {
+func TestCreateGolangTestFile(t *testing.T) {
 	t.Parallel()
 
 	type testCase struct {
@@ -205,11 +216,13 @@ func TestCreatingGolangTestFile(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			tc.checkResult(helpers.CreateGolangTestFile(tc.input))
+			currentTestCase.checkResult(helpers.CreateGolangTestFile(currentTestCase.input))
 		})
 	}
 }
@@ -249,11 +262,14 @@ func TestSplitline(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.SplitLine(tc.input, tc.packageName))
+			require.Equal(t, currentTestCase.output,
+				helpers.SplitLine(currentTestCase.input, currentTestCase.packageName))
 		})
 	}
 }
@@ -295,10 +311,13 @@ func TestGetPackageFromPath(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
 			t.Parallel()
-			require.Equal(t, tc.output, helpers.GetPackageFrom(tc.input))
+			require.Equal(t, currenttestCase.output,
+				helpers.GetPackageFrom(currenttestCase.input))
 		})
 	}
 }
@@ -345,11 +364,14 @@ func TestRemoveObjectKey(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.RemoveObjectPrefix(tc.input))
+			require.Equal(t, currenttestCase.output,
+				helpers.RemoveObjectPrefix(currenttestCase.input))
 		})
 	}
 }
@@ -386,11 +408,14 @@ func TestExtractObjectFrom(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.ExtractObjectFrom(tc.input))
+			require.Equal(t, currenttestCase.output,
+				helpers.ExtractObjectFrom(currenttestCase.input))
 		})
 	}
 }
@@ -427,11 +452,14 @@ func TestConvertToObjectName(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, helpers.ConvertToObjectName(tc.input))
+			require.Equal(t, currenttestCase.output,
+				helpers.ConvertToObjectName(currenttestCase.input))
 		})
 	}
 }

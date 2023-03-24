@@ -13,8 +13,8 @@ import (
 // and also creates test files for test packages.
 func SplitLine(text, packageName string) []string {
 	var res []string
-	files := strings.Split(text, " ")
 
+	files := strings.Split(text, " ")
 	for _, file := range files {
 		fileTrimmed := strings.TrimLeft(file, " ")
 		if len(fileTrimmed) == 0 {

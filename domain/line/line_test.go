@@ -1,7 +1,7 @@
 package line_test
 
 import (
-	"errors"
+	"fmt"
 	"testing"
 
 	"github.com/cezarovici/goLayouter/domain/file"
@@ -13,13 +13,15 @@ import (
 )
 
 func TestConvertToLine(t *testing.T) {
-	type testCase struct {
+	t.Parallel()
+
+	type tescurrentTestCasease struct {
 		test   string
 		input  string
 		output line.Line
 	}
 
-	testCases := []testCase{
+	tescurrentTestCaseases := []tescurrentTestCasease{
 		{
 			test:  "first line.line",
 			input: "folder1",
@@ -46,9 +48,13 @@ func TestConvertToLine(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
-			require.Equal(t, tc.output, line.ConvertToLine(tc.input))
+	for _, currentTestCase := range tescurrentTestCaseases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
+			t.Parallel()
+
+			require.Equal(t, currentTestCase.output, line.ConvertToLine(currentTestCase.input))
 		})
 	}
 }
@@ -70,7 +76,7 @@ func TestNewLines(t *testing.T) {
 			test:          "no Package",
 			input:         nil,
 			output:        nil,
-			errorExpected: errors.New("no Package parsed"),
+			errorExpected: fmt.Errorf("no Package parsed"),
 		},
 
 		// Happy cases
@@ -91,19 +97,21 @@ func TestNewLines(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			lines, errCreatinLines := line.NewLines(tc.input)
+			lines, errCreatinLines := line.NewLines(currentTestCase.input)
 
-			require.Equal(t, tc.errorExpected, errCreatinLines)
-			require.Equal(t, tc.output, lines)
+			require.Equal(t, currentTestCase.errorExpected, errCreatinLines)
+			require.Equal(t, currentTestCase.output, lines)
 		})
 	}
 }
 
-const _parseTestCases = "../../testCases/parseTest/"
+const _parseTescurrentTestCaseases = "../../testCases/parseTest/"
 
 func TestToItems(t *testing.T) {
 	t.Parallel()
@@ -117,7 +125,7 @@ func TestToItems(t *testing.T) {
 	testCases := []testCase{
 		{
 			test:  "folders with files",
-			input: _parseTestCases + "foldersWithFiles/input",
+			input: _parseTescurrentTestCaseases + "foldersWithFiles/input",
 			expectedItems: &item.Items{
 				item.Item{
 					ObjectPath: folder.Folder{
@@ -169,7 +177,7 @@ func TestToItems(t *testing.T) {
 		},
 		{
 			test:  "folder with indents",
-			input: _parseTestCases + "foldersWithIndents/input",
+			input: _parseTescurrentTestCaseases + "foldersWithIndents/input",
 			expectedItems: &item.Items{
 				item.Item{
 					ObjectPath: folder.Folder{
@@ -211,7 +219,7 @@ func TestToItems(t *testing.T) {
 		},
 		{
 			test:  "folders with test packages",
-			input: _parseTestCases + "foldersWithTestPackage/input",
+			input: _parseTescurrentTestCaseases + "foldersWithTestPackage/input",
 			expectedItems: &item.Items{
 				item.Item{
 					ObjectPath: folder.Folder{
@@ -266,7 +274,7 @@ func TestToItems(t *testing.T) {
 		},
 		{
 			test:  "folders with change directory",
-			input: _parseTestCases + "foldersWithChangeDirectory/input",
+			input: _parseTescurrentTestCaseases + "foldersWithChangeDirectory/input",
 			expectedItems: &item.Items{
 				item.Item{
 					ObjectPath: folder.Folder{
@@ -358,17 +366,19 @@ func TestToItems(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			inputPackage, errorReading := helpers.ReadFile(tc.input)
+			inputPackage, errorReading := helpers.ReadFile(currentTestCase.input)
 			require.NoError(t, errorReading)
 
 			lines, errNewLines := line.NewLines(inputPackage)
 			require.NoError(t, errNewLines)
 
-			require.Equal(t, tc.expectedItems, lines.ToItems())
+			require.Equal(t, currentTestCase.expectedItems, lines.ToItems())
 		})
 	}
 }

@@ -5,9 +5,9 @@ import (
 )
 
 type ServiceError struct {
+	Issue      error
 	Caller     string
 	MethodName string
-	Issue      error
 }
 
 const areaErrService = "Service"
@@ -24,9 +24,9 @@ func (e *ServiceError) Error() string {
 }
 
 type DomainError struct {
+	Issue      error
 	Caller     string
 	MethodName string
-	Issue      error
 }
 
 const areaErrDomain = "Domain"
@@ -43,9 +43,9 @@ func (e *DomainError) Error() string {
 }
 
 type RenderError struct {
+	Issue      error
 	Caller     string
 	MethodName string
-	Issue      error
 }
 
 const areaErrRender = "Render"

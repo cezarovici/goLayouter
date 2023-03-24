@@ -1,6 +1,7 @@
 package folder
 
 import (
+	"io/fs"
 	"os"
 
 	apperrors "github.com/cezarovici/goLayouter/app/errors"
@@ -18,7 +19,7 @@ func (f Folder) GetContent() []byte {
 }
 
 func (f Folder) Write([]byte) error {
-	errWrite := os.MkdirAll(f.Path, 0o755)
+	errWrite := os.MkdirAll(f.Path, fs.FileMode(os.O_RDWR))
 	if errWrite != nil {
 		return &apperrors.DomainError{
 			Caller:     "object file -> Write",

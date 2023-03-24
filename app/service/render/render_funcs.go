@@ -3,10 +3,15 @@
 package render
 
 import (
+	"io/fs"
 	"os"
 	"text/template"
 
 	apperrors "github.com/cezarovici/goLayouter/app/errors"
+)
+
+const (
+	o_rdwr fs.FileMode = 0o755
 )
 
 // renderTo renders the given model data to the specified template file and
@@ -22,7 +27,7 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 	}
 
 	// Parse the template file.
-	t, errParse := template.ParseFiles(templateFilePath)
+	templ, errParse := template.ParseFiles(templateFilePath)
 	if errParse != nil {
 		return &apperrors.RenderError{
 			Caller:     "Renders",
@@ -31,9 +36,9 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 		}
 	}
 
-	file, errCreate := os.OpenFile(renderToPath, os.O_RDWR, 0o755)
+	file, errCreate := os.OpenFile(renderToPath, os.O_RDWR, o_rdwr)
 	if errCreate != nil {
-		return &apperrors.ServiceError{
+		return &apperrors.RenderError{
 			Caller:     "Renders",
 			MethodName: "os open file",
 			Issue:      errCreate,
@@ -42,10 +47,19 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 	defer file.Close()
 
 	// Execute the template with the model data and write the output to the writer.
-	return t.Execute(file, model)
+	errTemplating := templ.Execute(file, model)
+	if errTemplating != nil {
+		return &apperrors.RenderError{
+			Caller:     "Renders",
+			MethodName: "template execute",
+			Issue:      errTemplating,
+		}
+	}
+
+	return nil
 }
 
-// renderMain is a render function to render a main file from a template
+// renderMain is a render function to render a main file from a template.
 func renderMain(renderToPath string, object any) error {
 	return renderTo(renderToPath, MainInputPath, object)
 }

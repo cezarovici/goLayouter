@@ -1,7 +1,7 @@
 package service
 
 import (
-	"errors"
+	"fmt"
 
 	apperrors "github.com/cezarovici/goLayouter/app/errors"
 	"github.com/cezarovici/goLayouter/app/service/render"
@@ -10,8 +10,8 @@ import (
 
 // Service represents a service that renders items to the filesystem.
 type Service struct {
-	paths       item.Items
 	renderFuncs map[item.KindOfFile]func(string, any) error
+	paths       item.Items
 }
 
 // NewService creates a new Service instance.
@@ -20,7 +20,7 @@ func NewService(items item.Items, renders map[item.KindOfFile]func(string, any) 
 		return nil, &apperrors.ServiceError{
 			Caller:     "Service",
 			MethodName: "NewService",
-			Issue:      errors.New("no items parsed"),
+			Issue:      fmt.Errorf("no items parsed"),
 		}
 	}
 

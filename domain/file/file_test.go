@@ -42,39 +42,41 @@ func TestWrite(t *testing.T) {
 	}
 
 	// Iterate over each test case and run the test.
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
 			// Call the Write() method and verify its return values.
-			err := tc.input.Write(nil)
-			require.Equal(t, tc.errorExpected, err)
+			err := currentTestCase.input.Write(nil)
+			require.Equal(t, currentTestCase.errorExpected, err)
 
 			// Verify that the file.file was created and contains the expected Package.
-			_, errStat := os.Stat(tc.input.Path)
+			_, errStat := os.Stat(currentTestCase.input.Path)
 			require.NoError(t, errStat)
 
-			outputPackage, errRead := os.ReadFile(tc.input.Path)
+			outputPackage, errRead := os.ReadFile(currentTestCase.input.Path)
 			require.NoError(t, errRead)
-			require.Equal(t, tc.input.Package, string(outputPackage))
+			require.Equal(t, currentTestCase.input.Package, string(outputPackage))
 
 			// Clean up by deleting the test file.file.
-			require.NoError(t, os.Remove(tc.input.Path))
+			defer require.NoError(t, os.Remove(currentTestCase.input.Path))
 		})
 	}
 }
 
-func TestGetContent(t *testing.T) {
+func TestContent(t *testing.T) {
 	t.Parallel()
 
-	type testCase struct {
+	type tescurrentTestCasease struct {
 		test  string
 		input file.File
 
 		output []byte
 	}
 
-	testCases := []testCase{
+	tescurrentTestCaseases := []tescurrentTestCasease{
 		{
 			test:   "just 1 file.file",
 			input:  file.File{Package: "main.go"},
@@ -92,11 +94,13 @@ func TestGetContent(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range tescurrentTestCaseases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, tc.input.GetContent())
+			require.Equal(t, currentTestCase.output, currentTestCase.input.GetContent())
 		})
 	}
 }
@@ -104,14 +108,14 @@ func TestGetContent(t *testing.T) {
 func TestGetPath(t *testing.T) {
 	t.Parallel()
 
-	type testCase struct {
+	type tescurrentTestCasease struct {
 		test  string
 		input file.File
 
 		output string
 	}
 
-	testCases := []testCase{
+	tescurrentTestCaseases := []tescurrentTestCasease{
 		{
 			test:   "just 1 file.file",
 			input:  file.File{Path: "main.go"},
@@ -129,11 +133,13 @@ func TestGetPath(t *testing.T) {
 		},
 	}
 
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range tescurrentTestCaseases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, tc.output, tc.input.GetPath())
+			require.Equal(t, currentTestCase.output, currentTestCase.input.GetPath())
 		})
 	}
 }

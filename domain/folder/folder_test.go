@@ -37,19 +37,21 @@ func TestWrite(t *testing.T) {
 	}
 
 	// Loop through each test case
-	for _, tc := range testCases {
-		t.Run(tc.test, func(t *testing.T) {
+	for _, currentTestCase := range testCases {
+		currentTestCase := currentTestCase
+
+		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
 			// Call the Write() method with a nil logger and capture the returned error
-			err := tc.input.Write(nil)
+			err := currentTestCase.input.Write(nil)
 
-			// Assert that the error returned by Write() matches the expected error
-			require.Equal(t, tc.expectedError, err)
+			// Assert that the error returned by Write() m currentTestCasehes the expected error
+			require.Equal(t, currentTestCase.expectedError, err)
 
 			// If the input folder.Folder object doesn't exist yet, assert that it was successfully removed
-			if !tc.alreadyExists {
-				require.NoError(t, os.Remove(tc.input.Path))
+			if currentTestCase.alreadyExists {
+				require.NoError(t, os.Remove(currentTestCase.input.Path))
 			}
 		})
 	}
@@ -59,22 +61,22 @@ func TestGetContent(t *testing.T) {
 	t.Parallel()
 
 	folder := folder.Folder{
-		Path: "folder.folder1",
+		Path: "folder1",
 	}
 
 	require.NoError(t, folder.Write(nil))
 	require.Equal(t, []byte(nil), folder.GetContent())
-	require.NoError(t, os.Remove(folder.Path))
+	defer require.NoError(t, os.Remove(folder.Path))
 }
 
 func TestGetPath(t *testing.T) {
 	t.Parallel()
 
 	folder := folder.Folder{
-		Path: "folder.folder1",
+		Path: "folder1",
 	}
 
 	require.NoError(t, folder.Write(nil))
 	require.Equal(t, "folder.folder1", folder.GetPath())
-	require.NoError(t, os.Remove(folder.Path))
+	defer require.NoError(t, os.Remove(folder.Path))
 }

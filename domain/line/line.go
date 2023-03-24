@@ -65,15 +65,17 @@ func (lines Lines) ToItems() *item.Items {
 	// Create an empty slice of res
 	var res item.Items
 
+	// Create stacks to keep track of the paths and indentation Levels
+	var (
+		pathStack   stack.Stack
+		indentStack stack.Stack
+
+		// Initialize the package stack with the default package name
+		packageStack = stack.Stack{_defaultPackage}
+	)
+
 	// Set a flag to indicate if this is the first line being processed
 	firstLine := true
-
-	// Create stacks to keep track of the paths and indentation Levels
-	var pathStack stack.Stack
-	var indentStack stack.Stack
-
-	// Initialize the package stack with the default package name
-	packageStack := stack.Stack{_defaultPackage}
 
 	// Iterate over each line in the input file
 	for _, line := range lines {
@@ -155,8 +157,10 @@ func (lines Lines) ToItems() *item.Items {
 
 			// Iterate over the files and determine the package name and kind for each file
 			for _, fileName := range files {
-				var objectName string
-				isObject := false
+				var (
+					isObject   bool
+					objectName string
+				)
 
 				// If the file is a main package, use the default package name
 				if helpers.KindOfFile(fileName) == item.Main {

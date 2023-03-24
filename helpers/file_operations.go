@@ -24,10 +24,7 @@ func ReadFile(filePath string) ([]string, error) {
 	}
 
 	// Close the file when the function exits
-	var errClo error
-	defer func() {
-		errClo = fileHandler.Close()
-	}()
+	defer fileHandler.Close()
 
 	var res []string
 
@@ -42,7 +39,7 @@ func ReadFile(filePath string) ([]string, error) {
 		return nil, fmt.Errorf("empty file passed")
 	}
 
-	return res, errClo
+	return res, nil
 }
 
 // TypeOfFile returns the type of a file based on its name.

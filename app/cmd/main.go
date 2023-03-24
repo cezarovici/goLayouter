@@ -45,6 +45,7 @@ func main() {
 	}
 
 	fileSource := os.Args[FirstArg]
+
 	content, err := helpers.ReadFile(fileSource)
 	if err != nil {
 		fmt.Printf("Error: failed to read file: %v\n", err)
@@ -58,6 +59,7 @@ func main() {
 	}
 
 	items := lines.ToItems()
+
 	serv, errNewService := service.NewService(*items, render.Funcs)
 	if errNewService != nil {
 		fmt.Printf("Error: failed to create service: %v\n", err)
