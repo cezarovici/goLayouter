@@ -14,6 +14,8 @@ const testCasesPath = "../testCases/readTest/"
 // It takes a filepath as input and returns a slice of strings with the file's content
 // If there's any error, it returns an error.
 func TestReadFile(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -54,6 +56,8 @@ func TestReadFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			output, errorReading := helpers.ReadFile(tc.input)
 
 			require.Equal(t, tc.errorExpected, errorReading)
@@ -65,6 +69,8 @@ func TestReadFile(t *testing.T) {
 // TypeOfFile takes a file path and returns a string indicating its type
 // It takes a filepath as input and returns a string with the file's type.
 func TestTypeOfFile(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -96,6 +102,8 @@ func TestTypeOfFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.TypeOf(tc.input))
 		})
 	}

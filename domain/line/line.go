@@ -20,14 +20,14 @@ type Line struct {
 // Lines is a slice of Line.
 type Lines []Line
 
-// Constants for default and test package types
+// Constants for default and test package types.
 const (
 	_defaultPackage   = "package main" // default package
 	_testPackageType1 = "# t"          // test package type 1
 	_testPackageType2 = "# tt"         // test package type 2
 )
 
-// ConvertToLine converts a string to a Line struct, parsing the indentation Level
+// ConvertToLine converts a string to a Line struct, parsing the indentation Level.
 func ConvertToLine(line string) Line {
 	// Trim any whitespace from the beginning of the line
 	lineInfo := strings.TrimLeft(line, " ")
@@ -43,7 +43,7 @@ func ConvertToLine(line string) Line {
 }
 
 // NewLines converts a slice of strings to a slice of Lines,
-// using ConvertToLine to parse each string
+// using ConvertToLine to parse each string.
 func NewLines(content []string) (Lines, error) {
 	// Return an error if there is no Package to parse
 	if len(content) == 0 {

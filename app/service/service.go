@@ -21,7 +21,6 @@ func NewService(items item.Items, renders map[item.KindOfFile]func(string, any) 
 			Caller:     "Service",
 			MethodName: "NewService",
 			Issue:      errors.New("no items parsed"),
-			WithTime:   true,
 		}
 	}
 
@@ -39,7 +38,6 @@ func (service Service) Render() error {
 				Caller:     "Service",
 				MethodName: "Render -> Write",
 				Issue:      errWrite,
-				WithTime:   false,
 			}
 		}
 
@@ -53,7 +51,6 @@ func (service Service) Render() error {
 				Caller:     "Service",
 				MethodName: "Render -> render funcs",
 				Issue:      errRender,
-				WithTime:   true,
 			}
 		}
 	}

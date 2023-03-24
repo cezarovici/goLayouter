@@ -15,11 +15,9 @@ func renderTo(renderToPath string, templateFilePath string, model any) error {
 	// Check if the specified template file exists.
 	if _, err := os.Stat(templateFilePath); os.IsNotExist(err) {
 		return &apperrors.RenderError{
-			Caller:              "Renders",
-			MethodName:          "os.Stat",
-			Issue:               err,
-			WithTime:            true,
-			NanosecondsDuration: 0,
+			Caller:     "Renders",
+			MethodName: "os.Stat",
+			Issue:      err,
 		}
 	}
 

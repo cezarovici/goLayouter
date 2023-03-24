@@ -54,6 +54,8 @@ func TestConvertToLine(t *testing.T) {
 }
 
 func TestNewLines(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  []string
@@ -91,6 +93,8 @@ func TestNewLines(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			lines, errCreatinLines := line.NewLines(tc.input)
 
 			require.Equal(t, tc.errorExpected, errCreatinLines)
@@ -102,6 +106,8 @@ func TestNewLines(t *testing.T) {
 const _parseTestCases = "../../testCases/parseTest/"
 
 func TestToItems(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test          string
 		input         string
@@ -354,6 +360,8 @@ func TestToItems(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			inputPackage, errorReading := helpers.ReadFile(tc.input)
 			require.NoError(t, errorReading)
 

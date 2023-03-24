@@ -64,11 +64,9 @@ func TestNewService(t *testing.T) {
 	require.Error(t, err)
 
 	expectedErr := &apperrors.ServiceError{
-		Caller:              "Service",
-		MethodName:          "NewService",
-		Issue:               errors.New("no items parsed"),
-		WithTime:            true,
-		NanosecondsDuration: 0,
+		Caller:     "Service",
+		MethodName: "NewService",
+		Issue:      errors.New("no items parsed"),
 	}
 	if !errors.As(err, &expectedErr) {
 		t.Errorf("NewService() error = %v, expected %v", err, expectedErr)

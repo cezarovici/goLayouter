@@ -31,7 +31,6 @@ func (f File) Write(_ []byte) error {
 			Caller:     "object file -> Write",
 			MethodName: "os.Create",
 			Issue:      errCreate,
-			WithTime:   true,
 		}
 	}
 
@@ -42,7 +41,6 @@ func (f File) Write(_ []byte) error {
 			Caller:     "object file -> Write",
 			MethodName: "file.Writes",
 			Issue:      errWrite,
-			WithTime:   true,
 		}
 	}
 

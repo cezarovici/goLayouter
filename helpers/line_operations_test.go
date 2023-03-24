@@ -12,6 +12,8 @@ import (
 // It takes a filepath as input and returns a boolean indicating whether
 // the path is in the current directory or not
 func TestToCurentDirectory(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -33,6 +35,8 @@ func TestToCurentDirectory(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.ToCurentDirectory(tc.input))
 		})
 	}
@@ -41,6 +45,8 @@ func TestToCurentDirectory(t *testing.T) {
 // TestRemoveSelector is a unit test function for the RemoveSelector function.
 // It tests the function's ability to remove a selector from a given string input.
 func TestRemoveSelector(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -67,6 +73,8 @@ func TestRemoveSelector(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.RemoveSelector(tc.input))
 		})
 	}
@@ -76,6 +84,8 @@ func TestRemoveSelector(t *testing.T) {
 // It tests the KindOfFile function with different inputs and expected
 // outputs using a table-driven approach.
 func TestKindOfFile(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -117,6 +127,8 @@ func TestKindOfFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.KindOfFile(tc.input))
 		})
 	}
@@ -126,6 +138,8 @@ func TestKindOfFile(t *testing.T) {
 // It takes in a list of test cases, where each test case consists of an input string representing a package name and
 // an expected output boolean indicating whether the package is a test package or not.
 func TestIsTestPackage(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -152,6 +166,8 @@ func TestIsTestPackage(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.IsTestPackage(tc.input))
 		})
 	}
@@ -161,6 +177,8 @@ func TestIsTestPackage(t *testing.T) {
 // the CreateGolangTestFile function. It tests whether the function creates a new test file with the
 // correct name based on the input file name.
 func TestCreatingGolangTestFile(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test  string
 		input string
@@ -189,6 +207,8 @@ func TestCreatingGolangTestFile(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			tc.checkResult(helpers.CreateGolangTestFile(tc.input))
 		})
 	}
@@ -199,6 +219,8 @@ func TestCreatingGolangTestFile(t *testing.T) {
 // separated by spaces and converts
 // them to a list of filenames and test filenames, based on the package name provided.
 func TestSplitline(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test        string
 		input       string
@@ -229,6 +251,8 @@ func TestSplitline(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.SplitLine(tc.input, tc.packageName))
 		})
 	}
@@ -281,6 +305,7 @@ func TestGetPackageFromPath(t *testing.T) {
 
 func TestRemoveObjectKey(t *testing.T) {
 	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -323,12 +348,15 @@ func TestRemoveObjectKey(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.RemoveObjectPrefix(tc.input))
 		})
 	}
 }
 
 func TestExtractObjectFrom(t *testing.T) {
+	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -361,6 +389,7 @@ func TestExtractObjectFrom(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.ExtractObjectFrom(tc.input))
 		})
 	}
@@ -368,6 +397,7 @@ func TestExtractObjectFrom(t *testing.T) {
 
 func TestConvertToObjectName(t *testing.T) {
 	t.Parallel()
+
 	type testCase struct {
 		test   string
 		input  string
@@ -400,6 +430,7 @@ func TestConvertToObjectName(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
 			t.Parallel()
+
 			require.Equal(t, tc.output, helpers.ConvertToObjectName(tc.input))
 		})
 	}

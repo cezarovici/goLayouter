@@ -10,6 +10,8 @@ import (
 
 // TestWrite is a unit test function for the Write() method of the folder.Folder struct.
 func TestWrite(t *testing.T) {
+	t.Parallel()
+
 	// Define a struct to represent a test case
 	type testCase struct {
 		test          string        // A description of the test case
@@ -37,6 +39,8 @@ func TestWrite(t *testing.T) {
 	// Loop through each test case
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			// Call the Write() method with a nil logger and capture the returned error
 			err := tc.input.Write(nil)
 
@@ -52,6 +56,8 @@ func TestWrite(t *testing.T) {
 }
 
 func TestGetContent(t *testing.T) {
+	t.Parallel()
+
 	folder := folder.Folder{
 		Path: "folder.folder1",
 	}
@@ -62,6 +68,8 @@ func TestGetContent(t *testing.T) {
 }
 
 func TestGetPath(t *testing.T) {
+	t.Parallel()
+
 	folder := folder.Folder{
 		Path: "folder.folder1",
 	}

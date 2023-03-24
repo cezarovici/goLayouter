@@ -17,6 +17,7 @@ type model struct {
 
 // TestRenderFuncs is a unit test that verifies the output of each rendering function.
 func TestRenderFuncs(t *testing.T) {
+	t.Parallel()
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test           string          // Name of the test case.
@@ -26,28 +27,28 @@ func TestRenderFuncs(t *testing.T) {
 	// Define the test cases to run.
 	testCases := []testCase{
 		{
-			test:           "main render",
+			test:           "mainRender",
 			kind:           item.Main,
 			outputTestName: render.MainOutputPath,
 		},
 		{
-			test:           "test render",
+			test:           "testRender",
 			kind:           item.Test,
 			outputTestName: render.TestOutputPath,
 		},
 		{
-			test:           "obj render",
+			test:           "objRender",
 			kind:           item.Object,
 			outputTestName: render.ObjectOutputPath,
 		},
 		{
-			test:           "tdd render",
+			test:           "tddRender",
 			kind:           item.TableDriven,
 			outputTestName: render.TddOutputPath,
 		},
 	}
 
-	// exampleModel is an instance of the Model struct that can be used for testing.
+	//exampleModel is an instance of the Model struct that can be used for testing.
 	exampleModel := model{
 		ObjectName: "Entry",
 		Package:    "package entry",
@@ -58,7 +59,7 @@ func TestRenderFuncs(t *testing.T) {
 	// Iterate over each test case and run the test.
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
-			buffer := "buffer"
+			buffer := tc.test
 			_, errCreating := os.Create(buffer)
 			require.NoError(t, errCreating)
 

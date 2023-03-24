@@ -44,6 +44,8 @@ func TestWrite(t *testing.T) {
 	// Iterate over each test case and run the test.
 	for _, tc := range testCases {
 		t.Run(tc.test, func(t *testing.T) {
+			t.Parallel()
+
 			// Call the Write() method and verify its return values.
 			err := tc.input.Write(nil)
 			require.Equal(t, tc.errorExpected, err)
