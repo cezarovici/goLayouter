@@ -74,7 +74,7 @@ project1
   scripts
     deploy.sh rollback.sh
   config
-    dev.yamlprod.yaml
+    dev.yaml prod.yaml
   README.md # this needs to be implemented
 ```
 
