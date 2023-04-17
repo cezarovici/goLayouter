@@ -102,7 +102,7 @@ func (lines Lines) ToItems() *item.Items {
 					ObjectPath: folder.Folder{
 						Path: pathStack.String(),
 					},
-					Kind: helpers.KindOfFile(line.Info),
+					Kind: item.NewKindOfFile(line.Info),
 				})
 
 				// Set firstLine to false since we have already processed the first line
@@ -163,20 +163,20 @@ func (lines Lines) ToItems() *item.Items {
 				)
 
 				// If the file is a main package, use the default package name
-				if helpers.KindOfFile(fileName) == item.Main {
+				if item.NewKindOfFile(fileName) == item.Main {
 					packageName = _defaultPackage
 				}
 
 				objectName = helpers.ConvertToObjectName(fileName)
-				if helpers.KindOfFile(fileName) == item.Object || helpers.KindOfFile(fileName) == item.Test {
+				if item.NewKindOfFile(fileName) == item.Object || item.NewKindOfFile(fileName) == item.Test {
 					fileName = helpers.RemoveObjectPrefix(fileName)
 
-					if helpers.KindOfFile(fileName) != item.Test {
+					if item.NewKindOfFile(fileName) != item.Test {
 						isObject = true
 					}
 				}
 
-				kind := helpers.KindOfFile(fileName)
+				kind := item.NewKindOfFile(fileName)
 				if isObject {
 					kind = item.Object
 				}
@@ -215,7 +215,7 @@ func (lines Lines) ToItems() *item.Items {
 			// Add the Folder object to the list of res
 			res = append(res, item.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(line.Info),
+				Kind:       item.NewKindOfFile(line.Info),
 			})
 
 			// Set the firstLine flag to false so that this block of code is not executed again
@@ -236,7 +236,7 @@ func (lines Lines) ToItems() *item.Items {
 			}
 			res = append(res, item.Item{
 				ObjectPath: folder,
-				Kind:       helpers.KindOfFile(line.Info),
+				Kind:       item.NewKindOfFile(line.Info),
 			})
 
 			continue
@@ -255,7 +255,7 @@ func (lines Lines) ToItems() *item.Items {
 				ObjectPath: folder.Folder{
 					Path: pathStack.String(),
 				},
-				Kind: helpers.KindOfFile(line.Info),
+				Kind: item.NewKindOfFile(line.Info),
 			})
 
 			continue
@@ -284,7 +284,7 @@ func (lines Lines) ToItems() *item.Items {
 			ObjectPath: folder.Folder{
 				Path: pathStack.String(),
 			},
-			Kind: helpers.KindOfFile(line.Info),
+			Kind: item.NewKindOfFile(line.Info),
 		})
 	}
 

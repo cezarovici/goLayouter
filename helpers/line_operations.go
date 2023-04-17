@@ -120,7 +120,7 @@ func ConvertToObjectName(filePath string) string {
 
 	_, fileName = path.Split(filePath)
 
-	switch KindOfFile(fileName) {
+	switch item.NewKindOfFile(fileName) {
 	case item.Test, item.Object:
 		objName = ExtractObjectFrom(fileName)
 
