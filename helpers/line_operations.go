@@ -23,10 +23,11 @@ func SplitLine(text, packageName string) []string {
 
 		if IsTestPackage(packageName) {
 			testFile, err := CreateGolangTestFile(fileTrimmed)
-
-			if err == nil {
-				res = append(res, fileTrimmed, testFile)
+			if err != nil {
+				return nil
 			}
+
+			res = append(res, fileTrimmed, testFile)
 
 			continue
 		}
