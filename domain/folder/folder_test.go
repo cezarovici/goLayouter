@@ -24,13 +24,13 @@ func TestWrite(t *testing.T) {
 	testCases := []testCase{
 		{
 			test:          "already existing directory",
-			input:         folder.Folder{"../folder.folder"}, // A folder.Folder object with an existing path
+			input:         folder.Folder{"../folder"}, // A folder.Folder object with an existing path
 			alreadyExists: true,
 			expectedError: nil,
 		},
 		{
 			test:          "new directory",
-			input:         folder.Folder{"newfolder.Folder"}, // A folder.Folder object with a new path
+			input:         folder.Folder{"newfolder"}, // A folder.Folder object with a new path
 			alreadyExists: false,
 			expectedError: nil,
 		},
@@ -50,7 +50,7 @@ func TestWrite(t *testing.T) {
 			require.Equal(t, currentTestCase.expectedError, err)
 
 			// If the input folder.Folder object doesn't exist yet, assert that it was successfully removed
-			if currentTestCase.alreadyExists {
+			if !currentTestCase.alreadyExists {
 				require.NoError(t, os.Remove(currentTestCase.input.Path))
 			}
 		})
@@ -77,6 +77,6 @@ func TestGetPath(t *testing.T) {
 	}
 
 	require.NoError(t, folder.Write(nil))
-	require.Equal(t, "folder.folder1", folder.GetPath())
+	require.Equal(t, "folder1", folder.GetPath())
 	defer require.NoError(t, os.Remove(folder.Path))
 }
