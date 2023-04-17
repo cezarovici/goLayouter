@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"path"
 	"strings"
-
-	"github.com/cezarovici/goLayouter/domain/item"
 )
 
 // SplitLine splits a line of text into a slice of file paths,
@@ -73,63 +71,6 @@ func RemoveObjectPrefix(fileName string) string {
 	fileName = strings.Replace(newFileName, "_", "", 1)
 
 	return fileName
-}
-
-func ExtractObjectFrom(fileName string) string {
-	isObject := strings.Contains(fileName, "obj")
-	if !isObject {
-		return ""
-	}
-
-	if fileName == "obj.go" || fileName == "object.go" {
-		return ""
-	}
-
-	withoutObjPrefix := RemoveObjectPrefix(fileName)
-
-	withoutSuffix, isTest := strings.CutSuffix(withoutObjPrefix, "test.go")
-	if !isTest {
-		withoutSuffix, _ = strings.CutSuffix(withoutObjPrefix, ".go")
-	}
-
-	objectName := strings.Replace(withoutSuffix, "_", "", 1)
-
-	return strings.ToUpper(objectName[:1]) + objectName[1:]
-}
-
-// ConvertToObjectName returns the object name from a given file name.
-// It takes a string as input representing the file name.
-// If the input is an empty string,
-// it returns an empty string.
-// Otherwise, it splits the input
-// file name by the "_" separator and returns the last element.
-//
-// For example, given the input "obj_file.go", the function returns "File".
-//
-// If the input is "file.go", the function returns an empty string.
-//
-// If the input is "objectFile.go", the function returns "File".
-//
-// If the input is "obj_file_test.go", the function returns "File".
-//
-// If the input is "file_test.go", the function returns an empty string.
-func ConvertToObjectName(filePath string) string {
-	var (
-		objName  string
-		fileName string
-	)
-
-	_, fileName = path.Split(filePath)
-
-	switch item.NewKindOfFile(fileName) {
-	case item.Test, item.Object:
-		objName = ExtractObjectFrom(fileName)
-
-	default:
-		objName = ""
-	}
-
-	return objName
 }
 
 // ToCurentDirectory returns true if the given path moves to the current directory.

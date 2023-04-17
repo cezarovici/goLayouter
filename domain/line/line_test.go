@@ -59,6 +59,148 @@ func TestConvertToLine(t *testing.T) {
 	}
 }
 
+func TestRemoveObjectKey(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "exception 1",
+			input:  "obj.go",
+			output: "obj.go",
+		},
+		{
+			test:   "exception 2",
+			input:  "file.go",
+			output: "file.go",
+		},
+		{
+			test:   "case 1",
+			input:  "obj_myObj.go",
+			output: "myObj.go",
+		},
+		{
+			test:   "case 2",
+			input:  "object_myObj.go",
+			output: "myObj.go",
+		},
+		{
+			test:   "case 3",
+			input:  "obj_test_myObj.go",
+			output: "test_myObj.go",
+		},
+		{
+			test:   "case 4",
+			input:  "file_test.go",
+			output: "file_test.go",
+		},
+	}
+
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
+			t.Parallel()
+
+			require.Equal(t, currenttestCase.output,
+				helpers.RemoveObjectPrefix(currenttestCase.input))
+		})
+	}
+}
+
+func TestExtractObjectFrom(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "simple object file",
+			input:  "obj_file.go",
+			output: "File",
+		},
+		{
+			test:   "test object file",
+			input:  "obj_file_test.go",
+			output: "File",
+		},
+		{
+			test:   "simple file",
+			input:  "file.go",
+			output: "",
+		},
+		{
+			test:   "without _",
+			input:  "objectFile.go",
+			output: "File",
+		},
+	}
+
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
+			t.Parallel()
+
+			require.Equal(t, currenttestCase.output,
+				line.ExtractObjectFrom(currenttestCase.input))
+		})
+	}
+}
+
+func TestConvertToObjectName(t *testing.T) {
+	t.Parallel()
+
+	type testCase struct {
+		test   string
+		input  string
+		output string
+	}
+
+	testCases := []testCase{
+		{
+			test:   "simple object file",
+			input:  "app/test/obj_file.go",
+			output: "File",
+		},
+		{
+			test:   "simple test file",
+			input:  "app/test/file_test.go",
+			output: "",
+		},
+		{
+			test:   "obj test file",
+			input:  "app/test/obj_file_test.go",
+			output: "File",
+		},
+		{
+			test:   "unusual",
+			input:  "obj.go",
+			output: "",
+		},
+	}
+
+	for _, currenttestCase := range testCases {
+		currenttestCase := currenttestCase
+
+		t.Run(currenttestCase.test, func(t *testing.T) {
+			t.Parallel()
+
+			require.Equal(t, currenttestCase.output,
+				line.ConvertToObjectName(currenttestCase.input))
+		})
+	}
+}
+
 func TestNewLines(t *testing.T) {
 	t.Parallel()
 
