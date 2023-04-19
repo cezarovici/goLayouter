@@ -72,11 +72,20 @@ func TestGetContent(t *testing.T) {
 func TestGetPath(t *testing.T) {
 	t.Parallel()
 
-	folder := folder.Folder{
+	folder1 := folder.Folder{
 		Path: "folder1",
 	}
 
-	require.NoError(t, folder.Write(nil))
-	require.Equal(t, "folder1", folder.GetPath())
-	defer require.NoError(t, os.Remove(folder.Path))
+	folder2 := folder.Folder{
+		Path: "folder1/f3",
+	}
+
+	require.NoError(t, folder1.Write(nil))
+	require.NoError(t, folder2.Write(nil))
+
+	require.Equal(t, "folder1", folder1.GetPath())
+	require.Equal(t, "folder1/f3", folder2.GetPath())
+
+	defer require.NoError(t, os.Remove(folder2.Path))
+	defer require.NoError(t, os.Remove(folder1.Path))
 }

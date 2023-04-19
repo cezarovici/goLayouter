@@ -1,7 +1,6 @@
 package folder
 
 import (
-	"io/fs"
 	"os"
 
 	apperrors "github.com/cezarovici/goLayouter/app/errors"
@@ -13,13 +12,14 @@ type Folder struct {
 }
 
 var _ domain.FileOperations = &Folder{}
+var _filePermission = os.FileMode(0o755)
 
 func (f Folder) GetContent() []byte {
 	return ([]byte(nil))
 }
 
 func (f Folder) Write([]byte) error {
-	errWrite := os.MkdirAll(f.Path, fs.FileMode(os.O_RDWR))
+	errWrite := os.MkdirAll(f.Path, _filePermission)
 	if errWrite != nil {
 		return &apperrors.DomainError{
 			Caller:     "object file -> Write",
