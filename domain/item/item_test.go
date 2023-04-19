@@ -1,9 +1,8 @@
-package item_test
+package item
 
 import (
 	"testing"
 
-	"github.com/cezarovici/goLayouter/domain/item"
 	"github.com/stretchr/testify/require"
 )
 
@@ -16,39 +15,39 @@ func TestKindOfFile(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  string
-		output item.KindOfFile
+		output KindOfFile
 	}
 
 	testCases := []testCase{
 		{
 			test:   "test main",
 			input:  "main.go",
-			output: item.Main,
+			output: Main,
 		},
 		{
 			test:   "test file",
 			input:  "func_test.go",
-			output: item.Test,
+			output: Test,
 		},
 		{
 			test:   "object file",
 			input:  "obj_file.go",
-			output: item.Object,
+			output: Object,
 		},
 		{
 			test:   "object test",
 			input:  "obj_file_test.go",
-			output: item.Test,
+			output: Test,
 		},
 		{
 			test:   "normal file",
 			input:  "file.go",
-			output: item.NormalFile,
+			output: NormalFile,
 		},
 		{
 			test:   "input folder",
 			input:  "folder1",
-			output: item.Folder,
+			output: Folder,
 		},
 	}
 
@@ -59,7 +58,7 @@ func TestKindOfFile(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currentTestCase.output,
-				item.NewKindOfFile(currentTestCase.input))
+				NewKindOfFile(currentTestCase.input))
 		})
 	}
 }

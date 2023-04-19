@@ -1,10 +1,9 @@
-package helpers_test
+package helpers
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -60,7 +59,7 @@ func TestReadFile(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			output, errorReading := helpers.ReadFile(currentTestCase.input)
+			output, errorReading := ReadFile(currentTestCase.input)
 
 			require.Equal(t, currentTestCase.errorExpected, errorReading)
 			require.Equal(t, output, currentTestCase.output)
@@ -108,7 +107,7 @@ func TestTypeOfFile(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, currentTestCase.output, helpers.TypeOf(currentTestCase.input))
+			require.Equal(t, currentTestCase.output, TypeOf(currentTestCase.input))
 		})
 	}
 }

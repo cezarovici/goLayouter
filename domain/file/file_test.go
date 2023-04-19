@@ -1,10 +1,9 @@
-package file_test
+package file
 
 import (
 	"os"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/stretchr/testify/require"
 )
 
@@ -14,25 +13,25 @@ func TestWrite(t *testing.T) {
 	t.Parallel()
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
-		test          string    // Name of the test case.
-		input         file.File // Input data for the test.
-		Package       bool      // Indicates whether the input file.file contains Package or not.
-		errorExpected error     // Expected error returned by the Write() method.
+		test          string // Name of the test case.
+		input         File   // Input data for the test.
+		Package       bool   // Indicates whether the input file.file contains Package or not.
+		errorExpected error  // Expected error returned by the Write() method.
 	}
 
 	// Define the test cases to run.
 	testCases := []testCase{
 		{
-			test: "file.file without Package",
-			input: file.File{
+			test: "file without Package",
+			input: File{
 				Path: "test.go",
 			},
 			Package:       false,
 			errorExpected: nil,
 		},
 		{
-			test: "file.file with Package",
-			input: file.File{
+			test: "file with Package",
+			input: File{
 				Path:    "main.go",
 				Package: "#package main",
 			},
@@ -52,7 +51,7 @@ func TestWrite(t *testing.T) {
 			err := currentTestCase.input.Write(nil)
 			require.Equal(t, currentTestCase.errorExpected, err)
 
-			// Verify that the file.file was created and contains the expected Package.
+			// Verify that the file was created and contains the expected Package.
 			_, errStat := os.Stat(currentTestCase.input.Path)
 			require.NoError(t, errStat)
 
@@ -60,7 +59,7 @@ func TestWrite(t *testing.T) {
 			require.NoError(t, errRead)
 			require.Equal(t, currentTestCase.input.Package, string(outputPackage))
 
-			// Clean up by deleting the test file.file.
+			// Clean up by deleting the test file.
 			defer require.NoError(t, os.Remove(currentTestCase.input.Path))
 		})
 	}
@@ -71,26 +70,26 @@ func TestContent(t *testing.T) {
 
 	type tescurrentTestCasease struct {
 		test  string
-		input file.File
+		input File
 
 		output []byte
 	}
 
 	tescurrentTestCaseases := []tescurrentTestCasease{
 		{
-			test:   "just 1 file.file",
-			input:  file.File{Package: "main.go"},
+			test:   "just 1 file",
+			input:  File{Package: "main.go"},
 			output: []byte("main.go"),
 		},
 		{
-			test:   "file.file from previous path",
-			input:  file.File{Package: "../main.go"},
+			test:   "file from previous path",
+			input:  File{Package: "../main.go"},
 			output: []byte("../main.go"),
 		},
 		{
-			test:   "file.file from next path",
-			input:  file.File{Package: "file.file/main.go"},
-			output: []byte("file.file/main.go"),
+			test:   "file from next path",
+			input:  File{Package: "file/main.go"},
+			output: []byte("file/main.go"),
 		},
 	}
 
@@ -110,30 +109,30 @@ func TestGetPath(t *testing.T) {
 
 	type tescurrentTestCasease struct {
 		test  string
-		input file.File
+		input File
 
 		output string
 	}
 
-	tescurrentTestCaseases := []tescurrentTestCasease{
+	currentTestCaseases := []tescurrentTestCasease{
 		{
-			test:   "just 1 file.file",
-			input:  file.File{Path: "main.go"},
+			test:   "just 1 file",
+			input:  File{Path: "main.go"},
 			output: "main.go",
 		},
 		{
-			test:   "file.file from previous path",
-			input:  file.File{Path: "../main.go"},
+			test:   "file from previous path",
+			input:  File{Path: "../main.go"},
 			output: "../main.go",
 		},
 		{
-			test:   "file.file from next path",
-			input:  file.File{Path: "file.file/main.go"},
-			output: "file.file/main.go",
+			test:   "file from next path",
+			input:  File{Path: "file/main.go"},
+			output: "file/main.go",
 		},
 	}
 
-	for _, currentTestCase := range tescurrentTestCaseases {
+	for _, currentTestCase := range currentTestCaseases {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {

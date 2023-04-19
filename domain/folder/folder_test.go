@@ -1,10 +1,9 @@
-package folder_test
+package folder
 
 import (
 	"os"
 	"testing"
 
-	"github.com/cezarovici/goLayouter/domain/folder"
 	"github.com/stretchr/testify/require"
 )
 
@@ -14,23 +13,23 @@ func TestWrite(t *testing.T) {
 
 	// Define a struct to represent a test case
 	type testCase struct {
-		test          string        // A description of the test case
-		input         folder.Folder // The input folder.Folder object for the test
-		alreadyExists bool          // Whether the input folder.Folder object already exists
-		expectedError error         // The expected error returned by the Write() method
+		test          string // A description of the test case
+		input         Folder // The input folder.Folder object for the test
+		alreadyExists bool   // Whether the input folder.Folder object already exists
+		expectedError error  // The expected error returned by the Write() method
 	}
 
 	// Define a list of test cases
 	testCases := []testCase{
 		{
 			test:          "already existing directory",
-			input:         folder.Folder{"../folder"}, // A folder.Folder object with an existing path
+			input:         Folder{"../folder"}, // A folder.Folder object with an existing path
 			alreadyExists: true,
 			expectedError: nil,
 		},
 		{
 			test:          "new directory",
-			input:         folder.Folder{"newfolder"}, // A folder.Folder object with a new path
+			input:         Folder{"newfolder"}, // A folder.Folder object with a new path
 			alreadyExists: false,
 			expectedError: nil,
 		},
@@ -60,7 +59,7 @@ func TestWrite(t *testing.T) {
 func TestGetContent(t *testing.T) {
 	t.Parallel()
 
-	folder := folder.Folder{
+	folder := Folder{
 		Path: "folder1",
 	}
 
@@ -72,11 +71,11 @@ func TestGetContent(t *testing.T) {
 func TestGetPath(t *testing.T) {
 	t.Parallel()
 
-	folder1 := folder.Folder{
+	folder1 := Folder{
 		Path: "folder1",
 	}
 
-	folder2 := folder.Folder{
+	folder2 := Folder{
 		Path: "folder1/f3",
 	}
 

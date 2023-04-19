@@ -1,4 +1,4 @@
-package line_test
+package line
 
 import (
 	"fmt"
@@ -7,7 +7,6 @@ import (
 	"github.com/cezarovici/goLayouter/domain/file"
 	"github.com/cezarovici/goLayouter/domain/folder"
 	"github.com/cezarovici/goLayouter/domain/item"
-	"github.com/cezarovici/goLayouter/domain/line"
 	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
@@ -18,14 +17,14 @@ func TestConvertToLine(t *testing.T) {
 	type tescurrentTestCasease struct {
 		test   string
 		input  string
-		output line.Line
+		output Line
 	}
 
 	tescurrentTestCaseases := []tescurrentTestCasease{
 		{
 			test:  "first line.line",
 			input: "folder1",
-			output: line.Line{
+			output: Line{
 				Info:  "folder1",
 				Level: 0,
 			},
@@ -33,7 +32,7 @@ func TestConvertToLine(t *testing.T) {
 		{
 			test:  "different Level",
 			input: "  subfolder",
-			output: line.Line{
+			output: Line{
 				Info:  "subfolder",
 				Level: 2,
 			},
@@ -41,7 +40,7 @@ func TestConvertToLine(t *testing.T) {
 		{
 			test:  "package",
 			input: " # package",
-			output: line.Line{
+			output: Line{
 				Info:  "# package",
 				Level: 1,
 			},
@@ -54,7 +53,7 @@ func TestConvertToLine(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, currentTestCase.output, line.ConvertToLine(currentTestCase.input))
+			require.Equal(t, currentTestCase.output, ConvertToLine(currentTestCase.input))
 		})
 	}
 }
@@ -152,7 +151,7 @@ func TestExtractObjectFrom(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currenttestCase.output,
-				line.ExtractObjectFrom(currenttestCase.input))
+				ExtractObjectFrom(currenttestCase.input))
 		})
 	}
 }
@@ -196,7 +195,7 @@ func TestConvertToObjectName(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currenttestCase.output,
-				line.ConvertToObjectName(currenttestCase.input))
+				ConvertToObjectName(currenttestCase.input))
 		})
 	}
 }
@@ -207,7 +206,7 @@ func TestNewLines(t *testing.T) {
 	type testCase struct {
 		test   string
 		input  []string
-		output line.Lines
+		output Lines
 
 		errorExpected error
 	}
@@ -225,12 +224,12 @@ func TestNewLines(t *testing.T) {
 		{
 			test:  "2 line.lines",
 			input: []string{"folder1", " subfolder1"},
-			output: line.Lines{
-				line.Line{
+			output: Lines{
+				Line{
 					Info:  "folder1",
 					Level: 0,
 				},
-				line.Line{
+				Line{
 					Info:  "subfolder1",
 					Level: 1,
 				},
@@ -245,7 +244,7 @@ func TestNewLines(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			lines, errCreatinLines := line.NewLines(currentTestCase.input)
+			lines, errCreatinLines := NewLines(currentTestCase.input)
 
 			require.Equal(t, currentTestCase.errorExpected, errCreatinLines)
 			require.Equal(t, currentTestCase.output, lines)
@@ -517,7 +516,7 @@ func TestToItems(t *testing.T) {
 			inputPackage, errorReading := helpers.ReadFile(currentTestCase.input)
 			require.NoError(t, errorReading)
 
-			lines, errNewLines := line.NewLines(inputPackage)
+			lines, errNewLines := NewLines(inputPackage)
 			require.NoError(t, errNewLines)
 
 			require.Equal(t, currentTestCase.expectedItems, lines.ToItems())

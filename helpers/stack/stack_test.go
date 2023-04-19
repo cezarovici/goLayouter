@@ -1,27 +1,26 @@
-package stack_test
+package stack
 
 import (
 	"testing"
 
-	"github.com/cezarovici/goLayouter/helpers/stack"
 	"github.com/stretchr/testify/require"
 )
 
 func TestPush(t *testing.T) {
 	t.Parallel()
-	var res = stack.Stack{"folder1"}
+	var res = Stack{"folder1"}
 
 	type testCase struct {
 		test   string
 		input  string
-		output stack.Stack
+		output Stack
 	}
 
 	testCases := []testCase{
 		{
 			test:   "Push one element",
 			input:  "folder2",
-			output: stack.Stack{"folder1", "folder2"},
+			output: Stack{"folder1", "folder2"},
 		},
 	}
 
@@ -40,17 +39,17 @@ func TestPush(t *testing.T) {
 func TestPop(t *testing.T) {
 	t.Parallel()
 
-	res := stack.Stack{"folder1", "folder2"}
+	res := Stack{"folder1", "folder2"}
 	type testCase struct {
 		test string
 
-		output stack.Stack
+		output Stack
 	}
 
 	testCases := []testCase{
 		{
 			test:   "Pop one element",
-			output: stack.Stack{"folder1"},
+			output: Stack{"folder1"},
 		},
 	}
 
@@ -71,19 +70,19 @@ func TestIsEmpty(t *testing.T) {
 
 	type testCase struct {
 		test   string
-		input  stack.Stack
+		input  Stack
 		output bool
 	}
 
 	testCases := []testCase{
 		{
 			test:   "empty stack.stack",
-			input:  stack.Stack{},
+			input:  Stack{},
 			output: true,
 		},
 		{
 			test:   "non-empty stack.stack",
-			input:  stack.Stack{"file"},
+			input:  Stack{"file"},
 			output: false,
 		},
 	}
@@ -103,19 +102,19 @@ func TestPeek(t *testing.T) {
 
 	type testCase struct {
 		test   string
-		input  stack.Stack
+		input  Stack
 		output any
 	}
 
 	testCases := []testCase{
 		{
 			test:   "non empty",
-			input:  stack.Stack{"file", "folder"},
+			input:  Stack{"file", "folder"},
 			output: "folder",
 		},
 		{
 			test:   "empty stack.stack",
-			input:  stack.Stack{},
+			input:  Stack{},
 			output: nil,
 		},
 	}
@@ -136,19 +135,19 @@ func TestString(t *testing.T) {
 
 	type testCase struct {
 		test   string
-		input  stack.Stack
+		input  Stack
 		output string
 	}
 
 	testCases := []testCase{
 		{
 			test:   "non empty",
-			input:  stack.Stack{"file", "folder"},
+			input:  Stack{"file", "folder"},
 			output: "file/folder",
 		},
 		{
 			test:   "empty stack.stack",
-			input:  stack.Stack{},
+			input:  Stack{},
 			output: "",
 		},
 	}

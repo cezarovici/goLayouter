@@ -1,9 +1,8 @@
-package helpers_test
+package helpers
 
 import (
 	"testing"
 
-	"github.com/cezarovici/goLayouter/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -38,7 +37,7 @@ func TestToCurentDirectory(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			require.Equal(t, currentTestCase.output, helpers.ToCurentDirectory(currentTestCase.input))
+			require.Equal(t, currentTestCase.output, ToCurentDirectory(currentTestCase.input))
 		})
 	}
 }
@@ -79,7 +78,7 @@ func TestRemoveSelector(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currentTestCase.output,
-				helpers.RemoveSelector(currentTestCase.input))
+				RemoveSelector(currentTestCase.input))
 		})
 	}
 }
@@ -121,7 +120,7 @@ func TestIsTestPackage(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currentTestCase.output,
-				helpers.IsTestPackage(currentTestCase.input))
+				IsTestPackage(currentTestCase.input))
 		})
 	}
 }
@@ -164,7 +163,7 @@ func TestCreateGolangTestFile(t *testing.T) {
 		t.Run(currentTestCase.test, func(t *testing.T) {
 			t.Parallel()
 
-			currentTestCase.checkResult(helpers.CreateGolangTestFile(currentTestCase.input))
+			currentTestCase.checkResult(CreateGolangTestFile(currentTestCase.input))
 		})
 	}
 }
@@ -211,7 +210,7 @@ func TestSplitline(t *testing.T) {
 			t.Parallel()
 
 			require.Equal(t, currentTestCase.output,
-				helpers.SplitLine(currentTestCase.input, currentTestCase.packageName))
+				SplitLine(currentTestCase.input, currentTestCase.packageName))
 		})
 	}
 }
@@ -259,7 +258,7 @@ func TestGetPackageFromPath(t *testing.T) {
 		t.Run(currenttestCase.test, func(t *testing.T) {
 			t.Parallel()
 			require.Equal(t, currenttestCase.output,
-				helpers.GetPackageFrom(currenttestCase.input))
+				GetPackageFrom(currenttestCase.input))
 		})
 	}
 }
