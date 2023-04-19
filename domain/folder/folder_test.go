@@ -9,8 +9,6 @@ import (
 
 // TestWrite is a unit test function for the Write() method of the folder.Folder struct.
 func TestWrite(t *testing.T) {
-	t.Parallel()
-
 	// Define a struct to represent a test case
 	type testCase struct {
 		test          string // A description of the test case
@@ -40,15 +38,13 @@ func TestWrite(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			// Call the Write() method with a nil logger and capture the returned error
 			err := currentTestCase.input.Write(nil)
 
-			// Assert that the error returned by Write() m currentTestCasehes the expected error
+			// Assert that the returned error is the same as the expected error
 			require.Equal(t, currentTestCase.expectedError, err)
 
-			// If the input folder.Folder object doesn't exist yet, assert that it was successfully removed
+			// If the test case is for a new directory, remove the directory
 			if !currentTestCase.alreadyExists {
 				require.NoError(t, os.Remove(currentTestCase.input.Path))
 			}
@@ -57,20 +53,17 @@ func TestWrite(t *testing.T) {
 }
 
 func TestGetContent(t *testing.T) {
-	t.Parallel()
-
 	folder := Folder{
 		Path: "folder1",
 	}
 
 	require.NoError(t, folder.Write(nil))
 	require.Equal(t, []byte(nil), folder.GetContent())
+
 	defer require.NoError(t, os.Remove(folder.Path))
 }
 
 func TestGetPath(t *testing.T) {
-	t.Parallel()
-
 	folder1 := Folder{
 		Path: "folder1",
 	}

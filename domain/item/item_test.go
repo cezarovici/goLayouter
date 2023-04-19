@@ -10,8 +10,6 @@ import (
 // It tests the KindOfFile function with different inputs and expected
 // outputs using a table-driven approach.
 func TestKindOfFile(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -55,8 +53,6 @@ func TestKindOfFile(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output,
 				NewKindOfFile(currentTestCase.input))
 		})

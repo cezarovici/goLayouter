@@ -12,8 +12,6 @@ import (
 )
 
 func TestConvertToLine(t *testing.T) {
-	t.Parallel()
-
 	type tescurrentTestCasease struct {
 		test   string
 		input  string
@@ -51,16 +49,12 @@ func TestConvertToLine(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, ConvertToLine(currentTestCase.input))
 		})
 	}
 }
 
 func TestRemoveObjectKey(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -104,8 +98,6 @@ func TestRemoveObjectKey(t *testing.T) {
 		currenttestCase := currenttestCase
 
 		t.Run(currenttestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currenttestCase.output,
 				helpers.RemoveObjectPrefix(currenttestCase.input))
 		})
@@ -113,8 +105,6 @@ func TestRemoveObjectKey(t *testing.T) {
 }
 
 func TestExtractObjectFrom(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -148,8 +138,6 @@ func TestExtractObjectFrom(t *testing.T) {
 		currenttestCase := currenttestCase
 
 		t.Run(currenttestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currenttestCase.output,
 				ExtractObjectFrom(currenttestCase.input))
 		})
@@ -157,8 +145,6 @@ func TestExtractObjectFrom(t *testing.T) {
 }
 
 func TestConvertToObjectName(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -192,8 +178,6 @@ func TestConvertToObjectName(t *testing.T) {
 		currenttestCase := currenttestCase
 
 		t.Run(currenttestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currenttestCase.output,
 				ConvertToObjectName(currenttestCase.input))
 		})
@@ -201,8 +185,6 @@ func TestConvertToObjectName(t *testing.T) {
 }
 
 func TestNewLines(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  []string
@@ -242,8 +224,6 @@ func TestNewLines(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			lines, errCreatinLines := NewLines(currentTestCase.input)
 
 			require.Equal(t, currentTestCase.errorExpected, errCreatinLines)
@@ -255,8 +235,6 @@ func TestNewLines(t *testing.T) {
 const _parseTescurrentTestCaseases = "../../testCases/parseTest/"
 
 func TestToItems(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test          string
 		input         string
@@ -511,8 +489,6 @@ func TestToItems(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			inputPackage, errorReading := helpers.ReadFile(currentTestCase.input)
 			require.NoError(t, errorReading)
 

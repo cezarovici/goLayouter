@@ -7,7 +7,6 @@ import (
 )
 
 func TestPush(t *testing.T) {
-	t.Parallel()
 	var res = Stack{"folder1"}
 
 	type testCase struct {
@@ -28,8 +27,6 @@ func TestPush(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			res.Push(currentTestCase.input)
 			require.Equal(t, currentTestCase.output, res)
 		})
@@ -37,8 +34,6 @@ func TestPush(t *testing.T) {
 }
 
 func TestPop(t *testing.T) {
-	t.Parallel()
-
 	res := Stack{"folder1", "folder2"}
 	type testCase struct {
 		test string
@@ -57,8 +52,6 @@ func TestPop(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			res.Pop()
 			require.Equal(t, currentTestCase.output, res)
 		})
@@ -66,8 +59,6 @@ func TestPop(t *testing.T) {
 }
 
 func TestIsEmpty(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  Stack
@@ -90,16 +81,12 @@ func TestIsEmpty(t *testing.T) {
 	for _, currentTestCase := range testCases {
 		currentTestCase := currentTestCase
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, currentTestCase.input.IsEmpty())
 		})
 	}
 }
 
 func TestPeek(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  Stack
@@ -123,16 +110,12 @@ func TestPeek(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, currentTestCase.input.Peek())
 		})
 	}
 }
 
 func TestString(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  Stack
@@ -156,8 +139,6 @@ func TestString(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, currentTestCase.input.String())
 		})
 	}

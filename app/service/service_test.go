@@ -16,7 +16,6 @@ import (
 )
 
 func TestRender(t *testing.T) {
-	t.Parallel()
 	// Define some test data
 	const (
 		filePath    = "main.go"
@@ -55,8 +54,6 @@ func TestRender(t *testing.T) {
 }
 
 func TestNewService(t *testing.T) {
-	t.Parallel()
-
 	items := item.Items{
 		{ObjectPath: file.File{Path: "/path/to/template1.tmpl", Package: "Template 1 data"}, Kind: item.NormalFile},
 		{ObjectPath: file.File{Path: "/path/to/template2.tmpl", Package: "Template 2 data"}, Kind: item.NormalFile},

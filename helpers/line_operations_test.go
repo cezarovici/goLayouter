@@ -10,8 +10,6 @@ import (
 // It takes a filepath as input and returns a boolean indicating whether
 // the path is in the current directory or not
 func TestToCurentDirectory(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -35,8 +33,6 @@ func TestToCurentDirectory(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, ToCurentDirectory(currentTestCase.input))
 		})
 	}
@@ -45,8 +41,6 @@ func TestToCurentDirectory(t *testing.T) {
 // TestRemoveSelector is a unit test function for the RemoveSelector function.
 // It tests the function's ability to remove a selector from a given string input.
 func TestRemoveSelector(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -75,8 +69,6 @@ func TestRemoveSelector(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output,
 				RemoveSelector(currentTestCase.input))
 		})
@@ -87,8 +79,6 @@ func TestRemoveSelector(t *testing.T) {
 // It takes in a list of test cases, where each test case consists of an input string representing a package name and
 // an expected output boolean indicating whether the package is a test package or not.
 func TestIsTestPackage(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -117,8 +107,6 @@ func TestIsTestPackage(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output,
 				IsTestPackage(currentTestCase.input))
 		})
@@ -129,8 +117,6 @@ func TestIsTestPackage(t *testing.T) {
 // the CreateGolangTestFile function. It tests whether the function creates a new test file with the
 // correct name based on the input file name.
 func TestCreateGolangTestFile(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test  string
 		input string
@@ -161,8 +147,6 @@ func TestCreateGolangTestFile(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			currentTestCase.checkResult(CreateGolangTestFile(currentTestCase.input))
 		})
 	}
@@ -173,8 +157,6 @@ func TestCreateGolangTestFile(t *testing.T) {
 // separated by spaces and converts
 // them to a list of filenames and test filenames, based on the package name provided.
 func TestSplitline(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test        string
 		input       string
@@ -207,8 +189,6 @@ func TestSplitline(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output,
 				SplitLine(currentTestCase.input, currentTestCase.packageName))
 		})
@@ -221,8 +201,6 @@ func TestSplitline(t *testing.T) {
 // Otherwise, it splits the input path by the "/" separator and returns the package name declared in the last folder.
 // For example, given the input "folder/subfolder1/subsubfolder1", the function returns "package subsubfolder1".
 func TestGetPackageFromPath(t *testing.T) {
-	t.Parallel()
-
 	type testCase struct {
 		test   string
 		input  string
@@ -256,7 +234,6 @@ func TestGetPackageFromPath(t *testing.T) {
 		currenttestCase := currenttestCase
 
 		t.Run(currenttestCase.test, func(t *testing.T) {
-			t.Parallel()
 			require.Equal(t, currenttestCase.output,
 				GetPackageFrom(currenttestCase.input))
 		})

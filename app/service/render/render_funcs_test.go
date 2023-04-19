@@ -17,7 +17,6 @@ type model struct {
 
 // TestRenderFuncs is a unit test that verifies the output of each rendering function.
 func TestRenderFuncs(t *testing.T) {
-	t.Parallel()
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test           string          // Name of the test case.
@@ -58,10 +57,7 @@ func TestRenderFuncs(t *testing.T) {
 
 	// Iterate over each test case and run the test.
 	for _, currentTestCase := range testCases {
-		currentTestCase := currentTestCase
-
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
 
 			buffer := currentTestCase.test
 			_, errCreating := os.Create(buffer)

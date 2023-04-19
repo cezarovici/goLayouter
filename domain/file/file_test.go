@@ -10,7 +10,6 @@ import (
 // TestWrite is a unit test that verifies the behavior of the Write() method
 // of the file.File struct when writing Package to disk.
 func TestWrite(t *testing.T) {
-	t.Parallel()
 	// Define a test case struct that contains the necessary information to run the test.
 	type testCase struct {
 		test          string // Name of the test case.
@@ -45,8 +44,6 @@ func TestWrite(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			// Call the Write() method and verify its return values.
 			err := currentTestCase.input.Write(nil)
 			require.Equal(t, currentTestCase.errorExpected, err)
@@ -66,8 +63,6 @@ func TestWrite(t *testing.T) {
 }
 
 func TestContent(t *testing.T) {
-	t.Parallel()
-
 	type tescurrentTestCasease struct {
 		test  string
 		input File
@@ -97,16 +92,12 @@ func TestContent(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, currentTestCase.input.GetContent())
 		})
 	}
 }
 
 func TestGetPath(t *testing.T) {
-	t.Parallel()
-
 	type tescurrentTestCasease struct {
 		test  string
 		input File
@@ -136,8 +127,6 @@ func TestGetPath(t *testing.T) {
 		currentTestCase := currentTestCase
 
 		t.Run(currentTestCase.test, func(t *testing.T) {
-			t.Parallel()
-
 			require.Equal(t, currentTestCase.output, currentTestCase.input.GetPath())
 		})
 	}
