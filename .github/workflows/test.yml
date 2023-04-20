@@ -4,20 +4,9 @@ on:
   pull_request:
     
 jobs:
-  test:
-    ## We want to define a strategy for our job
-    strategy:
-      ## this will contain a matrix of all of the combinations
-      ## we wish to test again:
-      matrix:
-        go-version: [1.20.x]
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-    
-    ## Defines the platform for each test run
-    runs-on: ${{ matrix.platform }}
-    
-    ## the steps that will be run through for each version and platform
-    ## combination
+  test-and-lint:
+    runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -35,3 +24,4 @@ jobs:
       with:
         # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
         version: v1.52.1
+        github-token: ${{ secrets.github_token }}
