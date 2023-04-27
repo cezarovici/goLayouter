@@ -29,6 +29,11 @@ func TestReadFile(t *testing.T) {
 			output:        nil,
 			errorExpected: fmt.Errorf("empty file passed"),
 		},
+
+		// TODO
+		// add a test with a file that does not have
+		// permissions to be read
+
 		{
 			test:          "no valid file",
 			input:         testCasesPath + "invalid path",
@@ -94,6 +99,11 @@ func TestTypeOfFile(t *testing.T) {
 			test:   "folder input",
 			input:  "folderName",
 			output: "folder",
+		},
+		{
+			test:   "empty input",
+			input:  "",
+			output: "empty",
 		},
 	}
 

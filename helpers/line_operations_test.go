@@ -183,6 +183,12 @@ func TestSplitline(t *testing.T) {
 			packageName: "main",
 			output:      []string{"file.go", "main.go", "head.go"},
 		},
+		{
+			test:        "convert simple line",
+			input:       "file.go",
+			packageName: "main",
+			output:      []string{"file.go"},
+		},
 	}
 
 	for _, currentTestCase := range testCases {
