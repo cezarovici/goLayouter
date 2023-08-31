@@ -396,6 +396,11 @@ func TestToItems(t *testing.T) {
 			input: _parseTescurrentTestCaseases + "foldersWithChangeDirectory/input",
 			expectedItems: &item.Items{
 				item.Item{
+					ObjectPath: file.File{
+						Path: "README.md",
+					},
+				},
+				item.Item{
 					ObjectPath: folder.Folder{
 						Path: "temporary_folder",
 					},

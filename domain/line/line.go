@@ -26,6 +26,7 @@ const (
 	_defaultPackage   = "package main" // default package
 	_testPackageType1 = "# t"          // test package type 1
 	_testPackageType2 = "# tt"         // test package type 2
+	_readmeFile       = "README.md"    // default readme file
 )
 
 // ConvertToLine converts a string to a Line struct, parsing the indentation Level.
@@ -148,6 +149,11 @@ func (lines Lines) ToItems() *item.Items {
 			packageStack = stack.Stack{_defaultPackage}
 			indentStack = nil
 			pathStack = nil
+
+			// this will put a readme wherever we change he root directory with a new path
+			res = append(res, item.Item{
+				ObjectPath: file.File{Path: _readmeFile},
+			})
 
 			// If the path is not the current directory,
 			// add it to the path stack and create a new item
